@@ -1,0 +1,232 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="purple_200">#FFBB86FC</color>
+    <color name="purple_500">#FF6200EE</color>
+    <color name="purple_700">#FF3700B3</color>
+    <color name="teal_200">#FF03DAC5</color>
+    <color name="teal_700">#FF018786</color>
+
+    <color name="app_background">#f2f2f2</color>
+
+    <!-- BLACK -->
+    <color name="black_light_50">#808080</color>
+    <color name="black_light_40">#666666</color>
+    <color name="black_light_30">#4d4d4d</color>
+    <color name="black_light_20">#333333</color>
+    <color name="black_light_10">#1A1A1A</color>
+    <color name="black">#000000</color>
+
+    <color name="black_opacity_90">#E6000000</color>
+    <color name="black_opacity_80">#CC000000</color>
+    <color name="black_opacity_70">#B3000000</color>
+    <color name="black_opacity_60">#99000000</color>
+    <color name="black_opacity_50">#80000000</color>
+    <color name="black_opacity_40">#66000000</color>
+    <color name="black_opacity_30">#4D000000</color>
+    <color name="black_opacity_20">#33000000</color>
+    <color name="black_opacity_10">#19000000</color>
+
+    <!-- RED -->
+    <color name="red_light_90">#FFE6E6</color>
+    <color name="red_light_80">#FFCCCC</color>
+    <color name="red_light_70">#FFB3B3</color>
+    <color name="red_light_60">#FF9999</color>
+    <color name="red_light_50">#FF8080</color>
+    <color name="red_light_40">#FF6666</color>
+    <color name="red_light_30">#FF4D4D</color>
+    <color name="red_light_20">#FF3333</color>
+    <color name="red_light_10">#FF1A1A</color>
+    <color name="red">#FF0000</color>
+    <color name="red_dark_10">#E60000</color>
+    <color name="red_dark_20">#CC0000</color>
+    <color name="red_dark_30">#B30000</color>
+    <color name="red_dark_40">#990000</color>
+    <color name="red_dark_50">#800000</color>
+    <color name="red_dark_60">#660000</color>
+    <color name="red_dark_70">#4D0000</color>
+    <color name="red_dark_80">#330000</color>
+    <color name="red_dark_90">#1A0000</color>
+
+    <color name="red_opacity_90">#E6FF0000</color>
+    <color name="red_opacity_80">#CCFF0000</color>
+    <color name="red_opacity_70">#B3FF0000</color>
+    <color name="red_opacity_60">#99FF0000</color>
+    <color name="red_opacity_50">#80FF0000</color>
+    <color name="red_opacity_40">#66FF0000</color>
+    <color name="red_opacity_30">#4DFF0000</color>
+    <color name="red_opacity_20">#33FF0000</color>
+    <color name="red_opacity_10">#19FF0000</color>
+
+    <!-- GREEN -->
+    <color name="green_light_90">#E6FFE6</color>
+    <color name="green_light_80">#CCFFCC</color>
+    <color name="green_light_70">#B3FFB3</color>
+    <color name="green_light_60">#99FF99</color>
+    <color name="green_light_50">#80FF80</color>
+    <color name="green_light_40">#66FF66</color>
+    <color name="green_light_30">#4DFF4D</color>
+    <color name="green_light_20">#33FF33</color>
+    <color name="green_light_10">#1AFF1A</color>
+    <color name="green">#00FF00</color>
+    <color name="green_dark_10">#00E600</color>
+    <color name="green_dark_20">#00CC00</color>
+    <color name="green_dark_30">#00B300</color>
+    <color name="green_dark_40">#009900</color>
+    <color name="green_dark_50">#008000</color>
+    <color name="green_dark_60">#006600</color>
+    <color name="green_dark_70">#004D00</color>
+    <color name="green_dark_80">#003300</color>
+    <color name="green_dark_90">#001A00</color>
+
+    <color name="green_opacity_90">#E600FF00</color>
+    <color name="green_opacity_80">#CC00FF00</color>
+    <color name="green_opacity_70">#B300FF00</color>
+    <color name="green_opacity_60">#9900FF00</color>
+    <color name="green_opacity_50">#8000FF00</color>
+    <color name="green_opacity_40">#6600FF00</color>
+    <color name="green_opacity_30">#4D00FF00</color>
+    <color name="green_opacity_20">#3300FF00</color>
+    <color name="green_opacity_10">#1900FF00</color>
+
+    <!-- BLUE -->
+    <color name="blue_light_90">#E6E6FF</color>
+    <color name="blue_light_80">#CCCCFF</color>
+    <color name="blue_light_70">#B3B3FF</color>
+    <color name="blue_light_60">#9999FF</color>
+    <color name="blue_light_50">#8080FF</color>
+    <color name="blue_light_40">#6666FF</color>
+    <color name="blue_light_30">#4D4DFF</color>
+    <color name="blue_light_20">#3333FF</color>
+    <color name="blue_light_10">#1A1AFF</color>
+    <color name="blue">#0000FF</color>
+    <color name="blue_dark_10">#0000E6</color>
+    <color name="blue_dark_20">#0000CC</color>
+    <color name="blue_dark_30">#0000B3</color>
+    <color name="blue_dark_40">#000099</color>
+    <color name="blue_dark_50">#000080</color>
+    <color name="blue_dark_60">#000066</color>
+    <color name="blue_dark_70">#00004D</color>
+    <color name="blue_dark_80">#000033</color>
+    <color name="blue_dark_90">#00001A</color>
+
+    <color name="blue_opacity_90">#E60000FF</color>
+    <color name="blue_opacity_80">#CC0000FF</color>
+    <color name="blue_opacity_70">#B30000FF</color>
+    <color name="blue_opacity_60">#990000FF</color>
+    <color name="blue_opacity_50">#800000FF</color>
+    <color name="blue_opacity_40">#660000FF</color>
+    <color name="blue_opacity_30">#4D0000FF</color>
+    <color name="blue_opacity_20">#330000FF</color>
+    <color name="blue_opacity_10">#190000FF</color>
+
+    <!-- YELLOW -->
+    <color name="yellow_light_90">#FFFFE6</color>
+    <color name="yellow_light_80">#FFFFCC</color>
+    <color name="yellow_light_70">#FFFFB3</color>
+    <color name="yellow_light_60">#FFFF99</color>
+    <color name="yellow_light_50">#FFFF80</color>
+    <color name="yellow_light_40">#FFFF66</color>
+    <color name="yellow_light_30">#FFFF4D</color>
+    <color name="yellow_light_20">#FFFF33</color>
+    <color name="yellow_light_10">#FFFF1A</color>
+    <color name="yellow">#FFFF00</color>
+    <color name="yellow_dark_10">#E6E600</color>
+    <color name="yellow_dark_20">#CCCC00</color>
+    <color name="yellow_dark_30">#B3B300</color>
+    <color name="yellow_dark_40">#999900</color>
+    <color name="yellow_dark_50">#808000</color>
+    <color name="yellow_dark_60">#666600</color>
+    <color name="yellow_dark_70">#4D4D00</color>
+    <color name="yellow_dark_80">#333300</color>
+    <color name="yellow_dark_90">#1A1A00</color>
+
+    <color name="yellow_opacity_90">#E6FFFF00</color>
+    <color name="yellow_opacity_80">#CCFFFF00</color>
+    <color name="yellow_opacity_70">#B3FFFF00</color>
+    <color name="yellow_opacity_60">#99FFFF00</color>
+    <color name="yellow_opacity_50">#80FFFF00</color>
+    <color name="yellow_opacity_40">#66FFFF00</color>
+    <color name="yellow_opacity_30">#4DFFFF00</color>
+    <color name="yellow_opacity_20">#33FFFF00</color>
+    <color name="yellow_opacity_10">#19FFFF00</color>
+
+    <!-- MAGENTA -->
+    <color name="magenta_light_90">#FFE6FF</color>
+    <color name="magenta_light_80">#FFCCFF</color>
+    <color name="magenta_light_70">#FFB3FF</color>
+    <color name="magenta_light_60">#FF99FF</color>
+    <color name="magenta_light_50">#FF80FF</color>
+    <color name="magenta_light_40">#FF66FF</color>
+    <color name="magenta_light_30">#FF4DFF</color>
+    <color name="magenta_light_20">#FF33FF</color>
+    <color name="magenta_light_10">#FF1AFF</color>
+    <color name="magenta">#FF00FF</color>
+    <color name="magenta_dark_10">#E600E6</color>
+    <color name="magenta_dark_20">#CC00CC</color>
+    <color name="magenta_dark_30">#B300B3</color>
+    <color name="magenta_dark_40">#990099</color>
+    <color name="magenta_dark_50">#800080</color>
+    <color name="magenta_dark_60">#660066</color>
+    <color name="magenta_dark_70">#4D004D</color>
+    <color name="magenta_dark_80">#330033</color>
+    <color name="magenta_dark_90">#1A001A</color>
+
+    <color name="magenta_opacity_90">#E6FF00FF</color>
+    <color name="magenta_opacity_80">#CCFF00FF</color>
+    <color name="magenta_opacity_70">#B3FF00FF</color>
+    <color name="magenta_opacity_60">#99FF00FF</color>
+    <color name="magenta_opacity_50">#80FF00FF</color>
+    <color name="magenta_opacity_40">#66FF00FF</color>
+    <color name="magenta_opacity_30">#4DFF00FF</color>
+    <color name="magenta_opacity_20">#33FF00FF</color>
+    <color name="magenta_opacity_10">#19FF00FF</color>
+
+    <!-- AQUA -->
+    <color name="aqua_light_90">#E6FFFF</color>
+    <color name="aqua_light_80">#CCFFFF</color>
+    <color name="aqua_light_70">#B3FFFF</color>
+    <color name="aqua_light_60">#99FFFF</color>
+    <color name="aqua_light_50">#80FFFF</color>
+    <color name="aqua_light_40">#66FFFF</color>
+    <color name="aqua_light_30">#4DFFFF</color>
+    <color name="aqua_light_20">#33FFFF</color>
+    <color name="aqua_light_10">#1AFFFF</color>
+    <color name="aqua">#00FFFF</color>
+    <color name="aqua_dark_10">#00E6E6</color>
+    <color name="aqua_dark_20">#00CCCC</color>
+    <color name="aqua_dark_30">#00B3B3</color>
+    <color name="aqua_dark_40">#009999</color>
+    <color name="aqua_dark_50">#008080</color>
+    <color name="aqua_dark_60">#006666</color>
+    <color name="aqua_dark_70">#004D4D</color>
+    <color name="aqua_dark_80">#003333</color>
+    <color name="aqua_dark_90">#001A1A</color>
+
+    <color name="aqua_opacity_90">#E600FFFF</color>
+    <color name="aqua_opacity_80">#CC00FFFF</color>
+    <color name="aqua_opacity_70">#B300FFFF</color>
+    <color name="aqua_opacity_60">#9900FFFF</color>
+    <color name="aqua_opacity_50">#8000FFFF</color>
+    <color name="aqua_opacity_40">#6600FFFF</color>
+    <color name="aqua_opacity_30">#4D00FFFF</color>
+    <color name="aqua_opacity_20">#3300FFFF</color>
+    <color name="aqua_opacity_10">#1900FFFF</color>
+
+    <!-- WHITE -->
+    <color name="white">#FFFFFF</color>
+    <color name="white_dark_10">#e6e6e6</color>
+    <color name="white_dark_20">#CCCCCC</color>
+    <color name="white_dark_30">#B3B3B3</color>
+    <color name="white_dark_40">#999999</color>
+    <color name="white_dark_50">#808080</color>
+
+    <color name="white_opacity_90">#E6FFFFFF</color>
+    <color name="white_opacity_80">#CCFFFFFF</color>
+    <color name="white_opacity_70">#B3FFFFFF</color>
+    <color name="white_opacity_60">#99FFFFFF</color>
+    <color name="white_opacity_50">#80FFFFFF</color>
+    <color name="white_opacity_40">#66FFFFFF</color>
+    <color name="white_opacity_30">#4DFFFFFF</color>
+    <color name="white_opacity_20">#33FFFFFF</color>
+    <color name="white_opacity_10">#19FFFFFF</color>
+</resources>

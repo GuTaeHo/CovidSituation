@@ -6,7 +6,15 @@
     <color name="teal_200">#FF03DAC5</color>
     <color name="teal_700">#FF018786</color>
 
-    <color name="app_background">#f2f2f2</color>
+    <!-- 전역 -->
+    <color name="action_bar">#f8f8f8</color>
+    <color name="status_bar">#f8f8f8</color>
+    <color name="app_line">#333333</color>
+    <color name="app_background">#f8f8f8</color>
+
+    <!-- 사이드 바 -->
+    <color name="nav_header_background">@color/app_background</color>
+    <color name="nav_contents_background">#FFFFFFFF</color>
 
     <!-- BLACK -->
     <color name="black_light_50">#808080</color>

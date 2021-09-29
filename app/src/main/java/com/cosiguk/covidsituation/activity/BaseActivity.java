@@ -3,6 +3,7 @@ package com.cosiguk.covidsituation.activity;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.os.Bundle;
+import android.view.Gravity;
 import android.view.MenuItem;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Toast;
@@ -12,15 +13,18 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.cosiguk.covidsituation.R;
 import com.cosiguk.covidsituation.application.MyPreferencesManager;
 import com.cosiguk.covidsituation.databinding.CommonToolbarBinding;
 import com.cosiguk.covidsituation.network.NetworkPresenter;
+import com.cosiguk.covidsituation.util.BackPressCloseHandler;
 import com.cosiguk.covidsituation.util.ProgressDialogManager;
 
 public class BaseActivity extends AppCompatActivity {
     protected MyPreferencesManager preferencesManager;
     protected NetworkPresenter networkPresenter;
     protected ProgressDialog progressDialog;
+    protected BackPressCloseHandler backPressCloseHandler;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -28,6 +32,7 @@ public class BaseActivity extends AppCompatActivity {
 
         preferencesManager = MyPreferencesManager.getInstance(this);
         networkPresenter = new NetworkPresenter();
+        backPressCloseHandler = new BackPressCloseHandler(this);
     }
 
     protected void initCommonActionBarLayout(CommonToolbarBinding commonToolbarBinding, String title, boolean setBackButton) {
@@ -40,8 +45,10 @@ public class BaseActivity extends AppCompatActivity {
         if (actionBar != null) {
             // 뒤로가기 설정
             actionBar.setDisplayHomeAsUpEnabled(setBackButton);
+            actionBar.setHomeAsUpIndicator(R.drawable.ic_baseline_menu_24);
             // 앱바 타이틀 숨김
             actionBar.setDisplayShowTitleEnabled(false);
+            // actionBar.setHomeButtonEnabled(true);
             commonToolbarBinding.toolbarTitle.setText(title);
         }
     }

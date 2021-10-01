@@ -13,8 +13,12 @@
     <color name="app_background">#f8f8f8</color>
 
     <!-- 사이드 바 -->
-    <color name="nav_header_background">@color/app_background</color>
-    <color name="nav_contents_background">#FFFFFFFF</color>
+    <color name="side_header_background">@color/app_background</color>
+    <color name="side_contents_background">#FFFFFFFF</color>
+
+    <!-- 네비게이션 -->
+    <color name="nav_normal">#C2C8EF</color>
+    <color name="nav_select">#22284F</color>
 
     <!-- BLACK -->
     <color name="black_light_50">#808080</color>

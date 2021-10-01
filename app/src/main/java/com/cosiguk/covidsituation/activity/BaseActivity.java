@@ -53,6 +53,15 @@ public class BaseActivity extends AppCompatActivity {
         }
     }
 
+    protected void setCommonActionBarTitle(CommonToolbarBinding commonToolbarBinding, String title) {
+        // 시스템으로 부터 액션바 획득
+        final ActionBar actionBar = getSupportActionBar();
+
+        if (actionBar != null) {
+            commonToolbarBinding.toolbarTitle.setText(title);
+        }
+    };
+
     // 다이얼로그 출력
     protected void showProgressDialog(String message) {
         progressDialog = ProgressDialogManager.showSingle(this, progressDialog, "", message);

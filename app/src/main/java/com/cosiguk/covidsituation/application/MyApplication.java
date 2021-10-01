@@ -4,8 +4,12 @@ import android.app.Application;
 
 import androidx.appcompat.app.AppCompatDelegate;
 
+import com.cosiguk.covidsituation.network.NetworkPresenter;
+
 
 public class MyApplication extends Application {
+    public static NetworkPresenter networkPresenter;
+
     // 사용자 정보 저장
     public static String apiToken;
     public static String fcmToken;
@@ -17,7 +21,7 @@ public class MyApplication extends Application {
     public void onCreate() {
         super.onCreate();
         AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
-
+        networkPresenter = new NetworkPresenter();
         initSound();
     }
 

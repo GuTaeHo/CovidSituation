@@ -9,7 +9,7 @@
         android:layout_height="match_parent">
 
         <!-- 메인 페이지 -->
-        <androidx.constraintlayout.widget.ConstraintLayout
+        <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             tools:context=".activity.MainActivity">
@@ -18,11 +18,28 @@
                 android:id="@+id/common_toolbar"
                 layout="@layout/common_toolbar" />
 
-        </androidx.constraintlayout.widget.ConstraintLayout>
+            <FrameLayout
+                android:id="@+id/fragment"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_above="@id/nav_view"
+                android:layout_below="@id/common_toolbar" />
+
+            <com.google.android.material.bottomnavigation.BottomNavigationView
+                android:id="@+id/nav_view"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_alignParentBottom="true"
+                android:background="?android:attr/windowBackground"
+                app:itemIconTint="@drawable/nav_selector_color"
+                app:itemTextColor="@drawable/nav_selector_color"
+                app:menu="@menu/bottom_navigation" />
+
+        </RelativeLayout>
 
         <!-- 사이드 페이지 -->
         <com.google.android.material.navigation.NavigationView
-            android:id="@+id/nav_view"
+            android:id="@+id/side_view"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_gravity="start"
@@ -30,8 +47,8 @@
             tools:visibility="gone">
 
             <include
-                android:id="@+id/common_navigation"
-                layout="@layout/common_navigation" />
+                android:id="@+id/common_sidebar"
+                layout="@layout/common_sidebar" />
 
         </com.google.android.material.navigation.NavigationView>
     </androidx.drawerlayout.widget.DrawerLayout>

@@ -1,12 +1,18 @@
 <resources>
     <string name="app_name">CovidSituation</string>
 
-    <!-- common navigation -->
-    <string name="nav_header_desc">Icon</string>
-    <string name="nav_header_title">Cosiguk</string>
-    <string name="nav_contents_version_title">버전 정보</string>
+    <!-- common sidebar -->
+    <string name="side_header_desc">Icon</string>
+    <string name="side_header_title">Cosiguk</string>
+    <string name="side_contents_version_title">버전 정보</string>
 
     <!-- navigation -->
     <string name="drawer_open">내비게이션 열림</string>
     <string name="drawer_close">내비게이션 닫힘</string>
+    <string name="nv_situation_board">상황판</string>
+    <string name="nv_news">뉴스</string>
+    <string name="nv_vaccine">백신</string>
+    <string name="nv_board">게시판</string>
+
+    <!-- situation board -->
 </resources>

@@ -2,57 +2,129 @@ package com.cosiguk.covidsituation.activity;
 
 import android.content.res.Resources;
 import android.os.Bundle;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 
-import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.core.view.GravityCompat;
 import androidx.databinding.DataBindingUtil;
-import androidx.drawerlayout.widget.DrawerLayout;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
 
 import com.cosiguk.covidsituation.R;
 import com.cosiguk.covidsituation.databinding.ActivityMainBinding;
+import com.cosiguk.covidsituation.databinding.CommonSidebarBinding;
 import com.cosiguk.covidsituation.databinding.CommonToolbarBinding;
-import com.google.android.material.navigation.NavigationView;
+import com.cosiguk.covidsituation.fragment.BoardFragment;
+import com.cosiguk.covidsituation.fragment.NewsFragment;
+import com.cosiguk.covidsituation.fragment.SituationBoardFragment;
+import com.cosiguk.covidsituation.fragment.TownFragment;
+import com.cosiguk.covidsituation.fragment.VaccineFragment;
+import com.cosiguk.covidsituation.network.RetrofitCityClient;
+import com.cosiguk.covidsituation.network.responsecity.Items;
+import com.cosiguk.covidsituation.network.resultInterface.BoardListListener;
+import com.cosiguk.covidsituation.util.PackageUtil;
 
 public class MainActivity extends BaseActivity {
     private ActivityMainBinding binding;
     private CommonToolbarBinding commonToolbarBinding;
-    private DrawerLayout drawer;
-    private NavigationView navigationView;
-    private int width;
+    public Fragment fragment;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         binding = DataBindingUtil.setContentView(this, R.layout.activity_main);
         commonToolbarBinding = DataBindingUtil.bind(binding.commonToolbar.toolbar);
-        width = Resources.getSystem().getDisplayMetrics().widthPixels;
+        CommonSidebarBinding commonSidebarBinding = DataBindingUtil.bind(binding.commonSidebar.getRoot());
+
         initLayout();
+        initListener();
     }
 
     private void initLayout() {
-        // 사이드바 너비 지정
-        initSideBarWidth();
+        // 툴바 초기화
         initCommonActionBarLayout(commonToolbarBinding, "코로나 상황판", true);
-        initListener();
+        // 하단바 초기화
+        initNavigation();
+        // 사이드바 초기화
+        initSideBarWidth();
+        initDrawerVersion();
     }
 
     private void initSideBarWidth() {
         // 모든 뷰에 영향을 미치는 layout 관련 속성을 가져옴 (width, height 등)
-        ViewGroup.LayoutParams params = binding.navView.getLayoutParams();
+        ViewGroup.LayoutParams params = binding.sideView.getLayoutParams();
         // 아래의 코드는 다음과 같음 android:layout_width="현재 화면 너비"
-        params.width = width;
+        params.width = Resources.getSystem().getDisplayMetrics().widthPixels;
         // 뷰에 레이아웃 적용
-        binding.navView.setLayoutParams(params);
+        binding.sideView.setLayoutParams(params);
     }
 
     private void initListener() {
         initDrawerToggle();
+        initDrawerCloseButtonListener();
     };
+
+    private void initDrawerVersion() {
+        binding.commonSidebar.tvVersion.setText(PackageUtil.getAppVersion(MainActivity.this));
+    }
+
+    private void initNavigation() {
+        binding.navView.setOnItemSelectedListener(item -> {
+            actionBarTitleChange(item.getItemId());
+            bottomNavigate(item.getItemId());
+            return true;
+        });
+        // 최초 프래그먼트 설정
+        binding.navView.setSelectedItemId(R.id.nv_situation_board);
+    }
+
+    private void bottomNavigate(int id) {
+        String tag = String.valueOf(id);
+        FragmentManager fragmentManager = getSupportFragmentManager();
+        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+
+        Fragment currentFragment = fragmentManager.getPrimaryNavigationFragment();
+        if (currentFragment != null) {
+            fragmentTransaction.hide(currentFragment);
+        }
+
+        fragment = fragmentManager.findFragmentByTag(tag);
+        // 미 생성된 프래그먼트 객체 생성
+        if (fragment == null) {
+            if (id == R.id.nv_situation_board) {
+                // 사용자 목록을 전달하고 프래그먼트 생성
+                fragment = new SituationBoardFragment();
+            } else if (id == R.id.nv_news) {
+                fragment = new NewsFragment();
+            } else if (id == R.id.nv_vaccine) {
+                fragment = new VaccineFragment();
+            } else {
+                fragment = new BoardFragment();
+            }
+            // 트랜잭션에 생성된 프래그먼트 추가
+            fragmentTransaction.add(R.id.fragment, fragment, tag);
+        } else {
+            // 이미 생성된 프래그먼트는 바로 출력
+            fragmentTransaction.show(fragment);
+        }
+        fragmentTransaction.setPrimaryNavigationFragment(fragment);
+        fragmentTransaction.setReorderingAllowed(true);
+        fragmentTransaction.commitNow();
+    }
+
+    private void actionBarTitleChange(int id) {
+        if (id == R.id.nv_situation_board) {
+            setCommonActionBarTitle(commonToolbarBinding, "코로나 상황판");
+        } else if (id == R.id.nv_news) {
+            setCommonActionBarTitle(commonToolbarBinding, "실시간 뉴스");
+        } else if (id == R.id.nv_vaccine) {
+            setCommonActionBarTitle(commonToolbarBinding, "백신");
+        } else {
+            setCommonActionBarTitle(commonToolbarBinding, "게시판");
+        }
+    }
 
     // 사이드바 리스너 등록
     private void initDrawerToggle() {
@@ -63,6 +135,12 @@ public class MainActivity extends BaseActivity {
             }
         };
         binding.loDrawer.addDrawerListener(actionBarDrawerToggle);
+    }
+
+    private void initDrawerCloseButtonListener() {
+        binding.commonSidebar.ivNavClose.setOnClickListener(v -> {
+            binding.loDrawer.closeDrawer(GravityCompat.START);
+        });
     }
 
     @Override

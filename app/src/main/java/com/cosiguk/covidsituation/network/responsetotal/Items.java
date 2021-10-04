@@ -5,6 +5,7 @@ import com.tickaroo.tikxml.annotation.Element;
 import com.tickaroo.tikxml.annotation.Xml;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import lombok.Data;
 
@@ -12,5 +13,5 @@ import lombok.Data;
 @Data
 public class Items {
     @Element(name = "item")
-    public ItemTotal item;
+    public List<ItemTotal> item;
 }

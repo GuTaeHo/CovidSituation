@@ -3,12 +3,15 @@ package com.cosiguk.covidsituation.network;
 import com.tickaroo.tikxml.TikXml;
 import com.tickaroo.tikxml.retrofit.TikXmlConverterFactory;
 
+import java.util.HashMap;
+
 import okhttp3.OkHttpClient;
 import okhttp3.logging.HttpLoggingInterceptor;
 import retrofit2.Call;
 import retrofit2.Retrofit;
 import retrofit2.http.GET;
 import retrofit2.http.Query;
+import retrofit2.http.QueryMap;
 
 // 일별 현황
 public class RetrofitTotalClient {
@@ -50,6 +53,6 @@ public class RetrofitTotalClient {
 
     public interface RetrofitCityInterface {
         @GET("openapi/service/rest/Covid19/getCovid19InfStateJson")
-        Call<ResponseTotal> daily(@Query("ServiceKey") String ServiceKey);
+        Call<ResponseTotal> total(@QueryMap HashMap<String, String> queries);
     }
 }

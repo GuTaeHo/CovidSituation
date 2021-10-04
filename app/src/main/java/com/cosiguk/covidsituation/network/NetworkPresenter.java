@@ -2,20 +2,23 @@ package com.cosiguk.covidsituation.network;
 
 import com.cosiguk.covidsituation.network.resultInterface.BoardListListener;
 import com.cosiguk.covidsituation.network.resultInterface.DailyListener;
+import com.cosiguk.covidsituation.network.resultInterface.TotalListener;
 import com.google.gson.Gson;
+
+import java.util.HashMap;
+
 import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.Callback;
 
 public class NetworkPresenter implements NetworkPresenterInterface {
-    // 일일 현황 요청
-
     @Override
-    public void daily(String serviceKey, DailyListener listener) {
+    // 전체 현황 요청 (금일, 작일)
+    public void total(HashMap<String, String> requestTotal, TotalListener listener) {
         RetrofitTotalClient
                 .getInstance()
                 .getInterface()
-                .daily(serviceKey)
+                .total(requestTotal)
                 .enqueue(new Callback<ResponseTotal>() {
                     @Override
                     public void onResponse(Call<ResponseTotal> call, retrofit2.Response<ResponseTotal> response) {
@@ -27,7 +30,7 @@ public class NetworkPresenter implements NetworkPresenterInterface {
                                 listener.fail(response.errorBody().string());
                             }
                         } catch (Exception e) {
-                            listener.fail("Daily Exception " + e.toString());
+                            listener.fail("Total Exception " + e.toString());
                         }
                     }
 

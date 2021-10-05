@@ -1,7 +1,6 @@
 package com.cosiguk.covidsituation.network;
 
 import com.cosiguk.covidsituation.network.resultInterface.BoardListListener;
-import com.cosiguk.covidsituation.network.resultInterface.DailyListener;
 import com.cosiguk.covidsituation.network.resultInterface.TotalListener;
 import com.google.gson.Gson;
 
@@ -15,7 +14,7 @@ public class NetworkPresenter implements NetworkPresenterInterface {
     @Override
     // 전체 현황 요청 (금일, 작일)
     public void total(HashMap<String, String> requestTotal, TotalListener listener) {
-        RetrofitTotalClient
+        RetrofitPublicClient
                 .getInstance()
                 .getInterface()
                 .total(requestTotal)
@@ -44,7 +43,7 @@ public class NetworkPresenter implements NetworkPresenterInterface {
     // 시,도 별 현황 요청
     @Override
     public void boardList(String serviceKey, BoardListListener listener) {
-        RetrofitCityClient
+        RetrofitPublicClient
                 .getInstance()
                 .getInterface()
                 .boardList(serviceKey)
@@ -54,7 +53,7 @@ public class NetworkPresenter implements NetworkPresenterInterface {
                         try {
                             if (response.body() != null && response.isSuccessful()) {
                                 // 통신 성공 시 http 바디 반환
-                                listener.success(response.body().getBody().getItems());
+                                listener.success(response.body().getBody().getItems().getItem());
                             } else {
                                 listener.fail(response.errorBody().string());
                             }

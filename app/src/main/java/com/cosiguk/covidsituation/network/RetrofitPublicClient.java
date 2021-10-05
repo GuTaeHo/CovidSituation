@@ -14,16 +14,16 @@ import retrofit2.http.Query;
 import retrofit2.http.QueryMap;
 
 // 일별 현황
-public class RetrofitTotalClient {
+public class RetrofitPublicClient {
     public static final String URL = "http://openapi.data.go.kr/";
 
     public static final String SERVICE_KEY = "DeivebZo5FvQEqWf6qINuWV6UVXIrIJko8Da/46wqa5jd0IhOZnTOsqqBc3X6yEhqbaKCcoq4kQlmh+osbIMhg==";
 
     private final RetrofitCityInterface retrofitCityInterface;
-    public static RetrofitTotalClient retrofitCityClient = new RetrofitTotalClient();
+    public static RetrofitPublicClient retrofitCityClient = new RetrofitPublicClient();
 
     // 싱글톤으로 객체 생성
-    private RetrofitTotalClient() {
+    private RetrofitPublicClient() {
         // HTTP 로깅 객체 생성
         HttpLoggingInterceptor interceptor = new HttpLoggingInterceptor();
         interceptor.setLevel(HttpLoggingInterceptor.Level.BODY);
@@ -43,7 +43,7 @@ public class RetrofitTotalClient {
     }
 
     // API 통신 객체 반환
-    public static RetrofitTotalClient getInstance() {
+    public static RetrofitPublicClient getInstance() {
         return retrofitCityClient;
     }
 
@@ -52,6 +52,9 @@ public class RetrofitTotalClient {
     }
 
     public interface RetrofitCityInterface {
+        @GET("/openapi/service/rest/Covid19/getCovid19SidoInfStateJson")
+        Call<ResponseCity> boardList(@Query("ServiceKey") String ServiceKey);
+
         @GET("openapi/service/rest/Covid19/getCovid19InfStateJson")
         Call<ResponseTotal> total(@QueryMap HashMap<String, String> queries);
     }

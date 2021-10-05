@@ -2,7 +2,6 @@ package com.cosiguk.covidsituation.network;
 
 
 import com.cosiguk.covidsituation.network.resultInterface.BoardListListener;
-import com.cosiguk.covidsituation.network.resultInterface.DailyListener;
 import com.cosiguk.covidsituation.network.resultInterface.TotalListener;
 
 import java.util.HashMap;

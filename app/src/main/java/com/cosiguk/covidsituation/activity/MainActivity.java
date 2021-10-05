@@ -2,6 +2,7 @@ package com.cosiguk.covidsituation.activity;
 
 import android.content.res.Resources;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 
@@ -19,11 +20,7 @@ import com.cosiguk.covidsituation.databinding.CommonToolbarBinding;
 import com.cosiguk.covidsituation.fragment.BoardFragment;
 import com.cosiguk.covidsituation.fragment.NewsFragment;
 import com.cosiguk.covidsituation.fragment.SituationBoardFragment;
-import com.cosiguk.covidsituation.fragment.TownFragment;
 import com.cosiguk.covidsituation.fragment.VaccineFragment;
-import com.cosiguk.covidsituation.network.RetrofitCityClient;
-import com.cosiguk.covidsituation.network.responsecity.Items;
-import com.cosiguk.covidsituation.network.resultInterface.BoardListListener;
 import com.cosiguk.covidsituation.util.PackageUtil;
 
 public class MainActivity extends BaseActivity {
@@ -95,7 +92,7 @@ public class MainActivity extends BaseActivity {
         if (fragment == null) {
             if (id == R.id.nv_situation_board) {
                 // 사용자 목록을 전달하고 프래그먼트 생성
-                fragment = new SituationBoardFragment();
+                fragment = SituationBoardFragment.newInstance(tag);
             } else if (id == R.id.nv_news) {
                 fragment = new NewsFragment();
             } else if (id == R.id.nv_vaccine) {
@@ -111,6 +108,7 @@ public class MainActivity extends BaseActivity {
         }
         fragmentTransaction.setPrimaryNavigationFragment(fragment);
         fragmentTransaction.setReorderingAllowed(true);
+        fragmentTransaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE);
         fragmentTransaction.commitNow();
     }
 

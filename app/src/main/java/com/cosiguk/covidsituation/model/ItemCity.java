@@ -3,13 +3,15 @@ package com.cosiguk.covidsituation.model;
 import com.tickaroo.tikxml.annotation.PropertyElement;
 import com.tickaroo.tikxml.annotation.Xml;
 
+import java.util.Collections;
+
+import lombok.Data;
 import lombok.Getter;
 import lombok.Setter;
 
-@Xml
-@Getter
-@Setter
-public class Item {
+@Xml(name = "item")
+@Data
+public class ItemCity {
     @PropertyElement(name = "createDt")
     public String createDt;
     @PropertyElement(name = "deathCnt")
@@ -32,13 +34,10 @@ public class Item {
     public int localOccCnt;
     @PropertyElement(name = "overFlowCnt")
     public int overFlowCnt;
-    @PropertyElement(name = "qurRate")
-    public double qurRate;
     @PropertyElement(name = "seq")
     public int seq;
     @PropertyElement(name = "stdDay")
     public String stdDay;
     @PropertyElement(name = "updateDt")
     public String updateDt;
-
 }

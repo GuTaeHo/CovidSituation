@@ -1,15 +1,17 @@
 package com.cosiguk.covidsituation.network.responsecity;
 
-import com.cosiguk.covidsituation.model.Item;
+import com.cosiguk.covidsituation.model.ItemCity;
 import com.tickaroo.tikxml.annotation.Element;
 import com.tickaroo.tikxml.annotation.Xml;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import lombok.Data;
 
-@Xml(name = "items")
+@Xml
 @Data
 public class Items {
-    public ArrayList<Item> item;
+    @Element(name = "item")
+    public List<ItemCity> item;
 }

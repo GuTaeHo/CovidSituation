@@ -14,20 +14,4 @@ public class ResponseCity {
     public Header header;
     @Element
     public Body body;
-
-    /*
-    public Header getHeader() {
-        if (header != null) {
-            return header;
-        }
-        return new Header();
-    }
-
-    public Body getBody() {
-        if (body != null) {
-            return body;
-        }
-        return new Body();
-    }
-    */
 }

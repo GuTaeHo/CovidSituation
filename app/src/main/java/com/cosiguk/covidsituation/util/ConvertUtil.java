@@ -7,16 +7,18 @@ import java.time.format.DateTimeFormatter;
 import java.util.Locale;
 
 public class ConvertUtil {
+    public static int PREVIOUS_DAY = 8640000;
+
     // 현재 날짜
-    public static String getCurrentFormatTime() {
+    public static String getCurrentFormatTime(int initMillisecond) {
         SimpleDateFormat formatter = new SimpleDateFormat( "yyyyMMdd", Locale.KOREA);
-        return formatter.format (System.currentTimeMillis());
+        return formatter.format (System.currentTimeMillis() - initMillisecond);
     }
 
     // 하루 전 날짜
-    public static String getYesterdayFormatTime() {
+    public static String getYesterdayFormatTime(int initMillisecond) {
         SimpleDateFormat formatter = new SimpleDateFormat( "yyyyMMdd", Locale.KOREA);
-        return formatter.format(System.currentTimeMillis() - 86400000);
+        return formatter.format(System.currentTimeMillis() - 86400000 - initMillisecond);
     }
 
     // 년, 월, 일 까지 반환 (ex : 2021.10.01)

@@ -99,25 +99,21 @@ public class SituationBoardFragment extends Fragment {
                             initDailyLayout();
                             initTotalLayout();
                             // 도시 정보 요청
-                            requestCity();
-                        } else {
-                            // 작일 기준 재 요청
-                            requestSituation(ConvertUtil.PREVIOUS_DAY);
+                            requestCity(map);
                         }
                     }
                     @Override
                     public void fail(String message) {
-                        new NoticeDialog(getActivity())
-                                .setMsg(message)
-                                .show();
+                        // 작일 기준 재 요청
+                        requestSituation(ConvertUtil.PREVIOUS_DAY);
                     }
                 });
     }
 
     // 시, 도 확진 정보 API 요청
-    private void requestCity() {
+    private void requestCity(HashMap<String, String> map) {
         MyApplication.networkPresenter
-                .boardList(RetrofitPublicClient.SERVICE_KEY, new BoardListListener() {
+                .boardList(map, new BoardListListener() {
                     @Override
                     public void success(List<ItemCity> items) {
                         setCityItemList(items);
@@ -147,7 +143,7 @@ public class SituationBoardFragment extends Fragment {
     public void setCityItemList(List<ItemCity> items) {
         itemCityArrayList = items;
 
-        // 내림차순
+        // 내림차순 (확진자 기준)
         itemCityArrayList.sort(new Comparator<ItemCity>() {
             @Override
             public int compare(ItemCity o1, ItemCity o2) {

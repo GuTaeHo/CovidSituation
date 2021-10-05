@@ -42,11 +42,11 @@ public class NetworkPresenter implements NetworkPresenterInterface {
 
     // 시,도 별 현황 요청
     @Override
-    public void boardList(String serviceKey, BoardListListener listener) {
+    public void boardList(HashMap<String, String> requestBoardList, BoardListListener listener) {
         RetrofitPublicClient
                 .getInstance()
                 .getInterface()
-                .boardList(serviceKey)
+                .boardList(requestBoardList)
                 .enqueue(new Callback<ResponseCity>() {
                     @Override
                     public void onResponse(Call<ResponseCity> call, retrofit2.Response<ResponseCity> response) {

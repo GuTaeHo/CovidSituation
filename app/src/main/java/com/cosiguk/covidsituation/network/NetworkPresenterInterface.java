@@ -11,5 +11,5 @@ public interface NetworkPresenterInterface {
     void total(HashMap<String, String> requestQuery, TotalListener listener);
 
     // 시,도 별 현황
-    void boardList(String serviceKey, BoardListListener listener);
+    void boardList(HashMap<String, String> requestBoardList, BoardListListener listener);
 }

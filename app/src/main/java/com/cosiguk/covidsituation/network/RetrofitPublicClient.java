@@ -1,5 +1,6 @@
 package com.cosiguk.covidsituation.network;
 
+import com.cosiguk.covidsituation.BuildConfig;
 import com.tickaroo.tikxml.TikXml;
 import com.tickaroo.tikxml.retrofit.TikXmlConverterFactory;
 
@@ -10,14 +11,13 @@ import okhttp3.logging.HttpLoggingInterceptor;
 import retrofit2.Call;
 import retrofit2.Retrofit;
 import retrofit2.http.GET;
-import retrofit2.http.Query;
 import retrofit2.http.QueryMap;
 
 // 일별 현황
 public class RetrofitPublicClient {
     public static final String URL = "http://openapi.data.go.kr/";
 
-    public static final String SERVICE_KEY = "DeivebZo5FvQEqWf6qINuWV6UVXIrIJko8Da/46wqa5jd0IhOZnTOsqqBc3X6yEhqbaKCcoq4kQlmh+osbIMhg==";
+    public static final String SERVICE_KEY = BuildConfig.SERVICE_KEY;
 
     private final RetrofitCityInterface retrofitCityInterface;
     public static RetrofitPublicClient retrofitCityClient = new RetrofitPublicClient();

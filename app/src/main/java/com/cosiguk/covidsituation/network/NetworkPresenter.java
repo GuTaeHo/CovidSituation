@@ -28,6 +28,8 @@ public class NetworkPresenter implements NetworkPresenterInterface {
                             } else {
                                 listener.fail(response.errorBody().string());
                             }
+                        } catch (IndexOutOfBoundsException exception) {
+                            listener.reRequest(response.body().getBody().getItems().getItem());
                         } catch (Exception e) {
                             listener.fail("Total Exception " + e.toString());
                         }

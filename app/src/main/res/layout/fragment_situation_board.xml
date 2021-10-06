@@ -286,7 +286,7 @@
                                 android:layout_height="wrap_content"
                                 android:fontFamily="@font/nanumsquare_round_bold"
                                 android:gravity="center"
-                                android:text="검사중" />
+                                android:text="검사진행" />
 
                             <TextView
                                 android:id="@+id/tv_total_check"
@@ -361,6 +361,7 @@
                         android:textSize="16sp"
                         android:text="시/도 별 감염현황" />
                 </LinearLayout>
+
                 <androidx.recyclerview.widget.RecyclerView
                     android:id="@+id/recyclerview"
                     android:layout_width="match_parent"
@@ -369,7 +370,7 @@
                     android:layout_alignParentStart="true"
                     android:layout_alignParentEnd="true"
                     android:nestedScrollingEnabled="false"
-                    android:overScrollMode="never"/>
+                    android:overScrollMode="never" />
 
             </RelativeLayout>
         </androidx.core.widget.NestedScrollView>

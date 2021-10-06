@@ -1,12 +1,9 @@
 package com.cosiguk.covidsituation.fragment;
 
-import android.content.Context;
 import android.os.Bundle;
 
 import androidx.databinding.DataBindingUtil;
 import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentManager;
-import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.GridLayoutManager;
 
 import android.util.Log;
@@ -35,14 +32,14 @@ public class SituationBoardFragment extends Fragment {
     private static final String FRAG_TAG = "fragmentTag";
 
     private FragmentSituationBoardBinding binding;
-    // 현재 프래그먼트 태그
-    private String fragTag;
     // 전체 확진 정보
     private ItemTotal itemTotal;
     // 전일 확진 정보
     private ItemTotal yesterdayItemTotal;
     // 시, 도 확진 정보 리스트
     private List<ItemCity> itemCityArrayList;
+    // 재귀 요청 방지
+    int maxCount;
 
     public SituationBoardFragment() {}
 
@@ -57,16 +54,14 @@ public class SituationBoardFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
-        if (getArguments() != null) {
-            fragTag = getArguments().getString(FRAG_TAG);
-        }
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_situation_board, container, false);
+
+        maxCount = 0;
 
         requestSituation(0);
         initRefreshListener();
@@ -75,12 +70,15 @@ public class SituationBoardFragment extends Fragment {
 
     // 확진 현황 요청
     private void requestSituation(int initMillisecond) {
-        HashMap<String, String> map = new HashMap<>();
-        map.put("ServiceKey", RetrofitPublicClient.SERVICE_KEY);
-        map.put("startCreateDt", ConvertUtil.getYesterdayFormatTime(initMillisecond));
-        map.put("endCreateDt", ConvertUtil.getCurrentFormatTime(initMillisecond));
+        if (maxCount < 2) {
+            HashMap<String, String> map = new HashMap<>();
+            map.put("ServiceKey", RetrofitPublicClient.SERVICE_KEY);
+            map.put("startCreateDt", ConvertUtil.getYesterdayFormatTime(initMillisecond));
+            map.put("endCreateDt", ConvertUtil.getCurrentFormatTime(initMillisecond));
 
-        requestTotal(map);
+            requestTotal(map);
+        }
+        ++maxCount;
     }
 
     // 전체 확진 정보 API 요청
@@ -89,29 +87,42 @@ public class SituationBoardFragment extends Fragment {
                 .total(map, new TotalListener() {
                     @Override
                     public void success(List<ItemTotal> items) {
-                        // 금일 정보 체크
-                        if (items.get(0) != null) {
-                            // 금일 정보는 리스트의 첫 번째에 포함되어 있음
-                            setDailyItems(items.get(0));
-                            // 작일 정보는 리스트의 두 번째에 포함되어 있음
-                            setYesterdayItems(items.get(1));
-                            // 레이아웃 업데이트
-                            initDailyLayout();
-                            initTotalLayout();
-                            // 도시 정보 요청
-                            requestCity(map);
-                        }
+                        // 작일 정보는 리스트의 두 번째에 포함되어 있음
+                        setYesterdayItems(items.get(1));
+                        // 금일 정보는 리스트의 첫 번째에 포함되어 있음
+                        setDailyItems(items.get(0));
+                        Log.d("TTAAGG","success() 호출, 시작 날짜 : " + map.get("startCreateDt") + ", 끝 날짜 : "+map.get("endCreateDt"));
+                        // 레이아웃 업데이트
+                        initDailyLayout();
+                        initTotalLayout();
+                        // 도시 정보 요청
+                        requestCity(map.get("endCreateDt"));
                     }
+
+                    @Override
+                    // API 정보 갱신 전에 날짜가 변경 될 경우 호출
+                    public void reRequest(List<ItemTotal> itemTotal) {
+                        Log.d("TTAAGG","reRequest() 호출, 시작 날짜 : " + map.get("startCreateDt") + ", 끝 날짜 : "+map.get("endCreateDt"));
+                        requestSituation(ConvertUtil.PREVIOUS_DAY);
+                    }
+
                     @Override
                     public void fail(String message) {
-                        // 작일 기준 재 요청
-                        requestSituation(ConvertUtil.PREVIOUS_DAY);
+                        new NoticeDialog(getActivity())
+                                .setMsg(message)
+                                .show();
                     }
                 });
     }
 
     // 시, 도 확진 정보 API 요청
-    private void requestCity(HashMap<String, String> map) {
+    private void requestCity(String day) {
+        // 요청에 성공한 날짜를 기준으로 시, 도 확진자 요청
+        HashMap<String, String> map = new HashMap<>();
+        map.put("ServiceKey", RetrofitPublicClient.SERVICE_KEY);
+        map.put("startCreateDt", day);
+        map.put("endCreateDt", day);
+
         MyApplication.networkPresenter
                 .boardList(map, new BoardListListener() {
                     @Override
@@ -155,6 +166,7 @@ public class SituationBoardFragment extends Fragment {
     private void initRefreshListener() {
         binding.loSwipe.setOnRefreshListener(()->{
             // 새로고침
+            maxCount = 0;
             requestSituation(0);
 
             // 새로 고침 완료
@@ -177,22 +189,22 @@ public class SituationBoardFragment extends Fragment {
         binding.tvTotalContents.setText(String.format("(%s 기준)", ConvertUtil.covertDateDot(itemTotal.getStateDt())));
         // 총 확진자
         binding.tvTotalInfect.setText(ConvertUtil.convertCommaSeparator(itemTotal.getDecideCnt()));
-        binding.tvTotalInfectCompare.setText(String.format("(+%s)", ConvertUtil.convertCommaSeparator(itemTotal.getDecideCnt() - yesterdayItemTotal.getDecideCnt())));
+        binding.tvTotalInfectCompare.setText(String.format("(%s)", ConvertUtil.convertSignCommaSeparator(itemTotal.getDecideCnt() - yesterdayItemTotal.getDecideCnt())));
         // 총 완치자
         binding.tvTotalCure.setText(ConvertUtil.convertCommaSeparator(itemTotal.getClearCnt()));
-        binding.tvTotalCureCompare.setText(String.format("(+%s)", ConvertUtil.convertCommaSeparator(itemTotal.getClearCnt() - yesterdayItemTotal.getClearCnt())));
+        binding.tvTotalCureCompare.setText(String.format("(%s)", ConvertUtil.convertSignCommaSeparator(itemTotal.getClearCnt() - yesterdayItemTotal.getClearCnt())));
         // 총 사망자
         binding.tvTotalDeath.setText(ConvertUtil.convertCommaSeparator(itemTotal.getDeathCnt()));
-        binding.tvTotalDeathCompare.setText(String.format("(+%s)", ConvertUtil.convertCommaSeparator(itemTotal.getDeathCnt() - yesterdayItemTotal.getDeathCnt())));
+        binding.tvTotalDeathCompare.setText(String.format("(%s)", ConvertUtil.convertSignCommaSeparator(itemTotal.getDeathCnt() - yesterdayItemTotal.getDeathCnt())));
         // 누적 검사 수
         binding.tvTotalExam.setText(ConvertUtil.convertCommaSeparator(itemTotal.getAccExamCnt()));
-        binding.tvTotalExamCompare.setText(String.format("(+%s)", ConvertUtil.convertCommaSeparator(itemTotal.getAccExamCnt() - yesterdayItemTotal.getAccExamCnt())));
+        binding.tvTotalExamCompare.setText(String.format("(%s)", ConvertUtil.convertSignCommaSeparator(itemTotal.getAccExamCnt() - yesterdayItemTotal.getAccExamCnt())));
         // 검사 진행 중
         binding.tvTotalCheck.setText(ConvertUtil.convertCommaSeparator(itemTotal.getExamCnt()));
-        binding.tvTotalCheckCompare.setText(String.format("(+%s)", ConvertUtil.convertCommaSeparator(itemTotal.getExamCnt() - yesterdayItemTotal.getExamCnt())));
+        binding.tvTotalCheckCompare.setText(String.format("(%s)", ConvertUtil.convertSignCommaSeparator(itemTotal.getExamCnt() - yesterdayItemTotal.getExamCnt())));
         // 결과 음성 수
         binding.tvTotalNegative.setText(ConvertUtil.convertCommaSeparator(itemTotal.getResutlNegCnt()));
-        binding.tvTotalNegativeCompare.setText(String.format("(+%s)", ConvertUtil.convertCommaSeparator(itemTotal.getResutlNegCnt() - yesterdayItemTotal.getResutlNegCnt())));
+        binding.tvTotalNegativeCompare.setText(String.format("(%s)", ConvertUtil.convertSignCommaSeparator(itemTotal.getResutlNegCnt() - yesterdayItemTotal.getResutlNegCnt())));
     }
 
     private void initCityLayout() {

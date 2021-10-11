@@ -1,9 +1,15 @@
 package com.cosiguk.covidsituation.util;
 
+import android.os.Build;
+import android.text.Html;
+import android.text.Spanned;
+
 import java.text.DecimalFormat;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
+import java.util.Date;
 import java.util.Locale;
 
 public class ConvertUtil {
@@ -22,12 +28,29 @@ public class ConvertUtil {
     }
 
     // 년, 월, 일 까지 반환 (ex : 2021.10.01)
-    public static String covertDateDot(String date) {
+    public static String convertDateDot(String date) {
         String year = date.substring(0,4);
         String month = date.substring(4,6);
         String day = date.substring(6,8);
 
         return year + "." + month + "." + day;
+    }
+
+    // 뉴스 API 날짜 변환
+    public static String convertDateBar(String date) {
+        SimpleDateFormat str2Date = new SimpleDateFormat("E, dd MMM yyyy HH:mm:ss", Locale.US);
+        SimpleDateFormat toFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.KOREA);
+        String toDate = null;
+        try {
+            // String to Date
+            Date fromDate = str2Date.parse(date);
+            assert fromDate != null;
+            // Date to Custom Pattern
+            toDate = toFormat.format(fromDate);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        return toDate;
     }
 
     public static String convertCommaSeparator(int value) {

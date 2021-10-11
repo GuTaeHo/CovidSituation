@@ -94,7 +94,7 @@ public class MainActivity extends BaseActivity {
                 // 사용자 목록을 전달하고 프래그먼트 생성
                 fragment = SituationBoardFragment.newInstance(tag);
             } else if (id == R.id.nv_news) {
-                fragment = new NewsFragment();
+                fragment = NewsFragment.newInstance();
             } else if (id == R.id.nv_vaccine) {
                 fragment = new VaccineFragment();
             } else {

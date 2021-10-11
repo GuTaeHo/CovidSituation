@@ -17,8 +17,6 @@ import retrofit2.http.QueryMap;
 public class RetrofitPublicClient {
     public static final String URL = "http://openapi.data.go.kr/";
 
-    public static final String SERVICE_KEY = BuildConfig.SERVICE_KEY;
-
     private final RetrofitCityInterface retrofitCityInterface;
     public static RetrofitPublicClient retrofitCityClient = new RetrofitPublicClient();
 

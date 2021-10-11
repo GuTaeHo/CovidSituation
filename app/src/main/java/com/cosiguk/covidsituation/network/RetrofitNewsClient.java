@@ -9,15 +9,14 @@ import okhttp3.OkHttpClient;
 import okhttp3.logging.HttpLoggingInterceptor;
 import retrofit2.Call;
 import retrofit2.Retrofit;
+import retrofit2.converter.gson.GsonConverterFactory;
 import retrofit2.http.GET;
+import retrofit2.http.HeaderMap;
 import retrofit2.http.Headers;
 import retrofit2.http.QueryMap;
 
 public class RetrofitNewsClient {
     public static final String URL = "https://openapi.naver.com/";
-
-    // public static final String CLIENT_ID = "CjNak_XK2e36qG8q4MCz";
-    // public static final String CLIENT_SECRET = "Rl9xI44lj3";
 
     private final RetrofitNewsInterface retrofitCityInterface;
     public static RetrofitNewsClient retrofitCityClient = new RetrofitNewsClient();
@@ -35,7 +34,7 @@ public class RetrofitNewsClient {
         Retrofit retrofit = new Retrofit.Builder()
                 .client(okHttpClient)
                 .baseUrl(URL)
-                .addConverterFactory(TikXmlConverterFactory.create(new TikXml.Builder().exceptionOnUnreadXml(false).build()))
+                .addConverterFactory(GsonConverterFactory.create())
                 .build();
 
         retrofitCityInterface = retrofit.create(RetrofitNewsClient.RetrofitNewsInterface.class);
@@ -51,10 +50,7 @@ public class RetrofitNewsClient {
     }
 
     public interface RetrofitNewsInterface {
-        @Headers({
-                "X-Naver-Client-Id: CjNak_XK2e36qG8q4MCz",
-                "X-Naver-Client-Secret: Rl9xI44lj3"})
         @GET("/v1/search/news.json")
-        Call<ResponseTotal> total(@QueryMap HashMap<String, String> queryString);
+        Call<ResponseNews> news(@HeaderMap HashMap<String, String> headers, @QueryMap HashMap<String, Object> queryString);
     }
 }

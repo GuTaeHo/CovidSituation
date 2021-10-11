@@ -1,6 +1,7 @@
 package com.cosiguk.covidsituation.network;
 
 import com.cosiguk.covidsituation.network.resultInterface.BoardListListener;
+import com.cosiguk.covidsituation.network.resultInterface.NewsListener;
 import com.cosiguk.covidsituation.network.resultInterface.TotalListener;
 import com.google.gson.Gson;
 
@@ -70,6 +71,36 @@ public class NetworkPresenter implements NetworkPresenterInterface {
                     }
                 });
     }
+
+    // 뉴스 리스트
+    @Override
+    public void news(HashMap<String, String> headers, HashMap<String, Object> requestNews, NewsListener listener) {
+        RetrofitNewsClient
+                .getInstance()
+                .getInterface()
+                .news(headers, requestNews)
+                .enqueue(new Callback<ResponseNews>() {
+                    @Override
+                    public void onResponse(Call<ResponseNews> call, retrofit2.Response<ResponseNews> response) {
+                        try {
+                            if (response.body() != null && response.isSuccessful()) {
+                                // 통신 성공 시 http 바디 반환
+                                listener.success(response.body().getItems());
+                            } else {
+                                listener.fail(response.errorBody().toString());
+                            }
+                        } catch (Exception e) {
+                            listener.fail("News Exception " + e.toString());
+                        }
+                    }
+
+                    @Override
+                    public void onFailure(Call<ResponseNews> call, Throwable t) {
+                        listener.fail(t.toString());
+                    }
+                });
+    }
+
 
     private Response<?> getError(ResponseBody errorBody) {
         Gson gson = new Gson();

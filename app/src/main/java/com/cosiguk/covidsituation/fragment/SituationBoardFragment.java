@@ -95,9 +95,6 @@ public class SituationBoardFragment extends Fragment {
                         // 금일 정보는 리스트의 첫 번째에 포함되어 있음
                         setDailyItems(items.get(0));
                         Log.d("TTAAGG","success() 호출, 시작 날짜 : " + map.get("startCreateDt") + ", 끝 날짜 : "+map.get("endCreateDt"));
-                        // 레이아웃 업데이트
-                        initDailyLayout();
-                        initTotalLayout();
                         // 도시 정보 요청
                         requestCity(map.get("endCreateDt"));
                     }
@@ -132,6 +129,8 @@ public class SituationBoardFragment extends Fragment {
                     public void success(List<ItemCity> items) {
                         setCityItemList(items);
                         // 레이아웃 업데이트
+                        initDailyLayout();
+                        initTotalLayout();
                         initCityLayout();
                     }
 

@@ -2,6 +2,7 @@ package com.cosiguk.covidsituation.adapter;
 
 import android.content.Context;
 import android.text.Html;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,15 +14,17 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.cosiguk.covidsituation.R;
 import com.cosiguk.covidsituation.databinding.ItemNewsBinding;
 import com.cosiguk.covidsituation.model.News;
+import com.cosiguk.covidsituation.util.ConvertUtil;
+import com.cosiguk.covidsituation.util.NewsComparator;
 
 import java.util.ArrayList;
 
 public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.ViewHolder> {
-    private final ArrayList<News> items;
+    private ArrayList<News> items;
     private static OnItemClickListener listener = null;
 
-    public NewsAdapter(ArrayList<News> items) {
-        this.items = items;
+    public NewsAdapter() {
+        this.items = new ArrayList<>();
     }
 
     public interface OnItemClickListener {
@@ -30,6 +33,31 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.ViewHolder> {
 
     public void setOnItemClickListener(OnItemClickListener listener) {
         NewsAdapter.listener = listener;
+    }
+
+    // 리스트 초기화
+    public void initItemList(ArrayList<News> list) {
+        this.items = list;
+    }
+
+    // 리스트 비우기
+    public void setItemListEmpty() {
+        this.items.clear();
+    }
+
+    // 리스트 반환
+    public ArrayList<News> getList() {
+        return this.items;
+    }
+
+    // 리스트 추가
+    public void addAll(ArrayList<News> list) {
+        this.items.addAll(list);
+    }
+
+    // 리스트 소팅
+    public void sort() {
+        this.items.sort(new NewsComparator());
     }
 
     @NonNull

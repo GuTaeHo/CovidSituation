@@ -1,5 +1,6 @@
 package com.cosiguk.covidsituation.model;
 
+import com.cosiguk.covidsituation.util.ConvertUtil;
 import com.google.gson.annotations.SerializedName;
 
 import java.util.Comparator;
@@ -22,4 +23,5 @@ public class News {
 
     @SerializedName("pubDate")
     private String pubDate;
+
 }

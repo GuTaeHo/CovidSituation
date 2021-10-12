@@ -11,7 +11,8 @@
         android:fitsSystemWindows="true"
         android:minHeight="?attr/actionBarSize"
         android:background="@color/app_background"
-        app:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar">
+        app:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
+        app:layout_scrollFlags="scroll|enterAlways">
 
         <TextView
             android:id="@+id/toolbar_title"

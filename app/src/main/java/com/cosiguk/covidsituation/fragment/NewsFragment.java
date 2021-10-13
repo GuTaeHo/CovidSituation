@@ -75,7 +75,7 @@ public class NewsFragment extends Fragment {
         HashMap<String, Object> queries = new HashMap<>();
         queries.put("query", "코로나");
         queries.put("sort", "sim");
-        queries.put("display", 5);
+        queries.put("display", 20);
         queries.put("start", index);
 
         MyApplication
@@ -106,7 +106,7 @@ public class NewsFragment extends Fragment {
         adapter.addAll(newsList);
         Log.d("debuggingList", "sort 실행");
         // 뉴스 리스트 정렬 (날짜, 시간 순)
-        adapter.sort();
+        // adapter.sort();
     }
 
     private void initNewsLayout() {
@@ -116,17 +116,22 @@ public class NewsFragment extends Fragment {
             @Override
             public void onScrollChange(View v, int scrollX, int scrollY, int oldScrollX, int oldScrollY) {
 
-                LinearLayoutManager layoutManager = LinearLayoutManager.class.cast(binding.recyclerview.getLayoutManager());
-                int totalItemCount = layoutManager.getItemCount();
-                int lastVisible = layoutManager.findLastCompletelyVisibleItemPosition();
-
-                if (lastVisible >= totalItemCount - 1) {
+                // 스크롤이 끝에 도달했는지 확인
+                if (!binding.recyclerview.canScrollVertically(1)) {
                     Log.d("debuggingList", "onScrollChange 실행");
                     // 검색 위치 조정
-                    index = index + 5;
-                    Log.d("scroll", index+", "+adapter.getItemCount());
-                    // binding.recyclerview.smoothScrollToPosition(adapter.getItemCount() - 1);
-                    requestNews(index);
+                    index = index + 20;
+                    if (index <= 100) {
+                        Log.d("scroll", index+", "+adapter.getItemCount());
+                        requestNews(index);
+                        Handler handler = new Handler();
+                        handler.postDelayed(new Runnable() {
+                            @Override
+                            public void run() {
+                                binding.recyclerview.scrollToPosition(adapter.getItemCount() - 11);
+                            }
+                        }, 200);
+                    }
                 }
             }
         });

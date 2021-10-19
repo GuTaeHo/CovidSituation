@@ -1,10 +1,12 @@
 package com.cosiguk.covidsituation.fragment;
 
+import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.databinding.DataBindingUtil;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.LinearSmoothScroller;
 
 import android.os.Handler;
 import android.os.Parcelable;
@@ -35,6 +37,7 @@ public class NewsFragment extends Fragment {
     private FragmentNewsBinding binding;
     private NewsAdapter adapter;
     private List<String> list;
+    private Parcelable recyclerViewState;
 
     // 뉴스 인덱스
     int index;
@@ -65,6 +68,7 @@ public class NewsFragment extends Fragment {
         index = 1;
         // 어댑터 생성
         adapter = new NewsAdapter();
+        binding.recyclerview.setLayoutManager(new LinearLayoutManager(getActivity()));
     }
 
     private void requestNews(int index) {
@@ -101,36 +105,25 @@ public class NewsFragment extends Fragment {
         newsList.forEach(item -> {
             item.setPubDate(ConvertUtil.convertDateBar(item.getPubDate()));
         });
-        Log.d("debuggingList", "addAll 실행");
+        // newsList.sort(new NewsComparator());
         // 뉴스 리스트 저장
         adapter.addAll(newsList);
-        Log.d("debuggingList", "sort 실행");
-        // 뉴스 리스트 정렬 (날짜, 시간 순)
-        // adapter.sort();
     }
 
     private void initNewsLayout() {
-        Log.d("debuggingList", "initNewsLayout 실행");
-        binding.recyclerview.setLayoutManager(new LinearLayoutManager(getActivity()));
+        // 스크롤 상태 저장
+        recyclerViewState = binding.recyclerview.getLayoutManager().onSaveInstanceState();
         binding.recyclerview.setOnScrollChangeListener(new View.OnScrollChangeListener() {
             @Override
             public void onScrollChange(View v, int scrollX, int scrollY, int oldScrollX, int oldScrollY) {
 
                 // 스크롤이 끝에 도달했는지 확인
                 if (!binding.recyclerview.canScrollVertically(1)) {
-                    Log.d("debuggingList", "onScrollChange 실행");
+                    Log.d("onStage()", adapter.getItemCount() + "");
                     // 검색 위치 조정
                     index = index + 20;
                     if (index <= 100) {
-                        Log.d("scroll", index+", "+adapter.getItemCount());
                         requestNews(index);
-                        Handler handler = new Handler();
-                        handler.postDelayed(new Runnable() {
-                            @Override
-                            public void run() {
-                                binding.recyclerview.scrollToPosition(adapter.getItemCount() - 11);
-                            }
-                        }, 200);
                     }
                 }
             }
@@ -143,6 +136,8 @@ public class NewsFragment extends Fragment {
             }
         });
         binding.recyclerview.setAdapter(adapter);
+        // 스크롤 상태 복구
+        binding.recyclerview.getLayoutManager().onRestoreInstanceState(recyclerViewState);
     }
 
     private void initRefreshListener() {

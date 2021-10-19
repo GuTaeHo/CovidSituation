@@ -13,6 +13,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.cosiguk.covidsituation.R;
 import com.cosiguk.covidsituation.databinding.ItemNewsBinding;
+import com.cosiguk.covidsituation.databinding.ItemProgressBinding;
 import com.cosiguk.covidsituation.model.News;
 import com.cosiguk.covidsituation.util.ConvertUtil;
 import com.cosiguk.covidsituation.util.NewsComparator;
@@ -20,6 +21,9 @@ import com.cosiguk.covidsituation.util.NewsComparator;
 import java.util.ArrayList;
 
 public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.ViewHolder> {
+    private static final String COMMON_VIEW = "common_view";
+    private static final String PROGRESS_VIEW = "progress_view";
+
     private ArrayList<News> items;
     private static OnItemClickListener listener = null;
 
@@ -64,6 +68,8 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.ViewHolder> {
     @Override
     public NewsAdapter.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         Context context = parent.getContext();
+
+
         LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         // inflate(삽입될 레이아웃, 부모 레이아웃)
         View view = inflater.inflate(R.layout.item_news, parent, false);
@@ -104,6 +110,15 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.ViewHolder> {
                     listener.onItemClick(v, pos);
                 }
             });
+        }
+    }
+
+    public static class ProgressViewHolder extends RecyclerView.ViewHolder {
+        private final ItemProgressBinding binding;
+
+        public ProgressViewHolder(@NonNull View itemView) {
+            super(itemView);
+            binding = DataBindingUtil.bind(itemView);
         }
     }
 }

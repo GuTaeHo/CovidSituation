@@ -36,6 +36,21 @@ public class ConvertUtil {
         return year + "." + month + "." + day;
     }
 
+    // 인자 형식 (2021-10-26 16:11:01)
+    public static String convertBarDateToDot(String date) {
+        // 공백 기준 분리
+        String[] core = date.split("\\s");
+        String[] dates = core[0].split("-");
+
+        return dates[0] + "." + dates[1] + "." + dates[2];
+    }
+
+    // 백신 API 금일 날짜 요청
+    public static String currentDateBar(int initMillisecond) {
+        SimpleDateFormat formatter = new SimpleDateFormat( "yyyy-MM-dd", Locale.KOREA);
+        return formatter.format(System.currentTimeMillis() - initMillisecond);
+    }
+
     // 뉴스 API 날짜 변환
     public static String convertDateBar(String date) {
         SimpleDateFormat str2Date = new SimpleDateFormat("E, dd MMM yyyy HH:mm:ss", Locale.US);

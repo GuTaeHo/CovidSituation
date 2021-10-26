@@ -1,5 +1,6 @@
 package com.cosiguk.covidsituation.util;
 
+import android.Manifest;
 import android.content.Context;
 import android.content.pm.PackageManager;
 import android.util.Log;
@@ -16,6 +17,8 @@ import com.gun0912.tedpermission.TedPermission;
 import java.util.ArrayList;
 
 public class BasicUtil {
+    public static String PERMISSION_ACCESS_FINE_LOCATION = Manifest.permission.ACCESS_FINE_LOCATION;
+
     public static void showToast(Context context, String message) {
         Toast.makeText(context, message, Toast.LENGTH_SHORT).show();
     }
@@ -44,6 +47,8 @@ public class BasicUtil {
                 .setPermissions(permissions)
                 .check();
     }
+
+
 
     public static boolean checkPermission(Context context, String permission) {
         int permissionResult = ActivityCompat.checkSelfPermission(context, permission);

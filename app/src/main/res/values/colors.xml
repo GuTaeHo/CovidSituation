@@ -12,12 +12,13 @@
     <color name="pastel_blue">#b3e6ff</color>
     <color name="pastel_purple">#e0ccff</color>
     <color name="pastel_yellow">#ffffcc</color>
+    <color name="pastel_gray">#cccccc</color>
     <color name="pastel_android">#99ffcc</color>
 
     <!-- 텍스트 -->
     <color name="pastel_strong_red">#ff5c33</color>
     <color name="pastel_strong_orange">#ff9900</color>
-    <color name="pastel_strong_green">#33cc33</color>
+    <color name="pastel_strong_green">#79d279</color>
     <color name="pastel_strong_blue">#3385ff</color>
     <color name="pastel_strong_purple">#8000ff</color>
     <color name="pastel_strong_yellow">#e6e600</color>

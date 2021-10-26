@@ -3,6 +3,7 @@ package com.cosiguk.covidsituation.network;
 import com.cosiguk.covidsituation.network.resultInterface.BoardListListener;
 import com.cosiguk.covidsituation.network.resultInterface.NewsListener;
 import com.cosiguk.covidsituation.network.resultInterface.TotalListener;
+import com.cosiguk.covidsituation.network.resultInterface.VaccineTotal;
 import com.google.gson.Gson;
 
 import java.util.HashMap;
@@ -96,6 +97,35 @@ public class NetworkPresenter implements NetworkPresenterInterface {
 
                     @Override
                     public void onFailure(Call<ResponseNews> call, Throwable t) {
+                        listener.fail(t.toString());
+                    }
+                });
+    }
+
+    @Override
+    public void vaccineTotal(HashMap<String, String> requestQuery, VaccineTotal listener) {
+        RetrofitVaccineClient
+                .getInstance()
+                .getInterface()
+                .totalVaccine(requestQuery)
+                .enqueue(new Callback<ResponseVaccineTotal>() {
+                    @Override
+                    public void onResponse(Call<ResponseVaccineTotal> call, retrofit2.Response<ResponseVaccineTotal> response) {
+                        try {
+                            if (response.body() != null && response.isSuccessful()) {
+                                listener.success(response.body().getData());
+                            } else {
+                                listener.fail(response.errorBody().toString());
+                            }
+                        } catch (IndexOutOfBoundsException exception) {
+                            listener.request(response.body().getData());
+                        } catch (Exception e) {
+                            listener.fail("vaccineTotal Exception " + e.toString());
+                        }
+                    }
+
+                    @Override
+                    public void onFailure(Call<ResponseVaccineTotal> call, Throwable t) {
                         listener.fail(t.toString());
                     }
                 });

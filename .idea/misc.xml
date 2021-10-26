@@ -16,6 +16,10 @@
         <entry key="..\:/CovidSituation/app/src/main/res/drawable/ic_news_24.xml" value="0.31296296296296294" />
         <entry key="..\:/CovidSituation/app/src/main/res/drawable/ic_notice_outline_24.xml" value="0.34074074074074073" />
         <entry key="..\:/CovidSituation/app/src/main/res/drawable/ic_situation_board_24.xml" value="0.31296296296296294" />
+        <entry key="..\:/CovidSituation/app/src/main/res/drawable/view_round_gray.xml" value="0.30462962962962964" />
+        <entry key="..\:/CovidSituation/app/src/main/res/drawable/view_round_green.xml" value="0.30462962962962964" />
+        <entry key="..\:/CovidSituation/app/src/main/res/drawable/view_round_light_green.xml" value="0.30462962962962964" />
+        <entry key="..\:/CovidSituation/app/src/main/res/drawable/view_round_table.xml" value="0.30462962962962964" />
         <entry key="..\:/CovidSituation/app/src/main/res/font/app_base_font_scdream_bold.xml" value="0.3814814814814815" />
         <entry key="..\:/CovidSituation/app/src/main/res/font/app_base_font_scdream_regular.xml" value="0.3814814814814815" />
         <entry key="..\:/CovidSituation/app/src/main/res/layout/activity_main.xml" value="0.35885416666666664" />
@@ -27,7 +31,7 @@
         <entry key="..\:/CovidSituation/app/src/main/res/layout/fragment_news.xml" value="0.35885416666666664" />
         <entry key="..\:/CovidSituation/app/src/main/res/layout/fragment_situation_board.xml" value="0.275" />
         <entry key="..\:/CovidSituation/app/src/main/res/layout/fragment_town.xml" value="0.35885416666666664" />
-        <entry key="..\:/CovidSituation/app/src/main/res/layout/fragment_vaccine.xml" value="0.34427083333333336" />
+        <entry key="..\:/CovidSituation/app/src/main/res/layout/fragment_vaccine.xml" value="0.2601851851851852" />
         <entry key="..\:/CovidSituation/app/src/main/res/layout/item_city.xml" value="0.35333333333333333" />
         <entry key="..\:/CovidSituation/app/src/main/res/layout/item_news.xml" value="0.35833333333333334" />
         <entry key="..\:/CovidSituation/app/src/main/res/layout/item_progress.xml" value="0.35885416666666664" />

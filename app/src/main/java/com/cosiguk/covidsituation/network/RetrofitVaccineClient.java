@@ -13,10 +13,9 @@ import retrofit2.http.QueryMap;
 public class RetrofitVaccineClient {
     public static final String URL = "http://api.odcloud.kr/api/";
 
-    private final RetrofitVaccineInterface retrofitCityInterface;
-    public static RetrofitVaccineClient retrofitCityClient = new RetrofitVaccineClient();
+    private final RetrofitVaccineInterface retrofitVaccineInterface;
+    public static RetrofitVaccineClient retrofitVaccineClient = new RetrofitVaccineClient();
 
-    // 싱글톤으로 객체 생성
     private RetrofitVaccineClient() {
         HttpLoggingInterceptor interceptor = new HttpLoggingInterceptor();
         interceptor.setLevel(HttpLoggingInterceptor.Level.BODY);
@@ -31,19 +30,19 @@ public class RetrofitVaccineClient {
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();
 
-        retrofitCityInterface = retrofit.create(RetrofitVaccineInterface.class);
+        retrofitVaccineInterface = retrofit.create(RetrofitVaccineInterface.class);
     }
 
     public static RetrofitVaccineClient getInstance() {
-        return retrofitCityClient;
+        return retrofitVaccineClient;
     }
 
     public RetrofitVaccineInterface getInterface() {
-        return retrofitCityInterface;
+        return retrofitVaccineInterface;
     }
 
     public interface RetrofitVaccineInterface {
-        @GET("/openapi/service/rest/Covid19/getCovid19SidoInfStateJson")
-        Call<ResponseCity> vaccinateList(@QueryMap HashMap<String, String> queries);
+        @GET("/api/15077756/v1/vaccine-stat")
+        Call<ResponseVaccineTotal> totalVaccine(@QueryMap HashMap<String, String> queries);
     }
 }

@@ -18,18 +18,9 @@ import java.util.List;
 
 public class CityAdapter extends RecyclerView.Adapter<CityAdapter.ViewHolder> {
     private final List<ItemCity> items;
-    private OnItemClickListener listener = null;
 
     public CityAdapter(List<ItemCity> items) {
         this.items = items;
-    }
-
-    public interface OnItemClickListener {
-        void onItemClick(View v, int pos);
-    }
-
-    public void setOnItemClickListener(OnItemClickListener listener) {
-        this.listener = listener;
     }
 
     @NonNull
@@ -37,10 +28,7 @@ public class CityAdapter extends RecyclerView.Adapter<CityAdapter.ViewHolder> {
     public CityAdapter.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         Context context = parent.getContext();
         LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-        // inflate(삽입될 레이아웃, 부모 레이아웃)
         View view = inflater.inflate(R.layout.item_city, parent, false);
-
-        // 뷰 홀더 생성
         return new ViewHolder(view);
     }
 
@@ -75,15 +63,6 @@ public class CityAdapter extends RecyclerView.Adapter<CityAdapter.ViewHolder> {
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
             binding = DataBindingUtil.bind(itemView);
-
-            /*
-            binding.loChat.setOnClickListener(v -> {
-                int pos = getAdapterPosition();
-                if (pos != RecyclerView.NO_POSITION) {
-                    listener.onItemClick(v, pos);
-                }
-            });
-             */
         }
     }
 }

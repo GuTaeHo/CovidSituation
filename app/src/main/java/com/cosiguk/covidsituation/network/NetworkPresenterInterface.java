@@ -4,6 +4,7 @@ package com.cosiguk.covidsituation.network;
 import com.cosiguk.covidsituation.network.resultInterface.BoardListListener;
 import com.cosiguk.covidsituation.network.resultInterface.NewsListener;
 import com.cosiguk.covidsituation.network.resultInterface.TotalListener;
+import com.cosiguk.covidsituation.network.resultInterface.VaccineTotal;
 
 import java.util.HashMap;
 
@@ -16,4 +17,7 @@ public interface NetworkPresenterInterface {
 
     // 뉴스
     void news(HashMap<String, String> headers, HashMap<String, Object> requestNews, NewsListener listener);
+
+    // 백신 접종 현황
+    void vaccineTotal(HashMap<String, String> requestQuery, VaccineTotal listener);
 }

@@ -11,7 +11,7 @@ import lombok.Setter;
 
 @Xml(name = "item")
 @Data
-public class ItemCity {
+public class City {
     @PropertyElement(name = "createDt")
     public String createDt;
     @PropertyElement(name = "deathCnt")

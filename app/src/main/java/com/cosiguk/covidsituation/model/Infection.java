@@ -9,7 +9,7 @@ import lombok.Setter;
 
 @Xml(name = "item")
 @Data
-public class ItemTotal {
+public class Infection {
     @PropertyElement(name = "accDefRate")
     public double accDefRate;
     @PropertyElement(name = "accExamCnt")

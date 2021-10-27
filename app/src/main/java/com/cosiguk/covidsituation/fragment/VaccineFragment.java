@@ -5,6 +5,8 @@ import android.os.Bundle;
 
 import androidx.databinding.DataBindingUtil;
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.GridLayoutManager;
+import androidx.recyclerview.widget.LinearLayoutManager;
 
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -13,34 +15,41 @@ import android.view.ViewGroup;
 
 import com.cosiguk.covidsituation.BuildConfig;
 import com.cosiguk.covidsituation.R;
+import com.cosiguk.covidsituation.adapter.CityAdapter;
+import com.cosiguk.covidsituation.adapter.HospitalAdapter;
 import com.cosiguk.covidsituation.application.MyApplication;
 import com.cosiguk.covidsituation.databinding.FragmentVaccineBinding;
 import com.cosiguk.covidsituation.dialog.NoticeDialog;
-import com.cosiguk.covidsituation.network.responseVaccine.Items;
-import com.cosiguk.covidsituation.network.resultInterface.VaccineTotal;
+import com.cosiguk.covidsituation.model.Hospital;
+import com.cosiguk.covidsituation.model.Vaccine;
+import com.cosiguk.covidsituation.network.resultInterface.HospitalListener;
+import com.cosiguk.covidsituation.network.resultInterface.VaccineListener;
 import com.cosiguk.covidsituation.util.BasicUtil;
 import com.cosiguk.covidsituation.util.ConvertUtil;
 import com.cosiguk.covidsituation.util.LocationUtil;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.function.Consumer;
 
 public class VaccineFragment extends Fragment {
     private FragmentVaccineBinding binding;
-    private Items items;
-    // 현재 위치
+    // 백신 정보
+    private Vaccine vaccine;
+    // 진료소 정보
+    private ArrayList<Hospital> hospitals;
+    // 현재 위치(위, 경도)
     private Location location;
+    // 현재 위치(주소)
+    private String[] addresses;
     // 재귀 방지
     private int blockLoop;
 
     public VaccineFragment() {
     }
 
-    public static VaccineFragment newInstance(String param1, String param2) {
-        VaccineFragment fragment = new VaccineFragment();
-        Bundle args = new Bundle();
-        fragment.setArguments(args);
-        return fragment;
+    public static VaccineFragment newInstance() {
+        return new VaccineFragment();
     }
 
     @Override
@@ -53,53 +62,78 @@ public class VaccineFragment extends Fragment {
                              Bundle savedInstanceState) {
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_vaccine, container, false);
         blockLoop = 0;
-        checkPermission();
+        getLocation();
         initRefreshListener();
-        requestVaccinate(0);
+        requestVaccine(0);
         return binding.getRoot();
     }
 
-    private void checkPermission() {
-        if (LocationUtil.getPosition(getActivity()) != null){
+    private void getLocation() {
+        if (LocationUtil.getLocation(getActivity()) != null){
             // 현재 위치 저장
-            location = LocationUtil.getPosition(getActivity());
+            location = LocationUtil.getLocation(getActivity());
             Log.d("location", location.getAccuracy() + ", " + location.getLatitude() + ", " + location.getLongitude());
+            String address = LocationUtil.getCoordinateToAddress(getActivity(), location);
+            addresses = address.split("\\s");
+            Log.d("location", "국가 : " + addresses[0] + ", 시 : " + addresses[1] + ", 구 : " + addresses[2] + ", 동 : " + addresses[3]);
+            Log.d("location", "현재 주소 : " + address);
+
         } else {
             Log.d("location", "위치 정보가 null 입니다");
             BasicUtil.showSnackBar(getActivity(),
                     getActivity().getWindow().getDecorView().getRootView(),
-                    "위치 권한이 허용되지 않아 진료소 목록을 불러올 수 없습니다"
+                    "위치정보를 알 수 없습니다"
             );
         }
     }
 
     // 백신 현황 요청
-    private void requestVaccinate(int initMillisecond) {
+    private void requestVaccine(int initMillisecond) {
         if (blockLoop < 2) {
             HashMap<String, String> map = new HashMap<>();
             map.put("serviceKey", BuildConfig.PUBLIC_SERVICE_KEY);
             map.put("perPage", "1");
             map.put("cond[baseDate::GTE]", ConvertUtil.currentDateBar(initMillisecond));
 
-            request(map);
+            MyApplication
+                    .networkPresenter
+                    .vaccineTotal(map, new VaccineListener() {
+                        @Override
+                        public void success(ArrayList<Vaccine> items) {
+                            setVaccineItem(items.get(0));
+                            requestHospital();
+                            Log.d("totalFirst", items.get(0).getTotalFirstCnt()+"");
+                        }
+
+                        @Override
+                        public void request(ArrayList<Vaccine> items) {
+                            Log.d("vaccinate", "reRequestVaccinates");
+                            requestVaccine(ConvertUtil.PREVIOUS_DAY);
+                        }
+
+                        @Override
+                        public void fail(String message) {
+                            new NoticeDialog(getActivity())
+                                    .setMsg(message)
+                                    .show();
+                        }
+                    });
         }
     }
 
-    private void request(HashMap<String, String> map) {
+    private void requestHospital() {
+        HashMap<String, String> map = new HashMap<>();
+        map.put("serviceKey", BuildConfig.PUBLIC_SERVICE_KEY);
+        map.put("page", "1");
+        map.put("perPage", "300");
+
         MyApplication
                 .networkPresenter
-                .vaccineTotal(map, new VaccineTotal() {
+                .hospital(map, new HospitalListener() {
                     @Override
-                    public void success(ArrayList<Items> items) {
-                        setVaccineItems(items.get(0));
+                    public void success(ArrayList<Hospital> list) {
+                        setHospitalItems(list);
                         initLayout();
-                        Log.d("totalFirst", items.get(0).getTotalFirstCnt()+"");
-                    }
-
-                    @Override
-                    public void request(ArrayList<Items> items) {
-                        Log.d("vaccinate", "reRequestVaccinates");
-                        requestVaccinate(ConvertUtil.PREVIOUS_DAY);
                     }
 
                     @Override
@@ -111,36 +145,63 @@ public class VaccineFragment extends Fragment {
                 });
     }
 
-    private void setVaccineItems(Items items) {
-        this.items = items;
+    private void setVaccineItem(Vaccine item) {
+        this.vaccine = item;
+    }
+
+    // API 응답 리스트 -> 현재 주소 일치 아이템 저장
+    private void setHospitalItems(ArrayList<Hospital> items) {
+        ArrayList<Hospital> hospitals = new ArrayList<>();
+        Log.d("getSido", items.size() + "");
+
+        if (addresses[1] != null) {
+            items.forEach(item -> {
+                Log.d("getSido", item.getSido());
+                if (item.getSido().equals(addresses[1])) {
+                    Log.d("getItemSido", item.getSido());
+                    hospitals.add(item);
+                }
+            });
+        }
+        this.hospitals = hospitals;
     }
 
     private void initLayout() {
         // 당일 누적
-        binding.tvFirstTotal.setText(ConvertUtil.convertCommaSeparator(items.getTotalFirstCnt()));
-        binding.tvFirstDaily.setText(ConvertUtil.convertCommaSeparator(items.getFirstCnt()));
-        binding.tvFirstYesterday.setText(ConvertUtil.convertCommaSeparator(items.getAccumulatedFirstCnt()));
+        binding.tvFirstTotal.setText(ConvertUtil.convertCommaSeparator(vaccine.getTotalFirstCnt()));
+        binding.tvFirstDaily.setText(ConvertUtil.convertSignCommaSeparator(vaccine.getFirstCnt()));
+        binding.tvFirstYesterday.setText(ConvertUtil.convertCommaSeparator(vaccine.getAccumulatedFirstCnt()));
         // 당일 실적
-        binding.tvSecondTotal.setText(ConvertUtil.convertCommaSeparator(items.getTotalSecondCnt()));
-        binding.tvSecondDaily.setText(ConvertUtil.convertCommaSeparator(items.getSecondCnt()));
-        binding.tvSecondYesterday.setText(ConvertUtil.convertCommaSeparator(items.getAccumulatedSecondCnt()));
+        binding.tvSecondTotal.setText(ConvertUtil.convertCommaSeparator(vaccine.getTotalSecondCnt()));
+        binding.tvSecondDaily.setText(ConvertUtil.convertSignCommaSeparator(vaccine.getSecondCnt()));
+        binding.tvSecondYesterday.setText(ConvertUtil.convertCommaSeparator(vaccine.getAccumulatedSecondCnt()));
         // 전일 누적
-        binding.tvThirdTotal.setText(ConvertUtil.convertCommaSeparator(items.getTotalThirdCnt()));
-        binding.tvThirdDaily.setText(ConvertUtil.convertCommaSeparator(items.getThirdCnt()));
-        binding.tvThirdYesterday.setText(ConvertUtil.convertCommaSeparator(items.getAccumulatedThirdCnt()));
+        binding.tvThirdTotal.setText(ConvertUtil.convertCommaSeparator(vaccine.getTotalThirdCnt()));
+        binding.tvThirdDaily.setText(ConvertUtil.convertSignCommaSeparator(vaccine.getThirdCnt()));
+        binding.tvThirdYesterday.setText(ConvertUtil.convertCommaSeparator(vaccine.getAccumulatedThirdCnt()));
         // 날짜 출력
-        binding.tvDate.setText(ConvertUtil.convertBarDateToDot(items.getBaseDate()) + " 기준");
+        binding.tvDate.setText(ConvertUtil.convertBarDateToDot(vaccine.getBaseDate()) + " 기준");
+
+        binding.recyclerview.setLayoutManager(new LinearLayoutManager(getActivity()));
+        HospitalAdapter adapter = new HospitalAdapter(hospitals);
+        binding.recyclerview.setAdapter(adapter);
     }
 
     private void initRefreshListener() {
         binding.loSwipe.setOnRefreshListener(()->{
-
-            BasicUtil.showSnackBar(
-                    getActivity(),
-                    getActivity().getWindow().getDecorView().getRootView(),
-                    "새로고침 완료");
-            // 새로 고침 완료
-            binding.loSwipe.setRefreshing(false);
+            // 요청 초기화
+            blockLoop = 0;
+            requestVaccine(0);
+            refreshSuccess();
         });
+    }
+
+    private void refreshSuccess() {
+        BasicUtil.showSnackBar(
+                getActivity(),
+                getActivity().getWindow().getDecorView().getRootView(),
+                "새로고침 완료");
+        // 새로 고침 완료
+        binding.loSwipe.setRefreshing(false);
     }
 }

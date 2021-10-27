@@ -1,9 +1,10 @@
 package com.cosiguk.covidsituation.network;
 
 import com.cosiguk.covidsituation.network.resultInterface.BoardListListener;
+import com.cosiguk.covidsituation.network.resultInterface.HospitalListener;
 import com.cosiguk.covidsituation.network.resultInterface.NewsListener;
 import com.cosiguk.covidsituation.network.resultInterface.TotalListener;
-import com.cosiguk.covidsituation.network.resultInterface.VaccineTotal;
+import com.cosiguk.covidsituation.network.resultInterface.VaccineListener;
 import com.google.gson.Gson;
 
 import java.util.HashMap;
@@ -103,7 +104,7 @@ public class NetworkPresenter implements NetworkPresenterInterface {
     }
 
     @Override
-    public void vaccineTotal(HashMap<String, String> requestQuery, VaccineTotal listener) {
+    public void vaccineTotal(HashMap<String, String> requestQuery, VaccineListener listener) {
         RetrofitVaccineClient
                 .getInstance()
                 .getInterface()
@@ -126,6 +127,33 @@ public class NetworkPresenter implements NetworkPresenterInterface {
 
                     @Override
                     public void onFailure(Call<ResponseVaccineTotal> call, Throwable t) {
+                        listener.fail(t.toString());
+                    }
+                });
+    }
+
+    @Override
+    public void hospital(HashMap<String, String> requestQuery, HospitalListener listener) {
+        RetrofitVaccineClient
+                .getInstance()
+                .getInterface()
+                .hospital(requestQuery)
+                .enqueue(new Callback<ResponseHospital>() {
+                    @Override
+                    public void onResponse(Call<ResponseHospital> call, retrofit2.Response<ResponseHospital> response) {
+                        try {
+                            if (response.body() != null && response.isSuccessful()) {
+                                listener.success(response.body().getData());
+                            } else {
+                                listener.fail(response.errorBody().toString());
+                            }
+                        } catch (Exception e) {
+                            listener.fail("hospital Exception " + e.toString());
+                        }
+                    }
+
+                    @Override
+                    public void onFailure(Call<ResponseHospital> call, Throwable t) {
                         listener.fail(t.toString());
                     }
                 });

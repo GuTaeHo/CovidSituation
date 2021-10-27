@@ -96,7 +96,7 @@ public class MainActivity extends BaseActivity {
             } else if (id == R.id.nv_news) {
                 fragment = NewsFragment.newInstance();
             } else if (id == R.id.nv_vaccine) {
-                fragment = new VaccineFragment();
+                fragment = VaccineFragment.newInstance();
             } else {
                 fragment = new BoardFragment();
             }

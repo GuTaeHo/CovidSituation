@@ -48,8 +48,6 @@ public class BasicUtil {
                 .check();
     }
 
-
-
     public static boolean checkPermission(Context context, String permission) {
         int permissionResult = ActivityCompat.checkSelfPermission(context, permission);
         return permissionResult == PackageManager.PERMISSION_GRANTED;

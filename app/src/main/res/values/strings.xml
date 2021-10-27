@@ -21,10 +21,10 @@
     <!-- vaccine -->
     <string name="vc_div">구분</string>
     <string name="vc_first_title">1차접종</string>
-    <string name="vc_second_title">접종완료</string>
-    <string name="vc_third_title">추가접종</string>
+    <string name="vc_second_title">2차접종</string>
+    <string name="vc_third_title">3차접종</string>
     <string name="vc_daily_total">당일누적</string>
-    <string name="vc_daily">당일실적</string>
+    <string name="vc_daily">전일대비</string>
     <string name="vc_yesterday_total">전일누적</string>
-
+    <string name="vc_hospital_title">내 주변 진료소 현황</string>
 </resources>

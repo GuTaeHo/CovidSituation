@@ -1,9 +1,9 @@
 package com.cosiguk.covidsituation.network.resultInterface;
 
-import com.cosiguk.covidsituation.model.ItemTotal;
+import com.cosiguk.covidsituation.model.Infection;
 
 public interface DailyListener {
-    void success(ItemTotal itemTotal);
+    void success(Infection infection);
 
     void fail(String message);
 }

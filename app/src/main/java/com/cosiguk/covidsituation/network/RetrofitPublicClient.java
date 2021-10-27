@@ -50,7 +50,7 @@ public class RetrofitPublicClient {
     }
 
     public interface RetrofitCityInterface {
-        @GET("/openapi/service/rest/Covid19/getCovid19SidoInfStateJson")
+        @GET("openapi/service/rest/Covid19/getCovid19SidoInfStateJson")
         Call<ResponseCity> boardList(@QueryMap HashMap<String, String> queries);
 
         @GET("openapi/service/rest/Covid19/getCovid19InfStateJson")

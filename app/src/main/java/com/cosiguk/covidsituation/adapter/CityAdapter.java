@@ -1,6 +1,8 @@
 package com.cosiguk.covidsituation.adapter;
 
 import android.content.Context;
+import android.graphics.drawable.Drawable;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,15 +13,14 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.cosiguk.covidsituation.R;
 import com.cosiguk.covidsituation.databinding.ItemCityBinding;
-import com.cosiguk.covidsituation.model.ItemCity;
+import com.cosiguk.covidsituation.model.City;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class CityAdapter extends RecyclerView.Adapter<CityAdapter.ViewHolder> {
-    private final List<ItemCity> items;
+    private final List<City> items;
 
-    public CityAdapter(List<ItemCity> items) {
+    public CityAdapter(List<City> items) {
         this.items = items;
     }
 
@@ -34,7 +35,7 @@ public class CityAdapter extends RecyclerView.Adapter<CityAdapter.ViewHolder> {
 
     @Override
     public void onBindViewHolder(@NonNull CityAdapter.ViewHolder holder, int position) {
-        ItemCity item = items.get(position);
+        City item = items.get(position);
 
         if (holder.binding != null) {
             // 지역

@@ -1,6 +1,6 @@
 package com.cosiguk.covidsituation.network;
 
-import com.cosiguk.covidsituation.network.responseVaccine.Items;
+import com.cosiguk.covidsituation.model.Vaccine;
 import com.google.gson.annotations.SerializedName;
 
 import java.util.ArrayList;
@@ -13,5 +13,5 @@ public class ResponseVaccineTotal {
     public String currentCount;
 
     @SerializedName("data")
-    public ArrayList<Items> data;
+    public ArrayList<Vaccine> data;
 }

@@ -1,11 +1,11 @@
-package com.cosiguk.covidsituation.network.responseVaccine;
+package com.cosiguk.covidsituation.model;
 
 import com.google.gson.annotations.SerializedName;
 
 import lombok.Data;
 
 @Data
-public class Items {
+public class Vaccine {
     // 전일 누적
     @SerializedName("accumulatedFirstCnt")
     public int accumulatedFirstCnt;

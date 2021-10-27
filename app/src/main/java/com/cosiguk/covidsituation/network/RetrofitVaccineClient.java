@@ -42,7 +42,12 @@ public class RetrofitVaccineClient {
     }
 
     public interface RetrofitVaccineInterface {
-        @GET("/api/15077756/v1/vaccine-stat")
+        // 백신 접종 현황 요청
+        @GET("15077756/v1/vaccine-stat")
         Call<ResponseVaccineTotal> totalVaccine(@QueryMap HashMap<String, String> queries);
+
+        // 선별 진료소 요청
+        @GET("15077586/v1/centers")
+        Call<ResponseHospital> hospital(@QueryMap HashMap<String, String> queries);
     }
 }

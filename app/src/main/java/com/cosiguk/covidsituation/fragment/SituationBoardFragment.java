@@ -1,6 +1,7 @@
 package com.cosiguk.covidsituation.fragment;
 
 import android.Manifest;
+import android.location.Location;
 import android.os.Bundle;
 
 import androidx.databinding.DataBindingUtil;
@@ -18,29 +19,35 @@ import com.cosiguk.covidsituation.adapter.CityAdapter;
 import com.cosiguk.covidsituation.application.MyApplication;
 import com.cosiguk.covidsituation.databinding.FragmentSituationBoardBinding;
 import com.cosiguk.covidsituation.dialog.NoticeDialog;
-import com.cosiguk.covidsituation.model.ItemCity;
-import com.cosiguk.covidsituation.model.ItemTotal;
+import com.cosiguk.covidsituation.model.City;
+import com.cosiguk.covidsituation.model.Infection;
 import com.cosiguk.covidsituation.network.resultInterface.BoardListListener;
 import com.cosiguk.covidsituation.network.resultInterface.TotalListener;
 import com.cosiguk.covidsituation.util.BasicUtil;
 import com.cosiguk.covidsituation.util.ConvertUtil;
+import com.cosiguk.covidsituation.util.LocationUtil;
 
 import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
+import java.util.concurrent.atomic.AtomicReference;
+import java.util.function.Consumer;
 
 public class SituationBoardFragment extends Fragment {
     private static final String FRAG_TAG = "fragmentTag";
 
     private FragmentSituationBoardBinding binding;
     // 전체 확진 정보
-    private ItemTotal itemTotal;
+    private Infection infection;
     // 전일 확진 정보
-    private ItemTotal yesterdayItemTotal;
+    private Infection yesterdayInfection;
     // 시, 도 확진 정보 리스트
-    private List<ItemCity> itemCityArrayList;
+    private List<City> cityArrayList;
     // 재귀 요청 방지
     int maxCount;
+    // 현재 도시
+    City city;
+    
     public SituationBoardFragment() {}
 
     public static SituationBoardFragment newInstance(String fragmentTag) {
@@ -89,7 +96,7 @@ public class SituationBoardFragment extends Fragment {
         MyApplication.networkPresenter
                 .total(map, new TotalListener() {
                     @Override
-                    public void success(List<ItemTotal> items) {
+                    public void success(List<Infection> items) {
                         // 작일 정보는 리스트의 두 번째에 포함되어 있음
                         setYesterdayItems(items.get(1));
                         // 금일 정보는 리스트의 첫 번째에 포함되어 있음
@@ -101,7 +108,7 @@ public class SituationBoardFragment extends Fragment {
 
                     @Override
                     // API 정보 갱신 전에 날짜가 변경 될 경우 호출
-                    public void reRequest(List<ItemTotal> itemTotal) {
+                    public void reRequest(List<Infection> infection) {
                         Log.d("TTAAGG","reRequest() 호출, 시작 날짜 : " + map.get("startCreateDt") + ", 끝 날짜 : "+map.get("endCreateDt"));
                         requestSituation(ConvertUtil.PREVIOUS_DAY);
                     }
@@ -126,7 +133,7 @@ public class SituationBoardFragment extends Fragment {
         MyApplication.networkPresenter
                 .boardList(map, new BoardListListener() {
                     @Override
-                    public void success(List<ItemCity> items) {
+                    public void success(List<City> items) {
                         setCityItemList(items);
                         // 레이아웃 업데이트
                         initDailyLayout();
@@ -145,24 +152,38 @@ public class SituationBoardFragment extends Fragment {
 
 
     // 금일 정보 초기화
-    public void setDailyItems(ItemTotal responseDailyTotal) {
-        itemTotal = responseDailyTotal;
+    public void setDailyItems(Infection responseDailyTotal) {
+        infection = responseDailyTotal;
     }
     // 작일 정보 초기화
-    public void setYesterdayItems(ItemTotal responseYesterdayTotal) {
-        yesterdayItemTotal = responseYesterdayTotal;
+    public void setYesterdayItems(Infection responseYesterdayTotal) {
+        yesterdayInfection = responseYesterdayTotal;
     }
     // 시, 도 정보 초기화 (확진자 순으로 정렬)
-    public void setCityItemList(List<ItemCity> items) {
-        itemCityArrayList = items;
+    public void setCityItemList(List<City> items) {
+        cityArrayList = items;
 
         // 내림차순 (확진자 기준)
-        itemCityArrayList.sort(new Comparator<ItemCity>() {
+        cityArrayList.sort(new Comparator<City>() {
             @Override
-            public int compare(ItemCity o1, ItemCity o2) {
-                return o2.getIncDec() - o1.getIncDec();
+            public int compare(City o1, City o2) {
+                return o2.getDefCnt() - o1.getDefCnt();
             }
         });
+        // 현재 주소
+        String currentAddress = getCurrentAddress();
+        Log.d("currentAddress", currentAddress);
+
+        cityArrayList.forEach(new Consumer<City>() {
+            @Override
+            public void accept(City item) {
+                if (item.getGubun().equals(currentAddress)) {
+                    city = item;
+                }
+            }
+        });
+        cityArrayList.remove(city);
+        cityArrayList.add(1, city);
     }
 
     private void initRefreshListener() {
@@ -181,52 +202,88 @@ public class SituationBoardFragment extends Fragment {
     }
 
     private void initDailyLayout() {
-        binding.tvDailyContetns.setText(String.format("(%s 기준)",
-                ConvertUtil.convertDateDot(itemTotal.getStateDt())));
+        binding.tvDailyContetns.setText(String.format("%s 기준",
+                ConvertUtil.convertDateDot(infection.getStateDt())));
         // 일일 확진자
         binding.tvDailyInfect.setText(String.format("확진환자 (%s)",
-                ConvertUtil.convertCommaSeparator(itemTotal.getDecideCnt() - yesterdayItemTotal.getDecideCnt())));
+                ConvertUtil.convertCommaSeparator(infection.getDecideCnt() - yesterdayInfection.getDecideCnt())));
         // 일일 완치자
         binding.tvDailyCare.setText(String.format("격리해제 (%s)",
-                ConvertUtil.convertCommaSeparator(itemTotal.getClearCnt() - yesterdayItemTotal.getClearCnt())));
+                ConvertUtil.convertCommaSeparator(infection.getClearCnt() - yesterdayInfection.getClearCnt())));
         // 사망자
         binding.tvDailyDeath.setText(String.format("사망자 (%s)",
-                ConvertUtil.convertCommaSeparator(itemTotal.getDeathCnt()-yesterdayItemTotal.getDeathCnt())));
+                ConvertUtil.convertCommaSeparator(infection.getDeathCnt()- yesterdayInfection.getDeathCnt())));
     }
 
     private void initTotalLayout() {
         // 현황 날짜
-        binding.tvTotalContents.setText(String.format("(%s 기준)",
-                ConvertUtil.convertDateDot(itemTotal.getStateDt())));
+        binding.tvTotalContents.setText(String.format("%s 기준",
+                ConvertUtil.convertDateDot(infection.getStateDt())));
         // 총 확진자
-        binding.tvTotalInfect.setText(ConvertUtil.convertCommaSeparator(itemTotal.getDecideCnt()));
+        binding.tvTotalInfect.setText(ConvertUtil.convertCommaSeparator(infection.getDecideCnt()));
         binding.tvTotalInfectCompare.setText(String.format("(%s)",
-                ConvertUtil.convertSignCommaSeparator(itemTotal.getDecideCnt() - yesterdayItemTotal.getDecideCnt())));
+                ConvertUtil.convertSignCommaSeparator(infection.getDecideCnt() - yesterdayInfection.getDecideCnt())));
         // 총 완치자
-        binding.tvTotalCure.setText(ConvertUtil.convertCommaSeparator(itemTotal.getClearCnt()));
+        binding.tvTotalCure.setText(ConvertUtil.convertCommaSeparator(infection.getClearCnt()));
         binding.tvTotalCureCompare.setText(String.format("(%s)",
-                ConvertUtil.convertSignCommaSeparator(itemTotal.getClearCnt() - yesterdayItemTotal.getClearCnt())));
+                ConvertUtil.convertSignCommaSeparator(infection.getClearCnt() - yesterdayInfection.getClearCnt())));
         // 총 사망자
-        binding.tvTotalDeath.setText(ConvertUtil.convertCommaSeparator(itemTotal.getDeathCnt()));
+        binding.tvTotalDeath.setText(ConvertUtil.convertCommaSeparator(infection.getDeathCnt()));
         binding.tvTotalDeathCompare.setText(String.format("(%s)",
-                ConvertUtil.convertSignCommaSeparator(itemTotal.getDeathCnt() - yesterdayItemTotal.getDeathCnt())));
+                ConvertUtil.convertSignCommaSeparator(infection.getDeathCnt() - yesterdayInfection.getDeathCnt())));
         // 누적 검사 수
-        binding.tvTotalExam.setText(ConvertUtil.convertCommaSeparator(itemTotal.getAccExamCnt()));
+        binding.tvTotalExam.setText(ConvertUtil.convertCommaSeparator(infection.getAccExamCnt()));
         binding.tvTotalExamCompare.setText(String.format("(%s)",
-                ConvertUtil.convertSignCommaSeparator(itemTotal.getAccExamCnt() - yesterdayItemTotal.getAccExamCnt())));
+                ConvertUtil.convertSignCommaSeparator(infection.getAccExamCnt() - yesterdayInfection.getAccExamCnt())));
         // 검사 진행 중
-        binding.tvTotalCheck.setText(ConvertUtil.convertCommaSeparator(itemTotal.getExamCnt()));
+        binding.tvTotalCheck.setText(ConvertUtil.convertCommaSeparator(infection.getExamCnt()));
         binding.tvTotalCheckCompare.setText(String.format("(%s)",
-                ConvertUtil.convertSignCommaSeparator(itemTotal.getExamCnt() - yesterdayItemTotal.getExamCnt())));
+                ConvertUtil.convertSignCommaSeparator(infection.getExamCnt() - yesterdayInfection.getExamCnt())));
         // 결과 음성 수
-        binding.tvTotalNegative.setText(ConvertUtil.convertCommaSeparator(itemTotal.getResutlNegCnt()));
+        binding.tvTotalNegative.setText(ConvertUtil.convertCommaSeparator(infection.getResutlNegCnt()));
         binding.tvTotalNegativeCompare.setText(String.format("(%s)",
-                ConvertUtil.convertSignCommaSeparator(itemTotal.getResutlNegCnt() - yesterdayItemTotal.getResutlNegCnt())));
+                ConvertUtil.convertSignCommaSeparator(infection.getResutlNegCnt() - yesterdayInfection.getResutlNegCnt())));
     }
 
     private void initCityLayout() {
         binding.recyclerview.setLayoutManager(new GridLayoutManager(getActivity(), 2));
-        CityAdapter adapter = new CityAdapter(itemCityArrayList);
+        CityAdapter adapter = new CityAdapter(cityArrayList);
         binding.recyclerview.setAdapter(adapter);
+    }
+
+    private String getCurrentAddress() {
+        Location location = LocationUtil.getLocation(getActivity());
+        String address = LocationUtil.getCoordinateToAddress(getActivity(), location);
+        String[] addresses = address.split("\\s");
+
+        return addressStringConvert(addresses[1]);
+    }
+
+    // 특정 문자 변환
+    private String addressStringConvert(String address) {
+        switch (address) {
+            case "경상북도":
+                address = "경북";
+                break;
+            case "경상남도":
+                address = "경남";
+                break;
+            case "충청남도":
+                address = "충남";
+                break;
+            case "충청북도":
+                address = "충북";
+                break;
+            case "전라북도":
+                address = "전북";
+                break;
+            case "전라남도":
+                address = "전남";
+                break;
+            default:
+                break;
+        }
+
+        return address.substring(0,2);
     }
 }

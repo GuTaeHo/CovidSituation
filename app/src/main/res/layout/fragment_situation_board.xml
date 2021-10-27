@@ -344,6 +344,7 @@
                     android:id="@+id/lo_list_title"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:layout_marginTop="12dp"
                     android:padding="6dp"
                     android:layout_below="@id/lo_total_contents"
                     android:orientation="horizontal">

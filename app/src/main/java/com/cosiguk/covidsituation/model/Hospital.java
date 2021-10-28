@@ -31,4 +31,6 @@ public class Hospital {
 
     @SerializedName("zipCode")
     public String zipCode;
+    // 거리
+    public Float distance;
 }

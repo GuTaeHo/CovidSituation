@@ -22,6 +22,12 @@ public class HospitalAdapter extends RecyclerView.Adapter<HospitalAdapter.ViewHo
         this.items = items;
     }
 
+    public void setDistance(int distance) {
+        items.forEach(item -> {
+
+        });
+    }
+
     @NonNull
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
@@ -39,6 +45,7 @@ public class HospitalAdapter extends RecyclerView.Adapter<HospitalAdapter.ViewHo
             holder.binding.tvName.setText(item.getFacilityName());
             holder.binding.tvAddress.setText(item.getAddress());
             holder.binding.tvPhoneNumber.setText(item.getPhoneNumber());
+            holder.binding.tvDistance.setText(String.format("%.2f", item.getDistance()) + "km");
         }
     }
 

@@ -34,6 +34,7 @@ import java.util.function.Consumer;
 
 public class VaccineFragment extends Fragment {
     private FragmentVaccineBinding binding;
+    private HospitalAdapter adapter;
     // 백신 정보
     private Vaccine vaccine;
     // 진료소 정보
@@ -72,14 +73,10 @@ public class VaccineFragment extends Fragment {
         if (LocationUtil.getLocation(getActivity()) != null){
             // 현재 위치 저장
             location = LocationUtil.getLocation(getActivity());
-            Log.d("location", location.getAccuracy() + ", " + location.getLatitude() + ", " + location.getLongitude());
             String address = LocationUtil.getCoordinateToAddress(getActivity(), location);
             addresses = address.split("\\s");
-            Log.d("location", "국가 : " + addresses[0] + ", 시 : " + addresses[1] + ", 구 : " + addresses[2] + ", 동 : " + addresses[3]);
-            Log.d("location", "현재 주소 : " + address);
 
         } else {
-            Log.d("location", "위치 정보가 null 입니다");
             BasicUtil.showSnackBar(getActivity(),
                     getActivity().getWindow().getDecorView().getRootView(),
                     "위치정보를 알 수 없습니다"
@@ -102,12 +99,10 @@ public class VaccineFragment extends Fragment {
                         public void success(ArrayList<Vaccine> items) {
                             setVaccineItem(items.get(0));
                             requestHospital();
-                            Log.d("totalFirst", items.get(0).getTotalFirstCnt()+"");
                         }
 
                         @Override
                         public void request(ArrayList<Vaccine> items) {
-                            Log.d("vaccinate", "reRequestVaccinates");
                             requestVaccine(ConvertUtil.PREVIOUS_DAY);
                         }
 
@@ -152,13 +147,18 @@ public class VaccineFragment extends Fragment {
     // API 응답 리스트 -> 현재 주소 일치 아이템 저장
     private void setHospitalItems(ArrayList<Hospital> items) {
         ArrayList<Hospital> hospitals = new ArrayList<>();
-        Log.d("getSido", items.size() + "");
 
         if (addresses[1] != null) {
             items.forEach(item -> {
-                Log.d("getSido", item.getSido());
                 if (item.getSido().equals(addresses[1])) {
-                    Log.d("getItemSido", item.getSido());
+                    float distance = LocationUtil.computeDistance(
+                            location.getLatitude(),
+                            location.getLongitude(),
+                            Double.parseDouble(item.getLat()),
+                            Double.parseDouble(item.getLng()));
+                    // 현재 아이템에 현재 위치와 거리 차이 추가
+                    item.setDistance(distance);
+                    // 일치 아이템 추가
                     hospitals.add(item);
                 }
             });
@@ -183,7 +183,7 @@ public class VaccineFragment extends Fragment {
         binding.tvDate.setText(ConvertUtil.convertBarDateToDot(vaccine.getBaseDate()) + " 기준");
 
         binding.recyclerview.setLayoutManager(new LinearLayoutManager(getActivity()));
-        HospitalAdapter adapter = new HospitalAdapter(hospitals);
+        adapter = new HospitalAdapter(hospitals);
         binding.recyclerview.setAdapter(adapter);
     }
 

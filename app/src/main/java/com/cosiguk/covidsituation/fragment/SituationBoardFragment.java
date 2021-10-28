@@ -101,7 +101,6 @@ public class SituationBoardFragment extends Fragment {
                         setYesterdayItems(items.get(1));
                         // 금일 정보는 리스트의 첫 번째에 포함되어 있음
                         setDailyItems(items.get(0));
-                        Log.d("TTAAGG","success() 호출, 시작 날짜 : " + map.get("startCreateDt") + ", 끝 날짜 : "+map.get("endCreateDt"));
                         // 도시 정보 요청
                         requestCity(map.get("endCreateDt"));
                     }
@@ -109,7 +108,6 @@ public class SituationBoardFragment extends Fragment {
                     @Override
                     // API 정보 갱신 전에 날짜가 변경 될 경우 호출
                     public void reRequest(List<Infection> infection) {
-                        Log.d("TTAAGG","reRequest() 호출, 시작 날짜 : " + map.get("startCreateDt") + ", 끝 날짜 : "+map.get("endCreateDt"));
                         requestSituation(ConvertUtil.PREVIOUS_DAY);
                     }
 
@@ -150,12 +148,9 @@ public class SituationBoardFragment extends Fragment {
                 });
     }
 
-
-    // 금일 정보 초기화
     public void setDailyItems(Infection responseDailyTotal) {
         infection = responseDailyTotal;
     }
-    // 작일 정보 초기화
     public void setYesterdayItems(Infection responseYesterdayTotal) {
         yesterdayInfection = responseYesterdayTotal;
     }
@@ -251,12 +246,18 @@ public class SituationBoardFragment extends Fragment {
         binding.recyclerview.setAdapter(adapter);
     }
 
+    // 위치 OFF -> 기본 위치 : 서울
     private String getCurrentAddress() {
-        Location location = LocationUtil.getLocation(getActivity());
-        String address = LocationUtil.getCoordinateToAddress(getActivity(), location);
-        String[] addresses = address.split("\\s");
-
-        return addressStringConvert(addresses[1]);
+        if (LocationUtil.isLocationStatus(getActivity())) {
+            Location location = LocationUtil.getLocation(getActivity());
+            String address = LocationUtil.getCoordinateToAddress(getActivity(), location);
+            Log.d("address", address);
+            String[] addresses = address.split("\\s");
+            return addressStringConvert(addresses[1]);
+        } else {
+            // base location
+            return getActivity().getResources().getString(R.string.location_base);
+        }
     }
 
     // 특정 문자 변환

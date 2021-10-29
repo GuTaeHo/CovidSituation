@@ -26,9 +26,10 @@ import com.cosiguk.covidsituation.util.ConvertUtil;
 import com.cosiguk.covidsituation.util.LocationUtil;
 
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.HashMap;
 
-public class VaccineFragment extends Fragment {
+public class VaccineFragment extends Fragment implements Comparator<Hospital>{
     private FragmentVaccineBinding binding;
     private HospitalAdapter adapter;
     // 백신 정보
@@ -37,8 +38,6 @@ public class VaccineFragment extends Fragment {
     private ArrayList<Hospital> hospitals;
     // 현재 위치(위, 경도)
     private Location location;
-    // 현재 위치(주소)
-    private String[] addresses;
     // 재귀 방지
     private int blockLoop;
 
@@ -66,31 +65,15 @@ public class VaccineFragment extends Fragment {
 
     private void getLocation() {
         if (LocationUtil.isConnect(getActivity())) {
-            if (LocationUtil.getLocation(getActivity()) != null){
-                // 현재 위치 저장
+            if (LocationUtil.getLocation(getActivity()) != null)
                 location = LocationUtil.getLocation(getActivity());
-                String address = LocationUtil.getCoordinateToAddress(getActivity(), location);
-                addresses = address.split("\\s");
-
-            } else {
-                BasicUtil.showSnackBar(getActivity(),
-                        getActivity().getWindow().getDecorView().getRootView(),
-                        "위치정보를 알 수 없습니다. 위치를 재설정합니다"
-                );
+            else {
                 location = LocationUtil.setBaseLocation();
-                String address = LocationUtil
-                        .getCoordinateToAddress(getActivity(), location);
-                addresses = address.split("\\s");
+                BasicUtil.showToast(getActivity(), getString(R.string.vc_location_unknown));
             }
         } else {
-            BasicUtil.showSnackBar(getActivity(),
-                    getActivity().getWindow().getDecorView().getRootView(),
-                    "\"위치\"기능이 비활성화상태입니다. 위치를 재설정합니다");
-
+            BasicUtil.showToast(getActivity(), getString(R.string.vc_location_off));
             location = LocationUtil.setBaseLocation();
-            String address = LocationUtil
-                    .getCoordinateToAddress(getActivity(), location);
-            addresses = address.split("\\s");
         }
     }
 
@@ -162,22 +145,28 @@ public class VaccineFragment extends Fragment {
     private void setHospitalItems(ArrayList<Hospital> items) {
         ArrayList<Hospital> hospitals = new ArrayList<>();
 
-        if (addresses[1] != null) {
-            items.forEach(item -> {
-                if (item.getSido().equals(addresses[1])) {
-                    float distance = LocationUtil.computeDistance(
-                            location.getLatitude(),
-                            location.getLongitude(),
-                            Double.parseDouble(item.getLat()),
-                            Double.parseDouble(item.getLng()));
-                    // 현재 아이템에 현재 위치와 거리 차이 추가
-                    item.setDistance(distance);
-                    // 일치 아이템 추가
-                    hospitals.add(item);
-                }
-            });
-        }
+        items.forEach(item -> {
+            float distance = LocationUtil.computeDistance(
+                    location.getLatitude(),
+                    location.getLongitude(),
+                    Double.parseDouble(item.getLat()),
+                    Double.parseDouble(item.getLng()));
+
+            if (distance <= 30) {
+                item.setDistance(distance);
+                hospitals.add(item);
+            }
+        });
+    
+        // 가까운 병원 순 정렬
+        hospitals.sort(VaccineFragment.this);
+
         this.hospitals = hospitals;
+    }
+
+    @Override
+    public int compare(Hospital o1, Hospital o2) {
+        return o1.getDistance().intValue() - o2.getDistance().intValue();
     }
 
     private void initLayout() {

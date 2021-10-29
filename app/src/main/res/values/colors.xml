@@ -38,6 +38,9 @@
     <color name="nav_normal">#C2C8EF</color>
     <color name="nav_select">#22284F</color>
 
+    <!-- 상황판 -->
+    <color name="current_location">#eaeaff</color>
+
     <!-- BLACK -->
     <color name="black_light_50">#808080</color>
     <color name="black_light_40">#666666</color>

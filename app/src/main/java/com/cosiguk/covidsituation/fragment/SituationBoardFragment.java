@@ -30,7 +30,6 @@ import com.cosiguk.covidsituation.util.LocationUtil;
 import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
-import java.util.concurrent.atomic.AtomicReference;
 import java.util.function.Consumer;
 
 public class SituationBoardFragment extends Fragment {
@@ -70,7 +69,6 @@ public class SituationBoardFragment extends Fragment {
         maxCount = 0;
         checkPermission();
         requestSituation(0);
-        initRefreshListener();
         return binding.getRoot();
     }
 
@@ -93,6 +91,7 @@ public class SituationBoardFragment extends Fragment {
 
     // 전체 확진 정보 API 요청
     private void requestTotal(HashMap<String, String> map) {
+        MyApplication.showProgressDialog(getActivity());
         MyApplication.getNetworkPresenterInstance()
                 .total(map, new TotalListener() {
                     @Override
@@ -113,6 +112,7 @@ public class SituationBoardFragment extends Fragment {
 
                     @Override
                     public void fail(String message) {
+                        MyApplication.dismissProgressDialog();
                         new NoticeDialog(getActivity())
                                 .setMsg(message)
                                 .show();
@@ -128,6 +128,7 @@ public class SituationBoardFragment extends Fragment {
         map.put("startCreateDt", day);
         map.put("endCreateDt", day);
 
+        MyApplication.showProgressDialog(getActivity());
         MyApplication.getNetworkPresenterInstance()
                 .boardList(map, new BoardListListener() {
                     @Override
@@ -137,10 +138,12 @@ public class SituationBoardFragment extends Fragment {
                         initDailyLayout();
                         initTotalLayout();
                         initCityLayout();
+                        MyApplication.dismissProgressDialog();
                     }
 
                     @Override
                     public void fail(String message) {
+                        MyApplication.dismissProgressDialog();
                         new NoticeDialog(getActivity())
                                 .setMsg(message)
                                 .show();
@@ -169,6 +172,12 @@ public class SituationBoardFragment extends Fragment {
         String currentAddress = getCurrentAddress();
         Log.d("currentAddress", currentAddress);
 
+        for (int i = 0; i < cityArrayList.size(); i++) {
+            if (cityArrayList.get(i).getGubun().equals(currentAddress)) {
+
+                city = cityArrayList.get(i);
+            }
+        }
         cityArrayList.forEach(new Consumer<City>() {
             @Override
             public void accept(City item) {
@@ -179,21 +188,6 @@ public class SituationBoardFragment extends Fragment {
         });
         cityArrayList.remove(city);
         cityArrayList.add(1, city);
-    }
-
-    private void initRefreshListener() {
-        binding.loSwipe.setOnRefreshListener(()->{
-            // 카운터 초기화
-            maxCount = 0;
-            requestSituation(0);
-
-            BasicUtil.showSnackBar(
-                    getActivity(),
-                    getActivity().getWindow().getDecorView().getRootView(),
-                    "새로고침 완료");
-            // 새로 고침 완료
-            binding.loSwipe.setRefreshing(false);
-        });
     }
 
     private void initDailyLayout() {
@@ -242,16 +236,15 @@ public class SituationBoardFragment extends Fragment {
 
     private void initCityLayout() {
         binding.recyclerview.setLayoutManager(new GridLayoutManager(getActivity(), 2));
-        CityAdapter adapter = new CityAdapter(cityArrayList);
+        CityAdapter adapter = new CityAdapter(getActivity(), cityArrayList);
         binding.recyclerview.setAdapter(adapter);
     }
 
     // 위치 OFF -> 기본 위치 : 서울
     private String getCurrentAddress() {
-        if (LocationUtil.isLocationStatus(getActivity())) {
+        if (LocationUtil.isConnect(getActivity())) {
             Location location = LocationUtil.getLocation(getActivity());
             String address = LocationUtil.getCoordinateToAddress(getActivity(), location);
-            Log.d("address", address);
             String[] addresses = address.split("\\s");
             return addressStringConvert(addresses[1]);
         } else {
@@ -282,9 +275,9 @@ public class SituationBoardFragment extends Fragment {
                 address = "전남";
                 break;
             default:
+                address = "서울";
                 break;
         }
-
         return address.substring(0,2);
     }
 }

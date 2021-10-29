@@ -1,6 +1,5 @@
 package com.cosiguk.covidsituation;
 
-import androidx.appcompat.app.AppCompatActivity;
 import androidx.databinding.DataBindingUtil;
 
 import android.os.Bundle;

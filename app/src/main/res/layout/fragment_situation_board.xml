@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:tools="http://schemas.android.com/tools"
-    xmlns:android="http://schemas.android.com/apk/res/android">
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
     <androidx.core.widget.NestedScrollView
         android:id="@+id/sv_situation"
         android:layout_width="match_parent"
@@ -336,7 +337,7 @@
                     </LinearLayout>
                 </LinearLayout>
             </LinearLayout>
-            <LinearLayout
+            <androidx.constraintlayout.widget.ConstraintLayout
                 android:id="@+id/lo_list_title"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -345,20 +346,46 @@
                 android:layout_below="@id/lo_total_contents"
                 android:orientation="horizontal">
                 <ImageView
+                    android:id="@+id/iv_city"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:background="@drawable/ic_location_city_24" />
+                    android:background="@drawable/ic_location_city_24"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
                 <TextView
                     android:id="@+id/tv_list_title"
-                    android:layout_width="match_parent"
+                    android:layout_width="wrap_content"
                     android:layout_height="match_parent"
                     android:paddingStart="6dp"
                     android:paddingEnd="6dp"
                     android:fontFamily="@font/nanumsquare_round_extra_bold"
                     android:gravity="center_vertical"
                     android:textSize="16sp"
-                    android:text="시/도 별 감염현황" />
-            </LinearLayout>
+                    android:text="시/도 별 감염현황"
+                    app:layout_constraintStart_toEndOf="@id/iv_city"
+                    app:layout_constraintTop_toTopOf="parent" />
+                <ImageView
+                    android:layout_width="12dp"
+                    android:layout_height="12dp"
+                    android:background="@drawable/view_round_purple"
+                    app:layout_constraintEnd_toStartOf="@id/tv_list_title_intro"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintBottom_toBottomOf="parent"/>
+                <TextView
+                    android:id="@+id/tv_list_title_intro"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:paddingStart="6dp"
+                    android:paddingEnd="6dp"
+                    android:fontFamily="@font/nanumsquare_round_extra_bold"
+                    android:gravity="center_vertical"
+                    android:textSize="16sp"
+                    android:text="현 위치"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintBottom_toBottomOf="parent"/>
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
 
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/recyclerview"

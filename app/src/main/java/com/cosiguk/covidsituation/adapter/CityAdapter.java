@@ -1,6 +1,7 @@
 package com.cosiguk.covidsituation.adapter;
 
 import android.content.Context;
+import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -8,6 +9,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
+import androidx.core.content.ContextCompat;
 import androidx.databinding.DataBindingUtil;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -18,9 +20,11 @@ import com.cosiguk.covidsituation.model.City;
 import java.util.List;
 
 public class CityAdapter extends RecyclerView.Adapter<CityAdapter.ViewHolder> {
+    private Context context;
     private final List<City> items;
 
-    public CityAdapter(List<City> items) {
+    public CityAdapter(Context context, List<City> items) {
+        this.context = context;
         this.items = items;
     }
 
@@ -38,18 +42,21 @@ public class CityAdapter extends RecyclerView.Adapter<CityAdapter.ViewHolder> {
         City item = items.get(position);
 
         if (holder.binding != null) {
-            // 지역
-            holder.binding.tvCity.setText(item.getGubun());
-            // 격리중 환자
-            holder.binding.tvCareContents.setText(item.getIsolIngCnt()+"");
-            // 확진 환자
-            holder.binding.tvInfectContents.setText(item.getDefCnt()+"");
-            // 전일 대비 증가
-            holder.binding.tvCompareContents.setText("+"+item.getIncDec());
-            // 격리 해제
-            holder.binding.tvCompleteContents.setText(item.getIsolClearCnt()+"");
-            // 사망자
-            holder.binding.tvDeathContents.setText(item.getDeathCnt()+"");
+            if (position == 1) {
+                holder.binding.loCity.setBackgroundColor(ContextCompat.getColor(context, R.color.current_location));
+            }
+                // 지역
+                holder.binding.tvCity.setText(item.getGubun());
+                // 격리중 환자
+                holder.binding.tvCareContents.setText(item.getIsolIngCnt()+"");
+                // 확진 환자
+                holder.binding.tvInfectContents.setText(item.getDefCnt()+"");
+                // 전일 대비 증가
+                holder.binding.tvCompareContents.setText("+"+item.getIncDec());
+                // 격리 해제
+                holder.binding.tvCompleteContents.setText(item.getIsolClearCnt()+"");
+                // 사망자
+                holder.binding.tvDeathContents.setText(item.getDeathCnt()+"");
         }
     }
 

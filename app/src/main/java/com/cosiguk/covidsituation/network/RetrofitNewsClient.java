@@ -1,8 +1,5 @@
 package com.cosiguk.covidsituation.network;
 
-import com.tickaroo.tikxml.TikXml;
-import com.tickaroo.tikxml.retrofit.TikXmlConverterFactory;
-
 import java.util.HashMap;
 
 import okhttp3.OkHttpClient;
@@ -12,7 +9,6 @@ import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 import retrofit2.http.GET;
 import retrofit2.http.HeaderMap;
-import retrofit2.http.Headers;
 import retrofit2.http.QueryMap;
 
 public class RetrofitNewsClient {

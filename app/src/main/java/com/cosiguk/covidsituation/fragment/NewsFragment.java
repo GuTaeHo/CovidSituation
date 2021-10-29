@@ -83,7 +83,7 @@ public class NewsFragment extends Fragment {
         queries.put("start", index);
 
         MyApplication
-                .networkPresenter
+                .getNetworkPresenterInstance()
                 .news(headerMap, queries, new NewsListener() {
                     @Override
                     public void success(ArrayList<News> list) {

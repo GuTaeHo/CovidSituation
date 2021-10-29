@@ -83,4 +83,17 @@ public class ConvertUtil {
         }
         return "+"+formatter.format(value);
     }
+
+    // 문자 분리, 위치 지정
+    public static String splitString(String data, int start) {
+        String[] frg = data.split("\\s");
+        StringBuilder result = new StringBuilder();
+
+        for (int i = start; i < frg.length; i++) {
+            result.append(frg[i]);
+            result.append(" ");
+        }
+
+        return String.valueOf(result);
+    }
 }

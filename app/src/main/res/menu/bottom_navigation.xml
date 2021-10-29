@@ -6,14 +6,14 @@
         android:title="@string/nv_situation_board"/>
 
     <item
-        android:id="@+id/nv_news"
-        android:icon="@drawable/ic_news_24"
-        android:title="@string/nv_news"/>
-
-    <item
         android:id="@+id/nv_vaccine"
         android:icon="@drawable/ic_coronavirus_24"
         android:title="@string/nv_vaccine"/>
+
+    <item
+        android:id="@+id/nv_news"
+        android:icon="@drawable/ic_news_24"
+        android:title="@string/nv_news"/>
 
     <item
         android:id="@+id/nv_board"

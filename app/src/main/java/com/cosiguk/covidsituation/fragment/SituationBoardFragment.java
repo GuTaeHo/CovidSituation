@@ -93,7 +93,7 @@ public class SituationBoardFragment extends Fragment {
 
     // 전체 확진 정보 API 요청
     private void requestTotal(HashMap<String, String> map) {
-        MyApplication.networkPresenter
+        MyApplication.getNetworkPresenterInstance()
                 .total(map, new TotalListener() {
                     @Override
                     public void success(List<Infection> items) {
@@ -128,7 +128,7 @@ public class SituationBoardFragment extends Fragment {
         map.put("startCreateDt", day);
         map.put("endCreateDt", day);
 
-        MyApplication.networkPresenter
+        MyApplication.getNetworkPresenterInstance()
                 .boardList(map, new BoardListListener() {
                     @Override
                     public void success(List<City> items) {

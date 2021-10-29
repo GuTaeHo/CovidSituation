@@ -14,13 +14,21 @@
             android:padding="12dp"
             android:foreground="?attr/selectableItemBackground">
             <TextView
-                android:id="@+id/tv_name"
+                android:id="@+id/tv_facility_name"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:textSize="16sp"
                 android:fontFamily="@font/nanumsquare_round_extra_bold"
                 android:textColor="@color/black_light_10"
                 tools:text="계명대학교 대구동산병원 별관" />
+            <TextView
+                android:id="@+id/tv_center_name"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textSize="11sp"
+                android:fontFamily="@font/nanumsquare_round_regular"
+                android:textColor="@color/white_dark_40"
+                tools:text="코로나19 대구광역시 중구 예방접종센터" />
             <TextView
                 android:id="@+id/tv_address"
                 android:layout_width="match_parent"
@@ -29,7 +37,7 @@
                 android:paddingBottom="12dp"
                 android:textSize="14sp"
                 android:fontFamily="@font/nanumsquare_round_bold"
-                android:textColor="@color/black_light_30"
+                android:textColor="@color/pastel_strong_blue"
                 tools:text="대구시 중구 달성로 56" />
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"

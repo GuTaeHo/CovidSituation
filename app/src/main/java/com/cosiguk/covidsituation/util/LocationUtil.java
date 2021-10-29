@@ -75,6 +75,13 @@ public class LocationUtil {
         }
     }
 
+    public static Location setBaseLocation() {
+        Location location = new Location("dummy provider");
+        location.setLatitude(37.5511565);
+        location.setLongitude(126.9693536);
+        return location;
+    }
+
     /**
      * 두 지점 간의 거리
      * @param lat1 지점 1 위도

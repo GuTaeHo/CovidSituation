@@ -12,6 +12,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.cosiguk.covidsituation.R;
 import com.cosiguk.covidsituation.databinding.ItemHospitalBinding;
 import com.cosiguk.covidsituation.model.Hospital;
+import com.cosiguk.covidsituation.util.ConvertUtil;
 
 import java.util.ArrayList;
 
@@ -20,12 +21,6 @@ public class HospitalAdapter extends RecyclerView.Adapter<HospitalAdapter.ViewHo
 
     public HospitalAdapter(ArrayList<Hospital> items) {
         this.items = items;
-    }
-
-    public void setDistance(int distance) {
-        items.forEach(item -> {
-
-        });
     }
 
     @NonNull
@@ -42,7 +37,8 @@ public class HospitalAdapter extends RecyclerView.Adapter<HospitalAdapter.ViewHo
         Hospital item = items.get(position);
 
         if (holder.binding != null) {
-            holder.binding.tvName.setText(item.getFacilityName());
+            holder.binding.tvFacilityName.setText(item.getFacilityName());
+            holder.binding.tvCenterName.setText(ConvertUtil.splitString(item.getCenterName(), 1));
             holder.binding.tvAddress.setText(item.getAddress());
             holder.binding.tvPhoneNumber.setText(item.getPhoneNumber());
             holder.binding.tvDistance.setText(String.format("%.2f", item.getDistance()) + "km");

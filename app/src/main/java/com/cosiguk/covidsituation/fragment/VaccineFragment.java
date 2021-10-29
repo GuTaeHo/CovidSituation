@@ -70,17 +70,32 @@ public class VaccineFragment extends Fragment {
     }
 
     private void getLocation() {
-        if (LocationUtil.getLocation(getActivity()) != null){
-            // 현재 위치 저장
-            location = LocationUtil.getLocation(getActivity());
-            String address = LocationUtil.getCoordinateToAddress(getActivity(), location);
-            addresses = address.split("\\s");
+        if (LocationUtil.isLocationStatus(getActivity())) {
+            if (LocationUtil.getLocation(getActivity()) != null){
+                // 현재 위치 저장
+                location = LocationUtil.getLocation(getActivity());
+                String address = LocationUtil.getCoordinateToAddress(getActivity(), location);
+                addresses = address.split("\\s");
 
+            } else {
+                BasicUtil.showSnackBar(getActivity(),
+                        getActivity().getWindow().getDecorView().getRootView(),
+                        "위치정보를 알 수 없습니다. 위치를 재설정합니다"
+                );
+                location = LocationUtil.setBaseLocation();
+                String address = LocationUtil
+                        .getCoordinateToAddress(getActivity(), location);
+                addresses = address.split("\\s");
+            }
         } else {
             BasicUtil.showSnackBar(getActivity(),
                     getActivity().getWindow().getDecorView().getRootView(),
-                    "위치정보를 알 수 없습니다"
-            );
+                    "\"위치\"기능이 비활성화상태입니다. 위치를 재설정합니다");
+
+            location = LocationUtil.setBaseLocation();
+            String address = LocationUtil
+                    .getCoordinateToAddress(getActivity(), location);
+            addresses = address.split("\\s");
         }
     }
 
@@ -93,7 +108,7 @@ public class VaccineFragment extends Fragment {
             map.put("cond[baseDate::GTE]", ConvertUtil.currentDateBar(initMillisecond));
 
             MyApplication
-                    .networkPresenter
+                    .getNetworkPresenterInstance()
                     .vaccineTotal(map, new VaccineListener() {
                         @Override
                         public void success(ArrayList<Vaccine> items) {
@@ -123,7 +138,7 @@ public class VaccineFragment extends Fragment {
         map.put("perPage", "300");
 
         MyApplication
-                .networkPresenter
+                .getNetworkPresenterInstance()
                 .hospital(map, new HospitalListener() {
                     @Override
                     public void success(ArrayList<Hospital> list) {

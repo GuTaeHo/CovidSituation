@@ -28,7 +28,6 @@
     <!-- 전역 -->
     <color name="action_bar">#f8f8f8</color>
     <color name="status_bar">#f8f8f8</color>
-    <color name="app_line">#333333</color>
     <color name="app_background">#f8f8f8</color>
 
     <!-- 사이드 바 -->

@@ -43,7 +43,7 @@ public class LocationUtil {
     }
 
     // 위치 서비스 활성화 상태
-    public static boolean isLocationStatus(Context context) {
+    public static boolean isConnect(Context context) {
         LocationManager locationManager = (LocationManager) context
                 .getSystemService(Context.LOCATION_SERVICE);
 

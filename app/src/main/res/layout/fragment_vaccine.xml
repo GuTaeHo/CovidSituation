@@ -6,21 +6,13 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".fragment.VaccineFragment">
-
-    <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
-        android:id="@+id/lo_swipe"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-
         <androidx.core.widget.NestedScrollView
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
-
             <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:padding="12dp">
-
                 <LinearLayout
                     android:id="@+id/lo_total_title"
                     android:layout_width="match_parent"
@@ -28,17 +20,14 @@
                     android:layout_alignParentTop="true"
                     android:orientation="vertical"
                     android:padding="6dp">
-
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:orientation="horizontal">
-
                         <ImageView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:background="@drawable/ic_campaign_24" />
-
                         <TextView
                             android:id="@+id/tv_daily_title"
                             android:layout_width="wrap_content"
@@ -49,7 +38,6 @@
                             android:paddingEnd="6dp"
                             android:text="예방 접종 현황"
                             android:textSize="16sp" />
-
                         <TextView
                             android:id="@+id/tv_date"
                             android:layout_width="wrap_content"
@@ -60,14 +48,12 @@
                             android:textSize="12sp"
                             tools:text="(2021.10.05 기준)" />
                     </LinearLayout>
-
                     <LinearLayout
                         android:id="@+id/lo_total_contents"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:orientation="horizontal"
                         android:padding="6dp">
-
                         <TextView
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
@@ -77,7 +63,6 @@
                             android:gravity="center"
                             android:padding="6dp"
                             android:text="@string/vc_div" />
-
                         <TextView
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
@@ -87,7 +72,6 @@
                             android:gravity="center"
                             android:padding="6dp"
                             android:text="@string/vc_first_title" />
-
                         <TextView
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
@@ -97,7 +81,6 @@
                             android:gravity="center"
                             android:padding="6dp"
                             android:text="@string/vc_second_title" />
-
                         <TextView
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
@@ -108,7 +91,6 @@
                             android:padding="6dp"
                             android:text="@string/vc_third_title" />
                     </LinearLayout>
-
                     <GridLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
@@ -118,7 +100,6 @@
                         android:elevation="4dp"
                         android:orientation="horizontal"
                         android:rowCount="3">
-
                         <TextView
                             android:layout_width="0dp"
                             android:layout_columnWeight="1"
@@ -128,7 +109,6 @@
                             android:paddingTop="6dp"
                             android:paddingBottom="6dp"
                             android:text="@string/vc_daily_total" />
-
                         <TextView
                             android:id="@+id/tv_first_total"
                             android:layout_width="0dp"
@@ -141,7 +121,6 @@
                             android:paddingTop="6dp"
                             android:paddingBottom="6dp"
                             tools:text="40,764,241" />
-
                         <TextView
                             android:id="@+id/tv_second_total"
                             android:layout_width="0dp"
@@ -152,7 +131,6 @@
                             android:paddingTop="6dp"
                             android:paddingBottom="6dp"
                             tools:text="35,975,412" />
-
                         <TextView
                             android:id="@+id/tv_third_total"
                             android:layout_width="0dp"
@@ -163,7 +141,6 @@
                             android:paddingTop="6dp"
                             android:paddingBottom="6dp"
                             tools:text="25,194" />
-
                         <TextView
                             android:layout_width="0dp"
                             android:layout_columnWeight="1"
@@ -173,7 +150,6 @@
                             android:paddingTop="6dp"
                             android:paddingBottom="6dp"
                             android:text="@string/vc_daily" />
-
                         <TextView
                             android:id="@+id/tv_first_daily"
                             android:layout_width="0dp"
@@ -321,6 +297,5 @@
                 </LinearLayout>
             </RelativeLayout>
         </androidx.core.widget.NestedScrollView>
-    </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
 </FrameLayout>
 </layout>

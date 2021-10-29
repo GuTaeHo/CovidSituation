@@ -3,6 +3,8 @@ package com.cosiguk.covidsituation.dialog;
 
 import android.app.AlertDialog;
 import android.content.Context;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -25,6 +27,7 @@ public class NoticeDialog extends AlertDialog {
 
     public NoticeDialog(Context context) {
         super(context);
+        this.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
         this.context = context;
     }
 

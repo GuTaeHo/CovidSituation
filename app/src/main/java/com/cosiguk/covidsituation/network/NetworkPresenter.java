@@ -1,10 +1,12 @@
 package com.cosiguk.covidsituation.network;
 
+import com.cosiguk.covidsituation.network.response.ResponseVersion;
 import com.cosiguk.covidsituation.network.resultInterface.BoardListListener;
 import com.cosiguk.covidsituation.network.resultInterface.HospitalListener;
 import com.cosiguk.covidsituation.network.resultInterface.NewsListener;
 import com.cosiguk.covidsituation.network.resultInterface.TotalListener;
 import com.cosiguk.covidsituation.network.resultInterface.VaccineListener;
+import com.cosiguk.covidsituation.network.resultInterface.VersionListener;
 import com.google.gson.Gson;
 
 import java.util.HashMap;
@@ -14,6 +16,34 @@ import retrofit2.Call;
 import retrofit2.Callback;
 
 public class NetworkPresenter implements NetworkPresenterInterface {
+    @Override
+    public void version(VersionListener listener) {
+        RetrofitClient
+                .getInstance()
+                .getInterface()
+                .version()
+                .enqueue(new Callback<Response<ResponseVersion>>() {
+                    @Override
+                    public void onResponse(Call<Response<ResponseVersion>> call, retrofit2.Response<Response<ResponseVersion>> response) {
+                        try {
+                            if (response.body() != null && response.isSuccessful()) {
+                                // 통신 성공 시 http 바디 반환
+                                listener.success(response.body().getResultData().getVersion());
+                            } else {
+                                listener.fail(response.errorBody().string());
+                            }
+                        } catch (Exception e) {
+                            listener.fail("Total Exception " + e.toString());
+                        }
+                    }
+
+                    @Override
+                    public void onFailure(Call<Response<ResponseVersion>> call, Throwable t) {
+                        listener.fail(t.toString());
+                    }
+                });
+    }
+
     @Override
     // 전체 현황 요청 (금일, 작일)
     public void total(HashMap<String, String> requestTotal, TotalListener listener) {

@@ -38,7 +38,8 @@ public class NewsFragment extends Fragment {
     private NewsAdapter adapter;
     private List<String> list;
     private Parcelable recyclerViewState;
-
+    // 프로그래스 디스플레이 상태
+    private boolean displayProgress;
     // 뉴스 인덱스
     int index;
 
@@ -65,6 +66,7 @@ public class NewsFragment extends Fragment {
     }
 
     private void initValue() {
+        displayProgress = true;
         index = 1;
         // 어댑터 생성
         adapter = new NewsAdapter();
@@ -82,20 +84,29 @@ public class NewsFragment extends Fragment {
         queries.put("display", 20);
         queries.put("start", index);
 
+        if (displayProgress) MyApplication.showProgressDialog(getActivity());
         MyApplication
                 .getNetworkPresenterInstance()
                 .news(headerMap, queries, new NewsListener() {
                     @Override
                     public void success(ArrayList<News> list) {
+                        // 새로 고침 완료
+                        binding.loSwipe.setRefreshing(false);
                         setNewsList(list);
                         initNewsLayout();
+                        if (displayProgress) MyApplication.dismissProgressDialog();
+                        displayProgress = false;
                     }
 
                     @Override
                     public void fail(String message) {
+                        // 새로 고침 완료
+                        binding.loSwipe.setRefreshing(false);
                         new NoticeDialog(getActivity())
                                 .setMsg(message)
                                 .show();
+                        if (displayProgress) MyApplication.dismissProgressDialog();
+                        displayProgress = false;
                     }
                 });
     }
@@ -105,7 +116,6 @@ public class NewsFragment extends Fragment {
         newsList.forEach(item -> {
             item.setPubDate(ConvertUtil.convertDateBar(item.getPubDate()));
         });
-        // newsList.sort(new NewsComparator());
         // 뉴스 리스트 저장
         adapter.addAll(newsList);
     }
@@ -146,15 +156,7 @@ public class NewsFragment extends Fragment {
             adapter.setItemListEmpty();
             // 인덱스 초기화
             index = 1;
-
             requestNews(index);
-
-            BasicUtil.showSnackBar(
-                    getActivity(),
-                    requireActivity().getWindow().getDecorView().getRootView(),
-                    "새로고침 완료");
-            // 새로 고침 완료
-            binding.loSwipe.setRefreshing(false);
         });
     }
 }

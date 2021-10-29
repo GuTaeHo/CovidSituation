@@ -1,380 +1,375 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:tools="http://schemas.android.com/tools"
     xmlns:android="http://schemas.android.com/apk/res/android">
-    <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
-        android:id="@+id/lo_swipe"
+    <androidx.core.widget.NestedScrollView
+        android:id="@+id/sv_situation"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
-        <androidx.core.widget.NestedScrollView
-            android:id="@+id/sv_situation"
+        android:layout_height="wrap_content">
+        <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-            <RelativeLayout
+            android:layout_height="match_parent"
+            tools:context=".fragment.SituationBoardFragment"
+            android:padding="12dp">
+
+            <LinearLayout
+                android:id="@+id/lo_daily_title"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                tools:context=".fragment.SituationBoardFragment"
-                android:padding="12dp">
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:padding="6dp">
 
                 <LinearLayout
-                    android:id="@+id/lo_daily_title"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="vertical"
-                    android:padding="6dp">
-
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:orientation="horizontal">
-
-                        <ImageView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:background="@drawable/ic_campaign_24" />
-
-                        <TextView
-                            android:id="@+id/tv_daily_title"
-                            android:layout_width="wrap_content"
-                            android:layout_height="match_parent"
-                            android:fontFamily="@font/nanumsquare_round_extra_bold"
-                            android:gravity="center_vertical"
-                            android:paddingStart="6dp"
-                            android:paddingEnd="6dp"
-                            android:text="일일 확진 현황"
-                            android:textSize="16sp" />
-
-                        <TextView
-                            android:id="@+id/tv_daily_contetns"
-                            android:layout_width="wrap_content"
-                            android:layout_height="match_parent"
-                            android:fontFamily="@font/nanumsquare_round_bold"
-                            android:gravity="bottom"
-                            android:textColor="@color/pastel_strong_blue"
-                            android:textSize="12sp"
-                            tools:text="(2021.10.05 기준)" />
-                    </LinearLayout>
-
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:orientation="horizontal"
-                        android:padding="6dp">
-
-                        <TextView
-                            android:id="@+id/tv_daily_infect"
-                            android:layout_width="0dp"
-                            android:layout_height="wrap_content"
-                            android:layout_weight="1"
-                            android:gravity="center"
-                            android:textSize="12sp"
-                            tools:text="확진환자 (2,564)" />
-
-                        <TextView
-                            android:id="@+id/tv_daily_care"
-                            android:layout_width="0dp"
-                            android:layout_height="wrap_content"
-                            android:layout_weight="1"
-                            android:gravity="center"
-                            android:textSize="12sp"
-                            tools:text="격리해제 (1,481)" />
-
-                        <TextView
-                            android:id="@+id/tv_daily_death"
-                            android:layout_width="0dp"
-                            android:layout_height="wrap_content"
-                            android:layout_weight="1"
-                            android:gravity="center"
-                            android:textSize="12sp"
-                            tools:text="사망자 (34,603)" />
-                    </LinearLayout>
-                </LinearLayout>
-                <LinearLayout
-                    android:id="@+id/lo_total_title"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:padding="6dp"
-                    android:layout_below="@id/lo_daily_title"
+                    android:layout_height="match_parent"
                     android:orientation="horizontal">
+
                     <ImageView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:background="@drawable/ic_fact_check_24" />
+                        android:background="@drawable/ic_campaign_24" />
+
                     <TextView
-                        android:id="@+id/tv_total_title"
+                        android:id="@+id/tv_daily_title"
                         android:layout_width="wrap_content"
                         android:layout_height="match_parent"
+                        android:fontFamily="@font/nanumsquare_round_extra_bold"
                         android:gravity="center_vertical"
                         android:paddingStart="6dp"
                         android:paddingEnd="6dp"
-                        android:fontFamily="@font/nanumsquare_round_extra_bold"
-                        android:textSize="16sp"
-                        android:text="전체 감염 현황" />
+                        android:text="일일 확진 현황"
+                        android:textSize="16sp" />
 
                     <TextView
-                        android:id="@+id/tv_total_contents"
+                        android:id="@+id/tv_daily_contetns"
                         android:layout_width="wrap_content"
                         android:layout_height="match_parent"
                         android:fontFamily="@font/nanumsquare_round_bold"
-                        android:textColor="@color/pastel_strong_blue"
                         android:gravity="bottom"
-                        tools:text="(2021.10.05 기준)"
-                        android:textSize="12sp" />
+                        android:textColor="@color/pastel_strong_blue"
+                        android:textSize="12sp"
+                        tools:text="(2021.10.05 기준)" />
                 </LinearLayout>
 
                 <LinearLayout
-                    android:id="@+id/lo_total_contents"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_below="@id/lo_total_title"
-                    android:orientation="vertical"
-                    android:paddingStart="6dp"
-                    android:paddingEnd="6dp">
+                    android:orientation="horizontal"
+                    android:padding="6dp">
 
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:orientation="horizontal">
-
-                        <LinearLayout
-                            android:id="@+id/lo_total_infect"
-                            android:layout_width="0dp"
-                            android:layout_height="96dp"
-                            android:layout_weight="1"
-                            android:background="@color/pastel_red"
-                            android:gravity="center"
-                            android:orientation="vertical">
-
-                            <TextView
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:fontFamily="@font/nanumsquare_round_bold"
-                                android:gravity="center"
-                                android:text="확진환자" />
-
-                            <TextView
-                                android:id="@+id/tv_total_infect"
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:fontFamily="@font/nanumsquare_round_extra_bold"
-                                android:gravity="center"
-                                android:textSize="20sp"
-                                tools:text="311,289" />
-
-                            <TextView
-                                android:id="@+id/tv_total_infect_compare"
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:gravity="center"
-                                tools:text="(+2,564)" />
-                        </LinearLayout>
-
-                        <LinearLayout
-                            android:id="@+id/lo_total_cure"
-                            android:layout_width="0dp"
-                            android:layout_height="96dp"
-                            android:layout_weight="1"
-                            android:background="@color/pastel_yellow"
-                            android:gravity="center"
-                            android:orientation="vertical">
-
-                            <TextView
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:fontFamily="@font/nanumsquare_round_bold"
-                                android:gravity="center"
-                                android:text="격리해제" />
-
-                            <TextView
-                                android:id="@+id/tv_total_cure"
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:fontFamily="@font/nanumsquare_round_extra_bold"
-                                android:gravity="center"
-                                android:textSize="20sp"
-                                tools:text="274,205" />
-
-                            <TextView
-                                android:id="@+id/tv_total_cure_compare"
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:gravity="center"
-                                tools:text="(+1,481)" />
-                        </LinearLayout>
-
-                        <LinearLayout
-                            android:id="@+id/lo_total_death"
-                            android:layout_width="0dp"
-                            android:layout_height="96dp"
-                            android:layout_weight="1"
-                            android:background="@color/pastel_green"
-                            android:gravity="center"
-                            android:orientation="vertical">
-
-                            <TextView
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:fontFamily="@font/nanumsquare_round_bold"
-                                android:gravity="center"
-                                android:text="사망자" />
-
-                            <TextView
-                                android:id="@+id/tv_total_death"
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:fontFamily="@font/nanumsquare_round_extra_bold"
-                                android:gravity="center"
-                                android:textSize="20sp"
-                                tools:text="2,481" />
-
-                            <TextView
-                                android:id="@+id/tv_total_death_compare"
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:gravity="center"
-                                tools:text="(+7)" />
-                        </LinearLayout>
-                    </LinearLayout>
-
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:orientation="horizontal">
-
-                        <LinearLayout
-                            android:id="@+id/lo_total_exam"
-                            android:layout_width="0dp"
-                            android:layout_height="96dp"
-                            android:layout_weight="1"
-                            android:background="@color/pastel_android"
-                            android:gravity="center"
-                            android:orientation="vertical">
-
-                            <TextView
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:fontFamily="@font/nanumsquare_round_bold"
-                                android:gravity="center"
-                                android:text="누적 검사수" />
-
-                            <TextView
-                                android:id="@+id/tv_total_exam"
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:fontFamily="@font/nanumsquare_round_extra_bold"
-                                android:gravity="center"
-                                android:textSize="18sp"
-                                tools:text="14,544,258" />
-
-                            <TextView
-                                android:id="@+id/tv_total_exam_compare"
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:gravity="center"
-                                tools:text="(+58,998)" />
-                        </LinearLayout>
-
-                        <LinearLayout
-                            android:id="@+id/lo_total_check"
-                            android:layout_width="0dp"
-                            android:layout_height="96dp"
-                            android:layout_weight="1"
-                            android:background="@color/pastel_blue"
-                            android:gravity="center"
-                            android:orientation="vertical">
-
-                            <TextView
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:fontFamily="@font/nanumsquare_round_bold"
-                                android:gravity="center"
-                                android:text="검사진행" />
-
-                            <TextView
-                                android:id="@+id/tv_total_check"
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:fontFamily="@font/nanumsquare_round_extra_bold"
-                                android:gravity="center"
-                                android:textSize="18sp"
-                                tools:text="1,149,658" />
-
-                            <TextView
-                                android:id="@+id/tv_total_check_compare"
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:gravity="center"
-                                tools:text="(+12,041)" />
-                        </LinearLayout>
-
-                        <LinearLayout
-                            android:id="@+id/lo_total_negative"
-                            android:layout_width="0dp"
-                            android:layout_height="96dp"
-                            android:layout_weight="1"
-                            android:background="@color/pastel_purple"
-                            android:gravity="center"
-                            android:orientation="vertical">
-
-                            <TextView
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:fontFamily="@font/nanumsquare_round_bold"
-                                android:gravity="center"
-                                android:text="결과음성" />
-
-                            <TextView
-                                android:id="@+id/tv_total_negative"
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:fontFamily="@font/nanumsquare_round_extra_bold"
-                                android:gravity="center"
-                                android:textSize="18sp"
-                                tools:text="13,083,311" />
-
-                            <TextView
-                                android:id="@+id/tv_total_negative_compare"
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:gravity="center"
-                                tools:text="(+44,393)" />
-                        </LinearLayout>
-                    </LinearLayout>
-                </LinearLayout>
-                <LinearLayout
-                    android:id="@+id/lo_list_title"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="12dp"
-                    android:padding="6dp"
-                    android:layout_below="@id/lo_total_contents"
-                    android:orientation="horizontal">
-                    <ImageView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:background="@drawable/ic_location_city_24" />
                     <TextView
-                        android:id="@+id/tv_list_title"
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:paddingStart="6dp"
-                        android:paddingEnd="6dp"
-                        android:fontFamily="@font/nanumsquare_round_extra_bold"
-                        android:gravity="center_vertical"
-                        android:textSize="16sp"
-                        android:text="시/도 별 감염현황" />
-                </LinearLayout>
+                        android:id="@+id/tv_daily_infect"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:gravity="center"
+                        android:textSize="12sp"
+                        tools:text="확진환자 (2,564)" />
 
-                <androidx.recyclerview.widget.RecyclerView
-                    android:id="@+id/recyclerview"
+                    <TextView
+                        android:id="@+id/tv_daily_care"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:gravity="center"
+                        android:textSize="12sp"
+                        tools:text="격리해제 (1,481)" />
+
+                    <TextView
+                        android:id="@+id/tv_daily_death"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:gravity="center"
+                        android:textSize="12sp"
+                        tools:text="사망자 (34,603)" />
+                </LinearLayout>
+            </LinearLayout>
+            <LinearLayout
+                android:id="@+id/lo_total_title"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="6dp"
+                android:layout_below="@id/lo_daily_title"
+                android:orientation="horizontal">
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/ic_fact_check_24" />
+                <TextView
+                    android:id="@+id/tv_total_title"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:gravity="center_vertical"
+                    android:paddingStart="6dp"
+                    android:paddingEnd="6dp"
+                    android:fontFamily="@font/nanumsquare_round_extra_bold"
+                    android:textSize="16sp"
+                    android:text="전체 감염 현황" />
+
+                <TextView
+                    android:id="@+id/tv_total_contents"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:fontFamily="@font/nanumsquare_round_bold"
+                    android:textColor="@color/pastel_strong_blue"
+                    android:gravity="bottom"
+                    tools:text="(2021.10.05 기준)"
+                    android:textSize="12sp" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/lo_total_contents"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/lo_total_title"
+                android:orientation="vertical"
+                android:paddingStart="6dp"
+                android:paddingEnd="6dp">
+
+                <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_below="@id/lo_list_title"
-                    android:layout_alignParentStart="true"
-                    android:layout_alignParentEnd="true"
-                    android:nestedScrollingEnabled="false"
-                    android:overScrollMode="never" />
+                    android:orientation="horizontal">
 
-            </RelativeLayout>
-        </androidx.core.widget.NestedScrollView>
-    </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
+                    <LinearLayout
+                        android:id="@+id/lo_total_infect"
+                        android:layout_width="0dp"
+                        android:layout_height="96dp"
+                        android:layout_weight="1"
+                        android:background="@color/pastel_red"
+                        android:gravity="center"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:fontFamily="@font/nanumsquare_round_bold"
+                            android:gravity="center"
+                            android:text="확진환자" />
+
+                        <TextView
+                            android:id="@+id/tv_total_infect"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:fontFamily="@font/nanumsquare_round_extra_bold"
+                            android:gravity="center"
+                            android:textSize="20sp"
+                            tools:text="311,289" />
+
+                        <TextView
+                            android:id="@+id/tv_total_infect_compare"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:gravity="center"
+                            tools:text="(+2,564)" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:id="@+id/lo_total_cure"
+                        android:layout_width="0dp"
+                        android:layout_height="96dp"
+                        android:layout_weight="1"
+                        android:background="@color/pastel_yellow"
+                        android:gravity="center"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:fontFamily="@font/nanumsquare_round_bold"
+                            android:gravity="center"
+                            android:text="격리해제" />
+
+                        <TextView
+                            android:id="@+id/tv_total_cure"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:fontFamily="@font/nanumsquare_round_extra_bold"
+                            android:gravity="center"
+                            android:textSize="20sp"
+                            tools:text="274,205" />
+
+                        <TextView
+                            android:id="@+id/tv_total_cure_compare"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:gravity="center"
+                            tools:text="(+1,481)" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:id="@+id/lo_total_death"
+                        android:layout_width="0dp"
+                        android:layout_height="96dp"
+                        android:layout_weight="1"
+                        android:background="@color/pastel_green"
+                        android:gravity="center"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:fontFamily="@font/nanumsquare_round_bold"
+                            android:gravity="center"
+                            android:text="사망자" />
+
+                        <TextView
+                            android:id="@+id/tv_total_death"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:fontFamily="@font/nanumsquare_round_extra_bold"
+                            android:gravity="center"
+                            android:textSize="20sp"
+                            tools:text="2,481" />
+
+                        <TextView
+                            android:id="@+id/tv_total_death_compare"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:gravity="center"
+                            tools:text="(+7)" />
+                    </LinearLayout>
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <LinearLayout
+                        android:id="@+id/lo_total_exam"
+                        android:layout_width="0dp"
+                        android:layout_height="96dp"
+                        android:layout_weight="1"
+                        android:background="@color/pastel_android"
+                        android:gravity="center"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:fontFamily="@font/nanumsquare_round_bold"
+                            android:gravity="center"
+                            android:text="누적 검사수" />
+
+                        <TextView
+                            android:id="@+id/tv_total_exam"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:fontFamily="@font/nanumsquare_round_extra_bold"
+                            android:gravity="center"
+                            android:textSize="18sp"
+                            tools:text="14,544,258" />
+
+                        <TextView
+                            android:id="@+id/tv_total_exam_compare"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:gravity="center"
+                            tools:text="(+58,998)" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:id="@+id/lo_total_check"
+                        android:layout_width="0dp"
+                        android:layout_height="96dp"
+                        android:layout_weight="1"
+                        android:background="@color/pastel_blue"
+                        android:gravity="center"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:fontFamily="@font/nanumsquare_round_bold"
+                            android:gravity="center"
+                            android:text="검사진행" />
+
+                        <TextView
+                            android:id="@+id/tv_total_check"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:fontFamily="@font/nanumsquare_round_extra_bold"
+                            android:gravity="center"
+                            android:textSize="18sp"
+                            tools:text="1,149,658" />
+
+                        <TextView
+                            android:id="@+id/tv_total_check_compare"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:gravity="center"
+                            tools:text="(+12,041)" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:id="@+id/lo_total_negative"
+                        android:layout_width="0dp"
+                        android:layout_height="96dp"
+                        android:layout_weight="1"
+                        android:background="@color/pastel_purple"
+                        android:gravity="center"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:fontFamily="@font/nanumsquare_round_bold"
+                            android:gravity="center"
+                            android:text="결과음성" />
+
+                        <TextView
+                            android:id="@+id/tv_total_negative"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:fontFamily="@font/nanumsquare_round_extra_bold"
+                            android:gravity="center"
+                            android:textSize="18sp"
+                            tools:text="13,083,311" />
+
+                        <TextView
+                            android:id="@+id/tv_total_negative_compare"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:gravity="center"
+                            tools:text="(+44,393)" />
+                    </LinearLayout>
+                </LinearLayout>
+            </LinearLayout>
+            <LinearLayout
+                android:id="@+id/lo_list_title"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="12dp"
+                android:padding="6dp"
+                android:layout_below="@id/lo_total_contents"
+                android:orientation="horizontal">
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/ic_location_city_24" />
+                <TextView
+                    android:id="@+id/tv_list_title"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:paddingStart="6dp"
+                    android:paddingEnd="6dp"
+                    android:fontFamily="@font/nanumsquare_round_extra_bold"
+                    android:gravity="center_vertical"
+                    android:textSize="16sp"
+                    android:text="시/도 별 감염현황" />
+            </LinearLayout>
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/recyclerview"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/lo_list_title"
+                android:layout_alignParentStart="true"
+                android:layout_alignParentEnd="true"
+                android:nestedScrollingEnabled="false"
+                android:overScrollMode="never" />
+
+        </RelativeLayout>
+    </androidx.core.widget.NestedScrollView>
 </layout>

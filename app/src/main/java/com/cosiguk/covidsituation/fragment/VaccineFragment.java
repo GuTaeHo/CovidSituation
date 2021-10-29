@@ -5,17 +5,14 @@ import android.os.Bundle;
 
 import androidx.databinding.DataBindingUtil;
 import androidx.fragment.app.Fragment;
-import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
 import com.cosiguk.covidsituation.BuildConfig;
 import com.cosiguk.covidsituation.R;
-import com.cosiguk.covidsituation.adapter.CityAdapter;
 import com.cosiguk.covidsituation.adapter.HospitalAdapter;
 import com.cosiguk.covidsituation.application.MyApplication;
 import com.cosiguk.covidsituation.databinding.FragmentVaccineBinding;
@@ -30,7 +27,6 @@ import com.cosiguk.covidsituation.util.LocationUtil;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.function.Consumer;
 
 public class VaccineFragment extends Fragment {
     private FragmentVaccineBinding binding;
@@ -64,13 +60,12 @@ public class VaccineFragment extends Fragment {
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_vaccine, container, false);
         blockLoop = 0;
         getLocation();
-        initRefreshListener();
         requestVaccine(0);
         return binding.getRoot();
     }
 
     private void getLocation() {
-        if (LocationUtil.isLocationStatus(getActivity())) {
+        if (LocationUtil.isConnect(getActivity())) {
             if (LocationUtil.getLocation(getActivity()) != null){
                 // 현재 위치 저장
                 location = LocationUtil.getLocation(getActivity());
@@ -107,6 +102,7 @@ public class VaccineFragment extends Fragment {
             map.put("perPage", "1");
             map.put("cond[baseDate::GTE]", ConvertUtil.currentDateBar(initMillisecond));
 
+            MyApplication.showProgressDialog(getActivity());
             MyApplication
                     .getNetworkPresenterInstance()
                     .vaccineTotal(map, new VaccineListener() {
@@ -123,6 +119,7 @@ public class VaccineFragment extends Fragment {
 
                         @Override
                         public void fail(String message) {
+                            MyApplication.dismissProgressDialog();
                             new NoticeDialog(getActivity())
                                     .setMsg(message)
                                     .show();
@@ -144,10 +141,12 @@ public class VaccineFragment extends Fragment {
                     public void success(ArrayList<Hospital> list) {
                         setHospitalItems(list);
                         initLayout();
+                        MyApplication.dismissProgressDialog();
                     }
 
                     @Override
                     public void fail(String message) {
+                        MyApplication.dismissProgressDialog();
                         new NoticeDialog(getActivity())
                                 .setMsg(message)
                                 .show();
@@ -200,23 +199,5 @@ public class VaccineFragment extends Fragment {
         binding.recyclerview.setLayoutManager(new LinearLayoutManager(getActivity()));
         adapter = new HospitalAdapter(hospitals);
         binding.recyclerview.setAdapter(adapter);
-    }
-
-    private void initRefreshListener() {
-        binding.loSwipe.setOnRefreshListener(()->{
-            // 요청 초기화
-            blockLoop = 0;
-            requestVaccine(0);
-            refreshSuccess();
-        });
-    }
-
-    private void refreshSuccess() {
-        BasicUtil.showSnackBar(
-                getActivity(),
-                getActivity().getWindow().getDecorView().getRootView(),
-                "새로고침 완료");
-        // 새로 고침 완료
-        binding.loSwipe.setRefreshing(false);
     }
 }

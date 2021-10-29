@@ -51,9 +51,9 @@ public class NetworkPresenter implements NetworkPresenterInterface {
                 .getInstance()
                 .getInterface()
                 .total(requestTotal)
-                .enqueue(new Callback<ResponseTotal>() {
+                .enqueue(new Callback<ResponseInfection>() {
                     @Override
-                    public void onResponse(Call<ResponseTotal> call, retrofit2.Response<ResponseTotal> response) {
+                    public void onResponse(Call<ResponseInfection> call, retrofit2.Response<ResponseInfection> response) {
                         try {
                             if (response.body() != null && response.isSuccessful()) {
                                 // 통신 성공 시 http 바디 반환
@@ -69,7 +69,7 @@ public class NetworkPresenter implements NetworkPresenterInterface {
                     }
 
                     @Override
-                    public void onFailure(Call<ResponseTotal> call, Throwable t) {
+                    public void onFailure(Call<ResponseInfection> call, Throwable t) {
                         listener.fail(t.toString());
                     }
                 });

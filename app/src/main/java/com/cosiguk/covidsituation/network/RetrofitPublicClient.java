@@ -1,6 +1,5 @@
 package com.cosiguk.covidsituation.network;
 
-import com.cosiguk.covidsituation.BuildConfig;
 import com.tickaroo.tikxml.TikXml;
 import com.tickaroo.tikxml.retrofit.TikXmlConverterFactory;
 
@@ -54,6 +53,6 @@ public class RetrofitPublicClient {
         Call<ResponseCity> boardList(@QueryMap HashMap<String, String> queries);
 
         @GET("openapi/service/rest/Covid19/getCovid19InfStateJson")
-        Call<ResponseTotal> total(@QueryMap HashMap<String, String> queries);
+        Call<ResponseInfection> total(@QueryMap HashMap<String, String> queries);
     }
 }

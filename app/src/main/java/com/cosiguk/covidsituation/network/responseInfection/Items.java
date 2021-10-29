@@ -1,6 +1,6 @@
-package com.cosiguk.covidsituation.network.responsetotal;
+package com.cosiguk.covidsituation.network.responseInfection;
 
-import com.cosiguk.covidsituation.model.Infection;
+import com.cosiguk.covidsituation.model.City;
 import com.tickaroo.tikxml.annotation.Element;
 import com.tickaroo.tikxml.annotation.Xml;
 
@@ -12,5 +12,5 @@ import lombok.Data;
 @Data
 public class Items {
     @Element(name = "item")
-    public List<Infection> item;
+    public List<City> item;
 }

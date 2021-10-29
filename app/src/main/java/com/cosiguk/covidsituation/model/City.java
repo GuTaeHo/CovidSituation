@@ -3,11 +3,7 @@ package com.cosiguk.covidsituation.model;
 import com.tickaroo.tikxml.annotation.PropertyElement;
 import com.tickaroo.tikxml.annotation.Xml;
 
-import java.util.Collections;
-
 import lombok.Data;
-import lombok.Getter;
-import lombok.Setter;
 
 @Xml(name = "item")
 @Data

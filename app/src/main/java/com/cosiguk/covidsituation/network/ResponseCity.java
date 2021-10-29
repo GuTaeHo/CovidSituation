@@ -1,7 +1,7 @@
 package com.cosiguk.covidsituation.network;
 
-import com.cosiguk.covidsituation.network.responsecity.Body;
-import com.cosiguk.covidsituation.network.responsecity.Header;
+import com.cosiguk.covidsituation.network.responseInfection.Body;
+import com.cosiguk.covidsituation.network.responseInfection.Header;
 import com.tickaroo.tikxml.annotation.Element;
 import com.tickaroo.tikxml.annotation.Xml;
 

@@ -1,4 +1,4 @@
-package com.cosiguk.covidsituation.network.responsetotal;
+package com.cosiguk.covidsituation.network.responseInfection;
 
 import com.tickaroo.tikxml.annotation.Element;
 import com.tickaroo.tikxml.annotation.PropertyElement;

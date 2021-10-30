@@ -15,6 +15,7 @@ import android.view.ViewGroup;
 
 import com.cosiguk.covidsituation.BuildConfig;
 import com.cosiguk.covidsituation.R;
+import com.cosiguk.covidsituation.activity.SplashActivity;
 import com.cosiguk.covidsituation.adapter.CityAdapter;
 import com.cosiguk.covidsituation.application.MyApplication;
 import com.cosiguk.covidsituation.databinding.FragmentSituationBoardBinding;
@@ -162,12 +163,7 @@ public class SituationBoardFragment extends Fragment {
         cityArrayList = items;
 
         // 내림차순 (확진자 기준)
-        cityArrayList.sort(new Comparator<City>() {
-            @Override
-            public int compare(City o1, City o2) {
-                return o2.getDefCnt() - o1.getDefCnt();
-            }
-        });
+        cityArrayList.sort((o1, o2) -> o2.getDefCnt() - o1.getDefCnt());
         // 현재 주소
         String currentAddress = getCurrentAddress();
         Log.d("currentAddress", currentAddress);
@@ -178,12 +174,9 @@ public class SituationBoardFragment extends Fragment {
                 city = cityArrayList.get(i);
             }
         }
-        cityArrayList.forEach(new Consumer<City>() {
-            @Override
-            public void accept(City item) {
-                if (item.getGubun().equals(currentAddress)) {
-                    city = item;
-                }
+        cityArrayList.forEach(item -> {
+            if (item.getGubun().equals(currentAddress)) {
+                city = item;
             }
         });
         cityArrayList.remove(city);
@@ -246,7 +239,7 @@ public class SituationBoardFragment extends Fragment {
             Location location = LocationUtil.getLocation(getActivity());
             String address = LocationUtil.getCoordinateToAddress(getActivity(), location);
             String[] addresses = address.split("\\s");
-            return addressStringConvert(addresses[1]);
+            return addressConvert(addresses[1]);
         } else {
             // base location
             return getActivity().getResources().getString(R.string.location_base);
@@ -254,30 +247,11 @@ public class SituationBoardFragment extends Fragment {
     }
 
     // 특정 문자 변환
-    private String addressStringConvert(String address) {
-        switch (address) {
-            case "경상북도":
-                address = "경북";
-                break;
-            case "경상남도":
-                address = "경남";
-                break;
-            case "충청남도":
-                address = "충남";
-                break;
-            case "충청북도":
-                address = "충북";
-                break;
-            case "전라북도":
-                address = "전북";
-                break;
-            case "전라남도":
-                address = "전남";
-                break;
-            default:
-                address = "서울";
-                break;
+    private String addressConvert(String address) {
+        if (SplashActivity.getProvince(address) != null) {
+            return SplashActivity.getProvince(address);
+        } else {
+            return SplashActivity.getProvince(getResources().getString(R.string.location_base));
         }
-        return address.substring(0,2);
     }
 }

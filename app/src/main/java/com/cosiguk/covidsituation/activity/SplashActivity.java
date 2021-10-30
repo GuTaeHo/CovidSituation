@@ -1,11 +1,17 @@
-package com.cosiguk.covidsituation;
+package com.cosiguk.covidsituation.activity;
 
 import android.Manifest;
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
+import android.provider.Settings;
 
-import com.cosiguk.covidsituation.activity.BaseActivity;
-import com.cosiguk.covidsituation.activity.MainActivity;
+import androidx.activity.result.ActivityResult;
+import androidx.activity.result.ActivityResultCallback;
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.contract.ActivityResultContracts;
+
+import com.cosiguk.covidsituation.R;
 import com.cosiguk.covidsituation.application.MyApplication;
 import com.cosiguk.covidsituation.dialog.NoticeDialog;
 import com.cosiguk.covidsituation.model.Version;
@@ -17,9 +23,11 @@ import com.gun0912.tedpermission.PermissionListener;
 import com.gun0912.tedpermission.TedPermission;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 
 public class SplashActivity extends BaseActivity {
+    public static HashMap<String, String> map;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -27,7 +35,7 @@ public class SplashActivity extends BaseActivity {
         setContentView(R.layout.activity_splash);
 
         Handler mHandler = new Handler();
-        mHandler.postDelayed(new Runnable()  {
+        mHandler.postDelayed(new Runnable() {
             public void run() {
                 networkCheck();
             }
@@ -36,17 +44,20 @@ public class SplashActivity extends BaseActivity {
 
     private void networkCheck() {
         if (NetworkUtil.isConnected(SplashActivity.this)) {
+            setProvinceMap();
             ActivityUtil.startNewActivity(SplashActivity.this, MainActivity.class);
             // versionCheck();
         } else {
             new NoticeDialog(SplashActivity.this)
                     .setMsg(getString(R.string.internet_not_connect))
-                    .setNegativeMsg("닫기")
-                    .setPositiveMsg("설정")
+                    .setNegativeMsg(getResources().getString(R.string.dialog_close))
+                    .setPositiveMsg(getResources().getString(R.string.dialog_setting))
                     .setNoticeDialogCallbackListener(new NoticeDialog.NoticeDialogCallbackListener() {
                         @Override
                         public void positive() {
-
+                            Intent intent = new Intent(Settings.ACTION_WIFI_SETTINGS);
+                            startActivity(intent);
+                            finish();
                         }
 
                         @Override
@@ -192,6 +203,31 @@ public class SplashActivity extends BaseActivity {
 
     private void startMainActivity() {
 
+    }
+
+    private void setProvinceMap() {
+        map = new HashMap<>();
+
+        map.put("경기도", "경기");
+        map.put("강원도", "강원");
+        map.put("경상북도", "경북");
+        map.put("경상남도", "경남");
+        map.put("전라북도", "전북");
+        map.put("전라남도", "전남");
+        map.put("충청북도", "충북");
+        map.put("충청남도", "충남");
+        map.put("서울특별시", "서울");
+        map.put("부산광역시", "부산");
+        map.put("대구광역시", "대구");
+        map.put("인천광역시", "인천");
+        map.put("대전광역시", "대전");
+        map.put("울산광역시", "울산");
+        map.put("세종특별자치시", "세종");
+        map.put("제주특별자치도", "제주");
+    }
+
+    public static String getProvince(String city) {
+        return map.get(city);
     }
 
     @Override

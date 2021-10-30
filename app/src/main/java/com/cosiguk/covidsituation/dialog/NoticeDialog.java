@@ -75,15 +75,12 @@ public class NoticeDialog extends AlertDialog {
         binding.tvPositive.setText(positiveString);
         binding.tvNegative.setText(negativeString);
 
-        binding.loPositive.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (noticeDialogCallbackListener != null) {
-                    noticeDialogCallbackListener.positive();
-                }
-
-                dismiss();
+        binding.loPositive.setOnClickListener(v -> {
+            if (noticeDialogCallbackListener != null) {
+                noticeDialogCallbackListener.positive();
             }
+
+            dismiss();
         });
 
         binding.loNegative.setOnClickListener(new View.OnClickListener() {

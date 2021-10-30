@@ -1,10 +1,10 @@
-package com.cosiguk.covidsituation;
-
-import androidx.databinding.DataBindingUtil;
+package com.cosiguk.covidsituation.activity;
 
 import android.os.Bundle;
 
-import com.cosiguk.covidsituation.activity.BaseActivity;
+import androidx.databinding.DataBindingUtil;
+
+import com.cosiguk.covidsituation.R;
 import com.cosiguk.covidsituation.databinding.ActivityIntroBinding;
 
 public class IntroActivity extends BaseActivity {

@@ -44,9 +44,9 @@ public class SplashActivity extends BaseActivity {
 
     private void networkCheck() {
         if (NetworkUtil.isConnected(SplashActivity.this)) {
+            versionCheck();
             setProvinceMap();
             ActivityUtil.startNewActivity(SplashActivity.this, MainActivity.class);
-            // versionCheck();
         } else {
             new NoticeDialog(SplashActivity.this)
                     .setMsg(getString(R.string.internet_not_connect))
@@ -115,7 +115,7 @@ public class SplashActivity extends BaseActivity {
                                     new NoticeDialog(SplashActivity.this)
                                             .setBackPressButton(false)
                                             .setShowNegativeButton(false)
-                                            .setMsg("버전 확인에 실패했습니다.")
+                                            .setMsg(getResources().getString(R.string.version_error))
                                             .setNoticeDialogCallbackListener(new NoticeDialog.NoticeDialogCallbackListener() {
                                                 @Override
                                                 public void positive() {
@@ -152,7 +152,7 @@ public class SplashActivity extends BaseActivity {
                         new NoticeDialog(SplashActivity.this)
                                 .setBackPressButton(false)
                                 .setShowNegativeButton(false)
-                                .setMsg(getString(R.string.version_error))
+                                .setMsg(getString(R.string.version_fail))
                                 .setNoticeDialogCallbackListener(new NoticeDialog.NoticeDialogCallbackListener() {
                                     @Override
                                     public void positive() {

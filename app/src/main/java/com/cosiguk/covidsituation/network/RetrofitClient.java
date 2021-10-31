@@ -2,8 +2,6 @@ package com.cosiguk.covidsituation.network;
 
 import com.cosiguk.covidsituation.network.response.ResponseVersion;
 
-import java.util.HashMap;
-
 import okhttp3.OkHttpClient;
 import okhttp3.logging.HttpLoggingInterceptor;
 import retrofit2.Call;
@@ -46,7 +44,7 @@ public class RetrofitClient {
     }
 
     public interface RetrofitInterface {
-        @GET("")
+        @GET("api/version")
         Call<Response<ResponseVersion>> version();
     }
 }

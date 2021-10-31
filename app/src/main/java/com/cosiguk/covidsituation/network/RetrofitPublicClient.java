@@ -1,5 +1,7 @@
 package com.cosiguk.covidsituation.network;
 
+import com.cosiguk.covidsituation.network.response.ResponseCity;
+import com.cosiguk.covidsituation.network.response.ResponseInfection;
 import com.tickaroo.tikxml.TikXml;
 import com.tickaroo.tikxml.retrofit.TikXmlConverterFactory;
 

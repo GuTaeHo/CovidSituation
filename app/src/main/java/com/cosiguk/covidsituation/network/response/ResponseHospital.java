@@ -1,4 +1,4 @@
-package com.cosiguk.covidsituation.network;
+package com.cosiguk.covidsituation.network.response;
 
 import com.cosiguk.covidsituation.model.Hospital;
 import com.google.gson.annotations.SerializedName;

@@ -12,6 +12,7 @@
     <string name="ted_permission_denied_message">권한이 승인되지 않아 서비스를 실행할 수 없습니다.\n권한설정은 [설정] > [권한]에서 변경하실 수 있습니다.</string>
     <string name="permission_not_agree">권한이 허용되지 않아 서비스를 실행할 수 없습니다.</string>
     <string name="internet_not_connect">네트워크에 연결되어있지 않습니다.</string>
+    <string name="version_fail">서버와 접속이 원활하지 않습니다</string>
     <string name="version_error">버전 확인 중 오류가 발생했습니다.</string>
     <string name="play_store">https://play.google.com/store/apps/details?id=com.kakao.talk</string>
 

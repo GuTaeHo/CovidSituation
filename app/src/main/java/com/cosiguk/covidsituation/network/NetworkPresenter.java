@@ -1,5 +1,10 @@
 package com.cosiguk.covidsituation.network;
 
+import com.cosiguk.covidsituation.network.response.ResponseCity;
+import com.cosiguk.covidsituation.network.response.ResponseHospital;
+import com.cosiguk.covidsituation.network.response.ResponseInfection;
+import com.cosiguk.covidsituation.network.response.ResponseNews;
+import com.cosiguk.covidsituation.network.response.ResponseVaccineTotal;
 import com.cosiguk.covidsituation.network.response.ResponseVersion;
 import com.cosiguk.covidsituation.network.resultInterface.BoardListListener;
 import com.cosiguk.covidsituation.network.resultInterface.HospitalListener;

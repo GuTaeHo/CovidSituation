@@ -1,5 +1,8 @@
 package com.cosiguk.covidsituation.network;
 
+import com.cosiguk.covidsituation.network.response.ResponseHospital;
+import com.cosiguk.covidsituation.network.response.ResponseVaccineTotal;
+
 import java.util.HashMap;
 
 import okhttp3.OkHttpClient;

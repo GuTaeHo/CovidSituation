@@ -1,4 +1,4 @@
-package com.cosiguk.covidsituation.network;
+package com.cosiguk.covidsituation.network.response;
 
 import com.cosiguk.covidsituation.network.responsecity.Body;
 import com.cosiguk.covidsituation.network.responsecity.Header;

@@ -1,15 +1,21 @@
 package com.cosiguk.covidsituation.fragment;
 
+import android.graphics.Point;
 import android.location.Location;
 import android.os.Bundle;
 
+import androidx.annotation.NonNull;
 import androidx.databinding.DataBindingUtil;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentContainerView;
+import androidx.fragment.app.FragmentManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
+import android.view.Display;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.CompoundButton;
 
 import com.cosiguk.covidsituation.BuildConfig;
 import com.cosiguk.covidsituation.R;
@@ -24,14 +30,21 @@ import com.cosiguk.covidsituation.network.resultInterface.VaccineListener;
 import com.cosiguk.covidsituation.util.BasicUtil;
 import com.cosiguk.covidsituation.util.ConvertUtil;
 import com.cosiguk.covidsituation.util.LocationUtil;
+import com.cosiguk.covidsituation.util.NaverMapUtil;
+import com.naver.maps.map.MapFragment;
+import com.naver.maps.map.NaverMap;
+import com.naver.maps.map.OnMapReadyCallback;
 
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.HashMap;
 
-public class VaccineFragment extends Fragment implements Comparator<Hospital>{
+public class VaccineFragment extends Fragment implements Comparator<Hospital>, OnMapReadyCallback {
     private FragmentVaccineBinding binding;
     private HospitalAdapter adapter;
+    // 지도 프래그먼트 관리 객체
+    private FragmentManager fragmentManager;
+    private MapFragment map;
     // 백신 정보
     private Vaccine vaccine;
     // 진료소 정보
@@ -41,8 +54,7 @@ public class VaccineFragment extends Fragment implements Comparator<Hospital>{
     // 재귀 방지
     private int blockLoop;
 
-    public VaccineFragment() {
-    }
+    public VaccineFragment() {}
 
     public static VaccineFragment newInstance() {
         return new VaccineFragment();
@@ -54,7 +66,7 @@ public class VaccineFragment extends Fragment implements Comparator<Hospital>{
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_vaccine, container, false);
         blockLoop = 0;
@@ -85,7 +97,7 @@ public class VaccineFragment extends Fragment implements Comparator<Hospital>{
             map.put("perPage", "1");
             map.put("cond[baseDate::GTE]", ConvertUtil.currentDateBar(initMillisecond));
 
-            MyApplication.showProgressDialog(getActivity());
+            MyApplication.showProgressDialog(getActivity(), getResources().getString(R.string.progress_vaccine));
             MyApplication
                     .getNetworkPresenterInstance()
                     .vaccineTotal(map, new VaccineListener() {
@@ -124,6 +136,7 @@ public class VaccineFragment extends Fragment implements Comparator<Hospital>{
                     public void success(ArrayList<Hospital> list) {
                         setHospitalItems(list);
                         initLayout();
+                        initListener();
                         MyApplication.dismissProgressDialog();
                     }
 
@@ -188,5 +201,35 @@ public class VaccineFragment extends Fragment implements Comparator<Hospital>{
         binding.recyclerview.setLayoutManager(new LinearLayoutManager(getActivity()));
         adapter = new HospitalAdapter(hospitals);
         binding.recyclerview.setAdapter(adapter);
+    }
+
+    private void initListener() {
+        setToggleListener();
+    }
+
+    private void setToggleListener() {
+        binding.swToggle.setOnCheckedChangeListener((buttonView, isChecked) -> {
+            initMapInstance();
+
+            if (isChecked) {
+                binding.recyclerview.setVisibility(View.GONE);
+                binding.map.setVisibility(View.VISIBLE);
+            } else {
+                binding.recyclerview.setVisibility(View.VISIBLE);
+                binding.map.setVisibility(View.GONE);
+            }
+        });
+    }
+
+    // 맵 객체 초기화
+    private void initMapInstance() {
+        map = NaverMapUtil.getInstance(VaccineFragment.this);
+        map.getMapAsync(this);
+    }
+
+    // 맵 객체가 준비되면 호출
+    @Override
+    public void onMapReady(@NonNull NaverMap naverMap) {
+
     }
 }

@@ -2,6 +2,7 @@ package com.cosiguk.covidsituation.activity;
 
 import android.content.res.Resources;
 import android.os.Bundle;
+import android.os.Handler;
 import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
@@ -21,6 +22,7 @@ import com.cosiguk.covidsituation.fragment.BoardFragment;
 import com.cosiguk.covidsituation.fragment.NewsFragment;
 import com.cosiguk.covidsituation.fragment.SituationBoardFragment;
 import com.cosiguk.covidsituation.fragment.VaccineFragment;
+import com.cosiguk.covidsituation.util.ActivityUtil;
 import com.cosiguk.covidsituation.util.PackageUtil;
 
 public class MainActivity extends BaseActivity {
@@ -33,7 +35,6 @@ public class MainActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         binding = DataBindingUtil.setContentView(this, R.layout.activity_main);
         commonToolbarBinding = DataBindingUtil.bind(binding.commonToolbar.toolbar);
-        CommonSidebarBinding commonSidebarBinding = DataBindingUtil.bind(binding.commonSidebar.getRoot());
 
         initLayout();
         initListener();
@@ -60,11 +61,22 @@ public class MainActivity extends BaseActivity {
 
     private void initListener() {
         initDrawerToggle();
+        initDrawerListener();
         initDrawerCloseButtonListener();
     };
 
     private void initDrawerVersion() {
         binding.commonSidebar.tvVersion.setText(PackageUtil.getAppVersion(MainActivity.this));
+    }
+
+    private void initDrawerListener() {
+        binding.commonSidebar.loIntro.setOnClickListener(v -> {
+            // Close Sidebar
+            binding.loDrawer.closeDrawer(GravityCompat.START);
+
+            Handler mHandler = new Handler();
+            mHandler.postDelayed(() -> ActivityUtil.startSingleActivity(MainActivity.this, IntroActivity.class), 200);
+        });
     }
 
     private void initNavigation() {
@@ -75,6 +87,7 @@ public class MainActivity extends BaseActivity {
         });
         // 최초 프래그먼트 설정
         binding.navView.setSelectedItemId(R.id.nv_situation_board);
+
     }
 
     private void bottomNavigate(int id) {
@@ -114,13 +127,13 @@ public class MainActivity extends BaseActivity {
 
     private void actionBarTitleChange(int id) {
         if (id == R.id.nv_situation_board) {
-            setCommonActionBarTitle(commonToolbarBinding, "코로나 상황판");
+            setCommonActionBarTitle(commonToolbarBinding, getResources().getString(R.string.location_situation_board));
         } else if (id == R.id.nv_news) {
-            setCommonActionBarTitle(commonToolbarBinding, "실시간 뉴스");
+            setCommonActionBarTitle(commonToolbarBinding, getResources().getString(R.string.location_news));
         } else if (id == R.id.nv_vaccine) {
-            setCommonActionBarTitle(commonToolbarBinding, "백신");
+            setCommonActionBarTitle(commonToolbarBinding, getResources().getString(R.string.location_vaccine));
         } else {
-            setCommonActionBarTitle(commonToolbarBinding, "게시판");
+            setCommonActionBarTitle(commonToolbarBinding, getResources().getString(R.string.location_board));
         }
     }
 

@@ -92,7 +92,7 @@ public class SituationBoardFragment extends Fragment {
 
     // 전체 확진 정보 API 요청
     private void requestTotal(HashMap<String, String> map) {
-        MyApplication.showProgressDialog(getActivity());
+        MyApplication.showProgressDialog(getActivity(), getResources().getString(R.string.progress_total));
         MyApplication.getNetworkPresenterInstance()
                 .total(map, new TotalListener() {
                     @Override
@@ -129,7 +129,7 @@ public class SituationBoardFragment extends Fragment {
         map.put("startCreateDt", day);
         map.put("endCreateDt", day);
 
-        MyApplication.showProgressDialog(getActivity());
+        MyApplication.showProgressDialog(getActivity(), getResources().getString(R.string.progress_city));
         MyApplication.getNetworkPresenterInstance()
                 .boardList(map, new BoardListListener() {
                     @Override
@@ -236,10 +236,14 @@ public class SituationBoardFragment extends Fragment {
     // 위치 OFF -> 기본 위치 : 서울
     private String getCurrentAddress() {
         if (LocationUtil.isConnect(getActivity())) {
-            Location location = LocationUtil.getLocation(getActivity());
-            String address = LocationUtil.getCoordinateToAddress(getActivity(), location);
-            String[] addresses = address.split("\\s");
-            return addressConvert(addresses[1]);
+            try {
+                Location location = LocationUtil.getLocation(getActivity());
+                String address = LocationUtil.getCoordinateToAddress(getActivity(), location);
+                String[] addresses = address.split("\\s");
+                return addressConvert(addresses[1]);
+            } catch (NullPointerException e) {
+                return getActivity().getResources().getString(R.string.location_base);
+            }
         } else {
             // base location
             return getActivity().getResources().getString(R.string.location_base);

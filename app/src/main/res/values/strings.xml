@@ -21,7 +21,9 @@
     <string name="side_header_title">Cosiguk</string>
     <string name="side_contents_version_title">버전 정보</string>
     <string name="side_contents_intro_title">이용 방법</string>
-
+    <string name="pager_previous">이전</string>
+    <string name="pager_next">다음</string>
+    <string name="pager_close">닫기</string>
 
     <!-- navigation -->
     <string name="drawer_open">내비게이션 열림</string>
@@ -36,6 +38,10 @@
     <string name="location_unknown_loc">"위치" 기능이 비활성화입니다. \n현재 위치 정보를 불러올 수 없습니다.</string>
     <string name="location_goto_setting">설정</string>
     <string name="location_base">서울</string>
+    <string name="location_situation_board">코로나 상황판</string>
+    <string name="location_vaccine">백신</string>
+    <string name="location_news">실시간 뉴스</string>
+    <string name="location_board">게시판</string>
 
     <!-- vaccine -->
     <string name="vc_div">구분</string>
@@ -48,4 +54,14 @@
     <string name="vc_hospital_title">내 주변 진료소 현황</string>
     <string name="vc_location_unknown">위치 정보를 알 수 없습니다. 기본위치로 설정합니다</string>
     <string name="vc_location_off">"위치"기능이 비활성화상태입니다. 기본위치로 설정합니다</string>
+
+    <!-- progress -->
+    <string name="progress_version">버전 확인 중…</string>
+    <string name="progress_total">확진자 조회 중…</string>
+    <string name="progress_city">시/도 정보 조회 중…</string>
+    <string name="progress_vaccine">진료소 조회 중…</string>
+    <string name="progress_news">검색 중…</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>

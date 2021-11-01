@@ -58,6 +58,7 @@
             android:paddingLeft="24dp"
             android:paddingRight="24dp"
             android:foreground="?attr/selectableItemBackground">
+
             <TextView
                 android:id="@+id/tv_intro_title"
                 android:layout_width="wrap_content"

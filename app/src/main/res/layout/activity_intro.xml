@@ -7,6 +7,50 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         tools:context=".activity.IntroActivity">
-
+        <androidx.viewpager2.widget.ViewPager2
+            android:id="@+id/pager"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="horizontal"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent">
+        </androidx.viewpager2.widget.ViewPager2>
+        <TextView
+            android:id="@+id/tv_previous"
+            android:layout_width="120dp"
+            android:layout_height="80dp"
+            android:gravity="center"
+            android:fontFamily="@font/nanumsquare_round_bold"
+            android:text="이전"
+            android:textSize="18sp"
+            android:clickable="true"
+            android:focusable="true"
+            android:background="@drawable/ripple_unbounded"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"/>
+        <me.relex.circleindicator.CircleIndicator3
+            android:id="@+id/indicator"
+            android:layout_width="0dp"
+            android:layout_height="80dp"
+            android:gravity="center"
+            app:ci_drawable="@drawable/indicator_selected"
+            app:ci_drawable_unselected="@drawable/indicator_unselected"
+            app:layout_constraintStart_toEndOf="@id/tv_previous"
+            app:layout_constraintEnd_toStartOf="@id/tv_next"
+            app:layout_constraintBottom_toBottomOf="parent"/>
+        <TextView
+            android:id="@+id/tv_next"
+            android:layout_width="120dp"
+            android:layout_height="80dp"
+            android:text="다음"
+            android:fontFamily="@font/nanumsquare_round_bold"
+            android:textSize="18sp"
+            android:clickable="true"
+            android:focusable="true"
+            android:gravity="center"
+            android:background="@drawable/ripple_unbounded"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"/>
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

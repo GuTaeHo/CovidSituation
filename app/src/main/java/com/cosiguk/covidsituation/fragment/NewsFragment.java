@@ -84,7 +84,7 @@ public class NewsFragment extends Fragment {
         queries.put("display", 20);
         queries.put("start", index);
 
-        if (displayProgress) MyApplication.showProgressDialog(getActivity());
+        if (displayProgress) MyApplication.showProgressDialog(getActivity(), getResources().getString(R.string.progress_news));
         MyApplication
                 .getNetworkPresenterInstance()
                 .news(headerMap, queries, new NewsListener() {

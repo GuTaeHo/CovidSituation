@@ -39,14 +39,12 @@ public class SplashActivity extends BaseActivity {
             public void run() {
                 networkCheck();
             }
-        }, 1000);
+        }, 500);
     }
 
     private void networkCheck() {
         if (NetworkUtil.isConnected(SplashActivity.this)) {
             versionCheck();
-            setProvinceMap();
-            ActivityUtil.startNewActivity(SplashActivity.this, MainActivity.class);
         } else {
             new NoticeDialog(SplashActivity.this)
                     .setMsg(getString(R.string.internet_not_connect))
@@ -70,12 +68,11 @@ public class SplashActivity extends BaseActivity {
     }
 
     private void versionCheck() {
-        MyApplication.showProgressDialog(SplashActivity.this);
+        showProgressDialog(SplashActivity.this, getResources().getString(R.string.progress_version));
         MyApplication.getNetworkPresenterInstance()
                 .version(new VersionListener() {
                     @Override
                     public void success(Version version) {
-                        MyApplication.dismissProgressDialog();
                         try {
                             String serverVersion = version.getAndroid();
                             // 패키지 매니저의 getPackageInfo() 메소드로 디바이스에 설치된 앱 버전 획득
@@ -148,7 +145,7 @@ public class SplashActivity extends BaseActivity {
 
                     @Override
                     public void fail(String message) {
-                        MyApplication.dismissProgressDialog();
+                        dismissProgressDialog();
                         new NoticeDialog(SplashActivity.this)
                                 .setBackPressButton(false)
                                 .setShowNegativeButton(false)
@@ -167,14 +164,10 @@ public class SplashActivity extends BaseActivity {
                 });
     }
 
-
     // 권한 체크
     private void permissionCheck() {
         String[] permission = new String[]{
-                Manifest.permission.ACCESS_FINE_LOCATION, // 위치 권한
-                // 버전 Q 부터는 포어그라운드에서 실행 중 일때만 위치 정보 접근 가능
-                Manifest.permission.WRITE_EXTERNAL_STORAGE, // 저장공간 권한
-                Manifest.permission.READ_EXTERNAL_STORAGE};
+                Manifest.permission.ACCESS_FINE_LOCATION};
 
         TedPermission.with(this)
                 .setPermissionListener(new PermissionListener() {
@@ -185,24 +178,23 @@ public class SplashActivity extends BaseActivity {
                     }
 
                     @Override
-                    // 일부 또는 모든 권한이 허용되지 않은 경우 호출
-                    // 인자인 deniedPermissions 로 거부 된 권한 목록을 전달 받음
+                    // deniedPermissions 로 거부 된 권한 목록을 전달 받음
                     public void onPermissionDenied(ArrayList<String> deniedPermissions) {
                         showToast(getString(R.string.permission_not_agree));
                         finish();
                     }
                 })
-                // 사용자가 권한을 거부했을때 출력되는 메시지 설정
                 .setDeniedMessage(getString(R.string.ted_permission_denied_message))
                 // 설정 화면으로 가는 버튼의 텍스트 설정
                 .setGotoSettingButtonText(getString(R.string.ted_permission_go_to_setting_button_text))
                 .setPermissions(permission)
-                // 권한 체크 시작
                 .check();
     }
 
     private void startMainActivity() {
-
+        dismissProgressDialog();
+        setProvinceMap();
+        ActivityUtil.startNewActivity(SplashActivity.this, MainActivity.class);
     }
 
     private void setProvinceMap() {

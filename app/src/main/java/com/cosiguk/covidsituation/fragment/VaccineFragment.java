@@ -1,21 +1,17 @@
 package com.cosiguk.covidsituation.fragment;
 
-import android.graphics.Point;
 import android.location.Location;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.databinding.DataBindingUtil;
 import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentContainerView;
 import androidx.fragment.app.FragmentManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
-import android.view.Display;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.CompoundButton;
 
 import com.cosiguk.covidsituation.BuildConfig;
 import com.cosiguk.covidsituation.R;
@@ -31,9 +27,11 @@ import com.cosiguk.covidsituation.util.BasicUtil;
 import com.cosiguk.covidsituation.util.ConvertUtil;
 import com.cosiguk.covidsituation.util.LocationUtil;
 import com.cosiguk.covidsituation.util.NaverMapUtil;
+import com.naver.maps.geometry.LatLng;
 import com.naver.maps.map.MapFragment;
 import com.naver.maps.map.NaverMap;
 import com.naver.maps.map.OnMapReadyCallback;
+import com.naver.maps.map.overlay.Marker;
 
 import java.util.ArrayList;
 import java.util.Comparator;
@@ -44,7 +42,7 @@ public class VaccineFragment extends Fragment implements Comparator<Hospital>, O
     private HospitalAdapter adapter;
     // 지도 프래그먼트 관리 객체
     private FragmentManager fragmentManager;
-    private MapFragment map;
+    private MapFragment mapView;
     // 백신 정보
     private Vaccine vaccine;
     // 진료소 정보
@@ -165,9 +163,15 @@ public class VaccineFragment extends Fragment implements Comparator<Hospital>, O
                     Double.parseDouble(item.getLat()),
                     Double.parseDouble(item.getLng()));
 
-            if (distance <= 30) {
+            if (distance <= 15) {
                 item.setDistance(distance);
                 hospitals.add(item);
+
+                Marker marker = new Marker();
+                marker.setPosition(new LatLng(
+                        Double.parseDouble(item.getLat()),
+                        Double.parseDouble(item.getLng())));
+                NaverMapUtil.initMarkers(marker);
             }
         });
     
@@ -222,14 +226,21 @@ public class VaccineFragment extends Fragment implements Comparator<Hospital>, O
     }
 
     // 맵 객체 초기화
+    // mapView 는 지도를 보여주는 역할만 담당.
+    // 지도와 상호작용하기위해선 getMapAsync 메서드의 콜백으로 넘어온 naverMap 객체를 이용
     private void initMapInstance() {
-        map = NaverMapUtil.getInstance(VaccineFragment.this);
-        map.getMapAsync(this);
+        mapView = NaverMapUtil.getInstance(VaccineFragment.this);
+        mapView.getMapAsync(this);
     }
 
     // 맵 객체가 준비되면 호출
     @Override
     public void onMapReady(@NonNull NaverMap naverMap) {
-
+        // 카메라 이동
+        NaverMapUtil.moveCamera(naverMap, location);
+        // 줌 레벨 설정
+        NaverMapUtil.setZoom(naverMap, 17,6);
+        // 마커 출력
+        NaverMapUtil.setMarker(naverMap);
     }
 }

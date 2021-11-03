@@ -23,6 +23,8 @@
 3. [Web  기술 및 라이센스](#front-end-(web)-에서-사용된-기술-및-라이센스)
 4. [BackEnd  기술 및 라이센스](#backend에서-사용된-기술-및-라이센스)
 
+---
+
 ### Android에서 사용된 기술 및 라이센스
 
 - 위치정보 라이브러리
@@ -424,7 +426,7 @@ A permissive license whose main conditions require preservation of copyright and
    limitations under the License.
 ```
 
-----
+---
 
 ### iOS License
 

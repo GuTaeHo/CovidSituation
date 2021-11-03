@@ -9,46 +9,19 @@
 사용자 간 소통이 가능한 게시판을 만들어 정보 공유를 목표로 만들었습니다.
 
 ## 제작된 플랫폼
-> iOS : 김진우 / [iOS](https://github.com/castle6116/COVID-19_HELPER)
-
 > Android : 구태호 / [Android](https://github.com/GuTaeHo/CovidSituation)
+
+> iOS : 김진우 / [iOS](https://github.com/castle6116/COVID-19_HELPER)
 
 > Web : 권수형 /  [BackEnd](https://github.com/Byeong-gook/cosiguk/tree/master)
 
 > BackEnd : 기병국 / [BackEnd](https://github.com/Byeong-gook/cosiguk/tree/master)
 
 - 목차
-1. [iOS 기술 및 라이센스](#ios에서-사용된-기술-및-라이센스)
-2. [Android 기술 및 라이센스](#android에서-사용된-기술-및-라이센스)
+1. [Android 기술 및 라이센스](#android에서-사용된-기술-및-라이센스)
+2. [iOS 기술 및 라이센스](#ios에서-사용된-기술-및-라이센스)
 3. [Web  기술 및 라이센스](#front-end-(web)-에서-사용된-기술-및-라이센스)
 4. [BackEnd  기술 및 라이센스](#backend에서-사용된-기술-및-라이센스)
-
-----
-
-### iOS에서 사용된 기술 및 라이센스
-
-- Alamofire (라이브러리 HTTP 통신 / JSON 파라미터 인코딩 / URL 인코딩)
-- AutoLayout (뷰간 제약조건 설정)
-- CoreLocation (GPS 모듈)
-- CocoaPods (라이브러리 관리 매니저)
-- Codable (프로토콜 변환 / JSON 파싱)
-- CollectionView / FlowLayout / TableView / ScrollView (레이아웃 표출 객체)
-- RefreshControl (드래그시 새로고침)
-- Naver Search API (뉴스 검색 API)
-- SideMenu (라이브러리 사이드 메뉴)
-- XML Parser (XML 파싱)
-
-### 라이센스
-- MIT License (KeyChainSwift)
-> Copyright (c) 2015 - 2019 Evgenii Neumerzhitckii
-
-- MIT License (SideMenu)
-> Copyright (c) 2015 Jonathan Kent  [contact@jonkent.me](mailto:contact@jonkent.me) 
-
-- Alamofire
-> Copyright (c) 2014-2021 Alamofire Software Foundation (http://alamofire.org/)
-
------
 
 ### Android에서 사용된 기술 및 라이센스
 
@@ -93,7 +66,33 @@
 - Copyright (C) 2009-2021 The Project Lombok Authors. (lombok)
 - Copyright 2018 ongakuer (뷰 페이저 인디케이터)
 
----
+----
+
+### iOS에서 사용된 기술 및 라이센스
+
+- Alamofire (라이브러리 HTTP 통신 / JSON 파라미터 인코딩 / URL 인코딩)
+- AutoLayout (뷰간 제약조건 설정)
+- CoreLocation (GPS 모듈)
+- CocoaPods (라이브러리 관리 매니저)
+- Codable (프로토콜 변환 / JSON 파싱)
+- CollectionView / FlowLayout / TableView / ScrollView (레이아웃 표출 객체)
+- RefreshControl (드래그시 새로고침)
+- Naver Search API (뉴스 검색 API)
+- SideMenu (라이브러리 사이드 메뉴)
+- XML Parser (XML 파싱)
+
+### 라이센스
+- MIT License (KeyChainSwift)
+> Copyright (c) 2015 - 2019 Evgenii Neumerzhitckii
+
+- MIT License (SideMenu)
+> Copyright (c) 2015 Jonathan Kent  [contact@jonkent.me](mailto:contact@jonkent.me) 
+
+- Alamofire
+> Copyright (c) 2014-2021 Alamofire Software Foundation (http://alamofire.org/)
+
+-----
+
 
 ### Front End (Web) 에서 사용된 기술 및 라이센스
 
@@ -114,54 +113,7 @@ Apache License Version 2.0 (TomCat)
 
 Copyright (C) 2009-2021 The Project Lombok Authors. (Lombok)
 
-----
-
-### iOS License
-
-#### Alamofire
-
-```
-Copyright (c) 2014-2021 Alamofire Software Foundation (http://alamofire.org/)
-
-Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
-
-The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
-
-THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
-```
-
-
-#### KeychainSwift
-
-```
-The MIT License
-
-Copyright (c) 2015 - 2019 Evgenii Neumerzhitckii
-
-Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
-
-The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
-
-THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
-```
-
-
-#### SideMenu
-
-```
-Copyright (c) 2015 Jonathan Kent contact@jonkent.me
-
-Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
-
-The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
-
-THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
-
-Generated by CocoaPods - https://cocoapods.org
-```
-
-
-----
+---
 
 ### Android License
 
@@ -470,6 +422,52 @@ A permissive license whose main conditions require preservation of copyright and
    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
    See the License for the specific language governing permissions and
    limitations under the License.
+```
+
+----
+
+### iOS License
+
+#### Alamofire
+
+```
+Copyright (c) 2014-2021 Alamofire Software Foundation (http://alamofire.org/)
+
+Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+```
+
+
+#### KeychainSwift
+
+```
+The MIT License
+
+Copyright (c) 2015 - 2019 Evgenii Neumerzhitckii
+
+Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+```
+
+
+#### SideMenu
+
+```
+Copyright (c) 2015 Jonathan Kent contact@jonkent.me
+
+Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+
+Generated by CocoaPods - https://cocoapods.org
 ```
 
 ---

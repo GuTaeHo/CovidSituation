@@ -27,11 +27,9 @@ import com.cosiguk.covidsituation.util.BasicUtil;
 import com.cosiguk.covidsituation.util.ConvertUtil;
 import com.cosiguk.covidsituation.util.LocationUtil;
 import com.cosiguk.covidsituation.util.NaverMapUtil;
-import com.naver.maps.geometry.LatLng;
 import com.naver.maps.map.MapFragment;
 import com.naver.maps.map.NaverMap;
 import com.naver.maps.map.OnMapReadyCallback;
-import com.naver.maps.map.overlay.Marker;
 
 import java.util.ArrayList;
 import java.util.Comparator;
@@ -167,11 +165,17 @@ public class VaccineFragment extends Fragment implements Comparator<Hospital>, O
                 item.setDistance(distance);
                 hospitals.add(item);
 
-                Marker marker = new Marker();
-                marker.setPosition(new LatLng(
-                        Double.parseDouble(item.getLat()),
-                        Double.parseDouble(item.getLng())));
-                NaverMapUtil.initMarkers(marker);
+                HashMap<String, String> map = new HashMap<>();
+                map.put(NaverMapUtil.LAT, item.getLat());
+                map.put(NaverMapUtil.LNG, item.getLng());
+                map.put(NaverMapUtil.CAP, item.getFacilityName());
+                map.put(NaverMapUtil.SUB_CAP, ConvertUtil.splitString(item.getCenterName(), 1));
+                map.put(NaverMapUtil.PHONE_NUM, item.getPhoneNumber());
+                map.put(NaverMapUtil.DISTANCE, String.valueOf(item.getDistance()));
+
+                // 마커 초기화
+                NaverMapUtil.setMarkersAndCaptions(getContext(), map);
+                // NaverMapUtil.setMarker(getContext(), item.getLat(), item.getLng(), item.getFacilityName(), ConvertUtil.splitString(item.getCenterName(), 1), item.getPhoneNumber(), String.valueOf(item.getDistance()));
             }
         });
     
@@ -236,11 +240,14 @@ public class VaccineFragment extends Fragment implements Comparator<Hospital>, O
     // 맵 객체가 준비되면 호출
     @Override
     public void onMapReady(@NonNull NaverMap naverMap) {
+        NaverMapUtil.setCurrentMarker(naverMap, location);
+        // 인터페이스 초기화
+        NaverMapUtil.initUI(naverMap);
         // 카메라 이동
         NaverMapUtil.moveCamera(naverMap, location);
         // 줌 레벨 설정
         NaverMapUtil.setZoom(naverMap, 17,6);
         // 마커 출력
-        NaverMapUtil.setMarker(naverMap);
+        NaverMapUtil.setMarkers(naverMap);
     }
 }

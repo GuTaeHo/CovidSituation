@@ -9,22 +9,26 @@ import androidx.viewpager2.widget.ViewPager2;
 import com.cosiguk.covidsituation.R;
 import com.cosiguk.covidsituation.adapter.ViewPagerAdapter;
 import com.cosiguk.covidsituation.databinding.ActivityIntroBinding;
+import com.cosiguk.covidsituation.databinding.CloseToolbarBinding;
 
 public class IntroActivity extends BaseActivity {
     public static final int NUM_PAGES = 5;
     private ViewPagerAdapter adapter;
     private ActivityIntroBinding binding;
+    private CloseToolbarBinding closeToolbarBinding;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         binding = DataBindingUtil.setContentView(IntroActivity.this, R.layout.activity_intro);
+        closeToolbarBinding = DataBindingUtil.bind(binding.introToolbar.toolbar);
 
         initLayout();
-        initListener();
+        initEvent();
     }
 
     private void initLayout() {
+        closeToolbarBinding.toolbarTitle.setText("");
         adapter = new ViewPagerAdapter(IntroActivity.this, NUM_PAGES);
         binding.pager.setAdapter(adapter);
 
@@ -35,7 +39,7 @@ public class IntroActivity extends BaseActivity {
         binding.pager.setOffscreenPageLimit(3);
     }
 
-    private void initListener() {
+    private void initEvent() {
         binding.pager.registerOnPageChangeCallback(new ViewPager2.OnPageChangeCallback() {
             @Override
             public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
@@ -71,6 +75,7 @@ public class IntroActivity extends BaseActivity {
         // 버튼 클릭 리스너
         binding.tvNext.setOnClickListener(v -> nextPage());
         binding.tvPrevious.setOnClickListener(v -> previousPage());
+        closeToolbarBinding.ivLeave.setOnClickListener(v -> finish());
     }
 
     private void nextPage() {

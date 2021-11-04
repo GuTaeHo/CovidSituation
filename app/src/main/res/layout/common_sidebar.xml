@@ -46,6 +46,38 @@
                 android:contentDescription="@string/side_header_desc"
                 android:src="@drawable/ic_baseline_close_24" />
         </LinearLayout>
+
+        <RelativeLayout
+            android:id="@+id/lo_notice"
+            android:layout_width="match_parent"
+            android:layout_height="60dp"
+            android:focusable="true"
+            android:clickable="true"
+            android:background="@color/side_contents_background"
+            android:gravity="center_vertical"
+            android:orientation="horizontal"
+            android:paddingLeft="24dp"
+            android:paddingRight="24dp">
+            <TextView
+                android:id="@+id/tv_notice_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentStart="true"
+                android:layout_centerVertical="true"
+                android:fontFamily="@font/nanumsquare_round_bold"
+                android:text="@string/side_contents_notice_title"
+                android:textColor="@color/black_light_30"
+                android:textSize="16sp" />
+            <ImageView
+                android:id="@+id/iv_notice_arrow"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentEnd="true"
+                android:layout_centerVertical="true"
+                android:contentDescription="@string/side_contents_version_title"
+                app:srcCompat="@drawable/ic_baseline_keyboard_arrow_right_24"
+                app:tint="@color/black_light_30"/>
+        </RelativeLayout>
         <RelativeLayout
             android:id="@+id/lo_intro"
             android:layout_width="match_parent"

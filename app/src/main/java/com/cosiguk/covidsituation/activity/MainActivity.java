@@ -23,6 +23,7 @@ import com.cosiguk.covidsituation.fragment.NewsFragment;
 import com.cosiguk.covidsituation.fragment.SituationBoardFragment;
 import com.cosiguk.covidsituation.fragment.VaccineFragment;
 import com.cosiguk.covidsituation.util.ActivityUtil;
+import com.cosiguk.covidsituation.util.HandlerUtil;
 import com.cosiguk.covidsituation.util.PackageUtil;
 
 public class MainActivity extends BaseActivity {
@@ -73,9 +74,12 @@ public class MainActivity extends BaseActivity {
         binding.commonSidebar.loIntro.setOnClickListener(v -> {
             // Close Sidebar
             binding.loDrawer.closeDrawer(GravityCompat.START);
-
-            Handler mHandler = new Handler();
-            mHandler.postDelayed(() -> ActivityUtil.startSingleActivity(MainActivity.this, IntroActivity.class), 200);
+            HandlerUtil.activityDelay(MainActivity.this, IntroActivity.class, 200);
+        });
+        binding.commonSidebar.loNotice.setOnClickListener(v -> {
+            // Close Sidebar
+            binding.loDrawer.closeDrawer(GravityCompat.START);
+            HandlerUtil.activityDelay(MainActivity.this, NoticeActivity.class, 200);
         });
     }
 

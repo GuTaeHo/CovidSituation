@@ -19,8 +19,9 @@
     <!-- common sidebar -->
     <string name="side_header_desc">Icon</string>
     <string name="side_header_title">Cosiguk</string>
-    <string name="side_contents_version_title">버전 정보</string>
-    <string name="side_contents_intro_title">이용 방법</string>
+    <string name="side_contents_notice_title">공지사항</string>
+    <string name="side_contents_version_title">버전정보</string>
+    <string name="side_contents_intro_title">이용방법</string>
     <string name="pager_previous">이전</string>
     <string name="pager_next">다음</string>
     <string name="pager_close">닫기</string>

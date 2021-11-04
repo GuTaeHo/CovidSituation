@@ -27,15 +27,15 @@ public class ViewPagerAdapter extends FragmentStateAdapter {
 
         switch (index) {
             case 0 :
-                return IntroFragment.newInstance(index+1);
+                return IntroFragment.newInstance();
             case 1 :
-                return SituationBoardFragment.newInstance(index+1);
+                return SituationBoardFragment.newInstance();
             case 2 :
-                return VaccineFragment.newInstance(index+1);
+                return VaccineFragment.newInstance();
             case 3 :
-                return NewsFragment.newInstance(index+1);
+                return NewsFragment.newInstance();
             case 4 :
-                return BoardFragment.newInstance(index+1);
+                return BoardFragment.newInstance();
             default:
                 return null;
         }

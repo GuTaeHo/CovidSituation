@@ -70,6 +70,7 @@ public class NaverMapUtil {
     public static void setMarkersAndCaptions(Context context, HashMap<String, String> map) {
         if (markers == null) {
             markers = new ArrayList<>();
+            windows = new ArrayList<>();
         }
         Marker marker = new Marker();
         InfoWindow infoWindow = new InfoWindow();
@@ -77,7 +78,7 @@ public class NaverMapUtil {
             @NonNull
             @Override
             public CharSequence getText(@NonNull InfoWindow infoWindow) {
-                return (CharSequence)"전화번호 : " + map.get(PHONE_NUM)+"\n거리 : "+map.get(DISTANCE);
+                return (CharSequence)"전화번호 : " + map.get(PHONE_NUM)+"\n거리 : " + String.format("%.2f", Float.parseFloat(map.get(DISTANCE))) + "km";
             }
         });
         marker.setPosition(new LatLng(Double.parseDouble(map.get(LAT)), Double.parseDouble(map.get(LNG))));
@@ -103,46 +104,7 @@ public class NaverMapUtil {
             return true;
         });
         markers.add(marker);
-    }
-
-
-    // 마커 초기화 (위치, 캡션)
-    public static void setMarker(Context context, String lat, String lon, String caption, String subCaption, String phoneNum, String distance) {
-        if (markers == null) {
-            markers = new ArrayList<>();
-        }
-        Marker marker = new Marker();
-        InfoWindow infoWindow = new InfoWindow();
-        infoWindow.setAdapter(new InfoWindow.DefaultTextAdapter(context) {
-            @NonNull
-            @Override
-            public CharSequence getText(@NonNull InfoWindow infoWindow) {
-                return (CharSequence)"전화번호 : " + phoneNum +"\n거리 : "+distance;
-            }
-        });
-        marker.setPosition(new LatLng(Double.parseDouble(lat), Double.parseDouble(lon)));
-        marker.setCaptionAligns(Align.Top);
-        marker.setCaptionTextSize(10);
-        marker.setCaptionRequestedWidth(200);
-        marker.setCaptionMinZoom(11);
-        marker.setCaptionMaxZoom(18);
-        marker.setSubCaptionText(subCaption);
-        marker.setSubCaptionColor(Color.rgb(77, 121, 255));
-        marker.setSubCaptionHaloColor(Color.rgb(230, 236, 255));
-        marker.setSubCaptionTextSize(8);
-        marker.setHideCollidedSymbols(true);
-        marker.setCaptionText(caption);
-        marker.setOnClickListener(overlay -> {
-            if (marker.getInfoWindow() == null) {
-                // 현재 마커에 정보 창이 열려있지 않을 경우 엶
-                infoWindow.open(marker);
-            } else {
-                // 이미 현재 마커에 정보 창이 열려있을 경우 닫음
-                infoWindow.close();
-            }
-            return true;
-        });
-        markers.add(marker);
+        windows.add(infoWindow);
     }
 
     // 마커들 초기화
@@ -156,7 +118,7 @@ public class NaverMapUtil {
         }
     }
 
-    public static void initMarkerListener(NaverMap map) {
+    public static void initOnMapClickListener(NaverMap map) {
         // 지도를 클릭하면 정보 창을 닫음
         map.setOnMapClickListener((coord, point) -> {
             windows.forEach(InfoWindow::close);

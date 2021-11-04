@@ -2,6 +2,7 @@ package com.cosiguk.covidsituation.fragmentpager;
 
 import android.os.Bundle;
 
+import androidx.databinding.DataBindingUtil;
 import androidx.fragment.app.Fragment;
 
 import android.view.LayoutInflater;
@@ -9,29 +10,20 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.cosiguk.covidsituation.R;
+import com.cosiguk.covidsituation.databinding.PagerVaccineBinding;
 
 public class VaccineFragment extends Fragment {
-
-    private static final String ARG_PARAM1 = "param1";
-    private int mParam1;
 
     public VaccineFragment() {
     }
 
-    public static VaccineFragment newInstance(int param1) {
-        VaccineFragment fragment = new VaccineFragment();
-        Bundle args = new Bundle();
-        args.putInt(ARG_PARAM1, param1);
-        fragment.setArguments(args);
-        return fragment;
+    public static VaccineFragment newInstance() {
+        return new VaccineFragment();
     }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        if (getArguments() != null) {
-            mParam1 = getArguments().getInt(ARG_PARAM1);
-        }
     }
 
     @Override

@@ -1,6 +1,7 @@
 package com.cosiguk.covidsituation.util;
 
 import android.Manifest;
+import android.app.Activity;
 import android.content.Context;
 import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageManager;
@@ -8,9 +9,12 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Toast;
 
+import androidx.appcompat.app.ActionBar;
+import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 
 import com.cosiguk.covidsituation.R;
+import com.cosiguk.covidsituation.databinding.CommonToolbarBinding;
 import com.google.android.material.snackbar.Snackbar;
 import com.gun0912.tedpermission.PermissionListener;
 import com.gun0912.tedpermission.TedPermission;

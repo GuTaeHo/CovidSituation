@@ -14,7 +14,8 @@
             android:orientation="horizontal"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent">
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintBottom_toTopOf="@id/indicator">
         </androidx.viewpager2.widget.ViewPager2>
         <TextView
             android:id="@+id/tv_previous"

@@ -175,7 +175,6 @@ public class VaccineFragment extends Fragment implements Comparator<Hospital>, O
 
                 // 마커 초기화
                 NaverMapUtil.setMarkersAndCaptions(getContext(), map);
-                // NaverMapUtil.setMarker(getContext(), item.getLat(), item.getLng(), item.getFacilityName(), ConvertUtil.splitString(item.getCenterName(), 1), item.getPhoneNumber(), String.valueOf(item.getDistance()));
             }
         });
     
@@ -249,5 +248,7 @@ public class VaccineFragment extends Fragment implements Comparator<Hospital>, O
         NaverMapUtil.setZoom(naverMap, 17,6);
         // 마커 출력
         NaverMapUtil.setMarkers(naverMap);
+        // 지도 클릭 리스너 등록
+        NaverMapUtil.initOnMapClickListener(naverMap);
     }
 }

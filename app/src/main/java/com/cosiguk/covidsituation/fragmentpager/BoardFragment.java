@@ -11,27 +11,17 @@ import android.view.ViewGroup;
 import com.cosiguk.covidsituation.R;
 
 public class BoardFragment extends Fragment {
-    private static final String ARG_PARAM1 = "param1";
-
-    private int mParam1;
 
     public BoardFragment() {
     }
 
-    public static BoardFragment newInstance(int param1) {
-        BoardFragment fragment = new BoardFragment();
-        Bundle args = new Bundle();
-        args.putInt(ARG_PARAM1, param1);
-        fragment.setArguments(args);
-        return fragment;
+    public static BoardFragment newInstance() {
+        return new BoardFragment();
     }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        if (getArguments() != null) {
-            mParam1 = getArguments().getInt(ARG_PARAM1);
-        }
     }
 
     @Override

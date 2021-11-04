@@ -16,11 +16,11 @@
 
         <TextView
             android:id="@+id/toolbar_title"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="start"
             android:fontFamily="@font/nanumsquare_round_bold"
-            android:gravity="center"
+            android:gravity="start"
             android:textSize="18sp"
             android:textColor="@color/black_light_20"
             tools:text="타이틀"/>

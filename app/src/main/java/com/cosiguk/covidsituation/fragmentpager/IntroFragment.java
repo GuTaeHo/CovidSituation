@@ -2,6 +2,7 @@ package com.cosiguk.covidsituation.fragmentpager;
 
 import android.os.Bundle;
 
+import androidx.databinding.DataBindingUtil;
 import androidx.fragment.app.Fragment;
 
 import android.view.LayoutInflater;
@@ -9,30 +10,21 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.cosiguk.covidsituation.R;
+import com.cosiguk.covidsituation.databinding.CommonToolbarBinding;
+import com.cosiguk.covidsituation.databinding.PagerIntroBinding;
 
 public class IntroFragment extends Fragment {
-
-    private static final String ARG_PARAM1 = "param1";
-
-    private int mParam1;
 
     public IntroFragment() {
     }
 
-    public static IntroFragment newInstance(int index) {
-        IntroFragment fragment = new IntroFragment();
-        Bundle args = new Bundle();
-        args.putInt(ARG_PARAM1, index);
-        fragment.setArguments(args);
-        return fragment;
+    public static IntroFragment newInstance() {
+        return new IntroFragment();
     }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        if (getArguments() != null) {
-            mParam1 = getArguments().getInt(ARG_PARAM1);
-        }
     }
 
     @Override

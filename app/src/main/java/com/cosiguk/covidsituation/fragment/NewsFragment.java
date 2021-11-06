@@ -1,14 +1,11 @@
 package com.cosiguk.covidsituation.fragment;
 
-import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.databinding.DataBindingUtil;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.LinearSmoothScroller;
 
-import android.os.Handler;
 import android.os.Parcelable;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -24,12 +21,9 @@ import com.cosiguk.covidsituation.dialog.NoticeDialog;
 import com.cosiguk.covidsituation.model.News;
 import com.cosiguk.covidsituation.network.resultInterface.NewsListener;
 import com.cosiguk.covidsituation.util.ActivityUtil;
-import com.cosiguk.covidsituation.util.BasicUtil;
 import com.cosiguk.covidsituation.util.ConvertUtil;
-import com.cosiguk.covidsituation.util.NewsComparator;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 
@@ -84,7 +78,7 @@ public class NewsFragment extends Fragment {
         queries.put("display", 20);
         queries.put("start", index);
 
-        if (displayProgress) MyApplication.showProgressDialog(getActivity(), getResources().getString(R.string.progress_news));
+        if (displayProgress) MyApplication.showProgressDialog(getActivity(), getResources().getString(R.string.progress_search));
         MyApplication
                 .getNetworkPresenterInstance()
                 .news(headerMap, queries, new NewsListener() {
@@ -139,12 +133,7 @@ public class NewsFragment extends Fragment {
             }
         });
 
-        adapter.setOnItemClickListener(new NewsAdapter.OnItemClickListener() {
-            @Override
-            public void onItemClick(View v, int pos) {
-                ActivityUtil.startUrlActivity(requireActivity(), adapter.getList().get(pos).getLink());
-            }
-        });
+        adapter.setOnItemClickListener((v, pos) -> ActivityUtil.startUrlActivity(requireActivity(), adapter.getList().get(pos).getLink()));
         binding.recyclerview.setAdapter(adapter);
         // 스크롤 상태 복구
         binding.recyclerview.getLayoutManager().onRestoreInstanceState(recyclerViewState);

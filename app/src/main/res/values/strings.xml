@@ -61,7 +61,7 @@
     <string name="progress_total">확진자 조회 중…</string>
     <string name="progress_city">시/도 정보 조회 중…</string>
     <string name="progress_vaccine">진료소 조회 중…</string>
-    <string name="progress_news">검색 중…</string>
+    <string name="progress_search">검색 중…</string>
 
     <!-- information -->
     <string name="info_intro_title">안녕하세요!</string>

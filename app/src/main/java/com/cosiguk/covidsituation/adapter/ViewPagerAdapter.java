@@ -12,12 +12,16 @@ import com.cosiguk.covidsituation.fragmentpager.NewsFragment;
 import com.cosiguk.covidsituation.fragmentpager.SituationBoardFragment;
 import com.cosiguk.covidsituation.fragmentpager.VaccineFragment;
 
+import java.util.ArrayList;
+
 public class ViewPagerAdapter extends FragmentStateAdapter {
     private int pageCount;
+    private ArrayList<Fragment> fragments;
 
     public ViewPagerAdapter(FragmentActivity fragment, int pageCount) {
         super(fragment);
         this.pageCount = pageCount;
+        this.fragments = new ArrayList<>();
     }
 
     @NonNull

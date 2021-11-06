@@ -5,6 +5,8 @@ import android.content.Intent;
 import android.net.Uri;
 
 public class ActivityUtil {
+    public static final String NOTICE_ID = "notice_id";
+
     // 액티비티 스택을 모두 지우고 단일 액티비티 실행
     public static void startNewActivity(Context context, Class<?> c) {
         Intent intent = new Intent(context, c);
@@ -20,6 +22,13 @@ public class ActivityUtil {
     // 기존 태스크에 액티비티 추가
     public static void startSingleActivity(Context context, Class<?> c) {
         Intent intent = new Intent(context, c);
+        intent.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP | Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        context.startActivity(intent);
+    }
+
+    public static void startSingleActivityExtra(Context context, Class<?> c, int id) {
+        Intent intent = new Intent(context, c);
+        intent.putExtra(NOTICE_ID, id);
         intent.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP | Intent.FLAG_ACTIVITY_CLEAR_TOP);
         context.startActivity(intent);
     }

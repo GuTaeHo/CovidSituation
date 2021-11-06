@@ -4,11 +4,13 @@ import com.cosiguk.covidsituation.network.response.ResponseCity;
 import com.cosiguk.covidsituation.network.response.ResponseHospital;
 import com.cosiguk.covidsituation.network.response.ResponseInfection;
 import com.cosiguk.covidsituation.network.response.ResponseNews;
+import com.cosiguk.covidsituation.network.response.ResponseNotice;
 import com.cosiguk.covidsituation.network.response.ResponseVaccineTotal;
 import com.cosiguk.covidsituation.network.response.ResponseVersion;
 import com.cosiguk.covidsituation.network.resultInterface.BoardListListener;
 import com.cosiguk.covidsituation.network.resultInterface.HospitalListener;
 import com.cosiguk.covidsituation.network.resultInterface.NewsListener;
+import com.cosiguk.covidsituation.network.resultInterface.NoticeListener;
 import com.cosiguk.covidsituation.network.resultInterface.TotalListener;
 import com.cosiguk.covidsituation.network.resultInterface.VaccineListener;
 import com.cosiguk.covidsituation.network.resultInterface.VersionListener;
@@ -48,6 +50,33 @@ public class NetworkPresenter implements NetworkPresenterInterface {
                     }
                 });
     }
+
+    @Override
+    public void notice(NoticeListener listener) {
+        RetrofitClient
+                .getInstance()
+                .getInterface()
+                .notice()
+                .enqueue(new Callback<Response<ResponseNotice>>() {
+                    @Override
+                    public void onResponse(Call<Response<ResponseNotice>> call, retrofit2.Response<Response<ResponseNotice>> response) {
+                        try {
+                            if (response.body() != null && response.isSuccessful()) {
+                                listener.success(response.body().getResultData().getData());
+                            } else {
+                                listener.fail(response.errorBody().string());
+                            }
+                        } catch (Exception e) {
+                            listener.fail("Notice Exception " + e.toString());
+                        }
+                    }
+
+                    @Override
+                    public void onFailure(Call<Response<ResponseNotice>> call, Throwable t) {
+                        listener.fail(t.toString());
+                    }
+                });
+    };
 
     @Override
     // 전체 현황 요청 (금일, 작일)

@@ -76,7 +76,7 @@
     <string name="info_news_content">코로나19 관련된 최신 뉴스를 표시하며\n각 뉴스를 터치하면 브라우저와 링크됩니다</string>
     <string name="info_news_append">(최상단에서 위로 스크롤하면 새로고침됩니다)</string>
     <string name="info_board_title">자유게시판</string>
-    <string name="info_board_content">코로나19 관련 정보를 채팅하듯이\n자유롭게 공유할 수 있습니다</string>
+    <string name="info_board_content">코로나19 관련 정보를 사람들과\n자유롭게 공유할 수 있습니다</string>
     <string name="info_board_append">(최상단에서 위로 스크롤하면 새로고침됩니다)</string>
 
     <string name="hello_blank_fragment">Hello blank fragment</string>

@@ -27,9 +27,12 @@ import com.cosiguk.covidsituation.util.BasicUtil;
 import com.cosiguk.covidsituation.util.ConvertUtil;
 import com.cosiguk.covidsituation.util.LocationUtil;
 import com.cosiguk.covidsituation.util.NaverMapUtil;
+import com.naver.maps.map.LocationTrackingMode;
 import com.naver.maps.map.MapFragment;
 import com.naver.maps.map.NaverMap;
 import com.naver.maps.map.OnMapReadyCallback;
+import com.naver.maps.map.overlay.LocationOverlay;
+import com.naver.maps.map.util.FusedLocationSource;
 
 import java.util.ArrayList;
 import java.util.Comparator;
@@ -38,8 +41,6 @@ import java.util.HashMap;
 public class VaccineFragment extends Fragment implements Comparator<Hospital>, OnMapReadyCallback {
     private FragmentVaccineBinding binding;
     private HospitalAdapter adapter;
-    // 지도 프래그먼트 관리 객체
-    private FragmentManager fragmentManager;
     private MapFragment mapView;
     // 백신 정보
     private Vaccine vaccine;
@@ -47,6 +48,8 @@ public class VaccineFragment extends Fragment implements Comparator<Hospital>, O
     private ArrayList<Hospital> hospitals;
     // 현재 위치(위, 경도)
     private Location location;
+    // 현재 위치 마커
+    private FusedLocationSource locationSource;
     // 재귀 방지
     private int blockLoop;
 
@@ -239,8 +242,9 @@ public class VaccineFragment extends Fragment implements Comparator<Hospital>, O
     // 맵 객체가 준비되면 호출
     @Override
     public void onMapReady(@NonNull NaverMap naverMap) {
-        NaverMapUtil.setCurrentMarker(naverMap, location);
-        // 인터페이스 초기화
+        // 현 위치 마커 설정
+        NaverMapUtil.setCurrentMarker(VaccineFragment.this, naverMap);
+        // 인터페이스 버튼 초기화
         NaverMapUtil.initUI(naverMap);
         // 카메라 이동
         NaverMapUtil.moveCamera(naverMap, location);

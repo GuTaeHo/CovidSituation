@@ -3,35 +3,32 @@ package com.cosiguk.covidsituation.activity;
 import android.os.Bundle;
 import android.os.Parcelable;
 import android.util.Log;
-import android.view.View;
 
 import androidx.core.content.res.ResourcesCompat;
 import androidx.databinding.DataBindingUtil;
 import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
 
 import com.cosiguk.covidsituation.R;
-import com.cosiguk.covidsituation.adapter.NewsAdapter;
 import com.cosiguk.covidsituation.adapter.NoticeAdapter;
-import com.cosiguk.covidsituation.application.MyApplication;
 import com.cosiguk.covidsituation.databinding.ActivityNoticeBinding;
 import com.cosiguk.covidsituation.databinding.CloseToolbarBinding;
 import com.cosiguk.covidsituation.dialog.NoticeDialog;
 import com.cosiguk.covidsituation.model.Notice;
 import com.cosiguk.covidsituation.network.resultInterface.NoticeListener;
-import com.cosiguk.covidsituation.util.ActivityUtil;
+import com.cosiguk.covidsituation.util.AnimationUtil;
 
 import java.util.ArrayList;
 
 public class NoticeActivity extends BaseActivity {
+    private static final int RECYCLER_VIEW_TOP = 0;
     private ActivityNoticeBinding binding;
     private CloseToolbarBinding closeToolbarBinding;
     private ArrayList<Notice> notices;
     private NoticeAdapter adapter;
     // 상태 저장
     private Parcelable recyclerViewState;
-    // 검색 위치
-    private int index;
+    // 최상단 이동 버튼
+    private boolean buttonState;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,12 +38,12 @@ public class NoticeActivity extends BaseActivity {
 
         initValues();
         initLayout();
-        requestNotice(index);
+        requestNotice();
         initEvent();
     }
 
     private void initValues() {
-        index = 1;
+        buttonState = false;
         adapter = new NoticeAdapter();
     }
 
@@ -56,7 +53,7 @@ public class NoticeActivity extends BaseActivity {
         binding.recyclerview.setLayoutManager(new LinearLayoutManager(NoticeActivity.this));
     }
 
-    private void requestNotice(int index) {
+    private void requestNotice() {
         showProgressDialog(NoticeActivity.this, getResources().getString(R.string.progress_search));
         networkPresenter
                 .notice(new NoticeListener() {
@@ -86,6 +83,9 @@ public class NoticeActivity extends BaseActivity {
     }
 
     private void initEvent() {
+        binding.tvButton.setOnClickListener(v -> {
+            binding.recyclerview.smoothScrollToPosition(RECYCLER_VIEW_TOP);
+        });
         closeToolbarBinding.ivLeave.setOnClickListener(v -> finish());
         initRefreshListener();
     }
@@ -94,14 +94,11 @@ public class NoticeActivity extends BaseActivity {
         // 스크롤 상태 저장
         recyclerViewState = binding.recyclerview.getLayoutManager().onSaveInstanceState();
         binding.recyclerview.setOnScrollChangeListener((v, scrollX, scrollY, oldScrollX, oldScrollY) -> {
-            // 스크롤이 끝에 도달했는지 확인
-            if (!binding.recyclerview.canScrollVertically(1)) {
-                Log.d("onStage()", adapter.getItemCount() + "");
-//                    // 검색 위치 조정
-//                    index = index + 20;
-//                    if (index <= 100) {
-//                        requestNotice(index);
-//                    }
+            // 버튼 상태 변환
+            if (!binding.recyclerview.canScrollVertically(-1)) {
+                AnimationUtil.setAnimationGone(binding.tvButton, 0.0f, 100);
+            } else {
+                AnimationUtil.setAnimationVisible(binding.tvButton, 1.0f, 100);
             }
         });
         binding.recyclerview.setAdapter(adapter);
@@ -113,9 +110,7 @@ public class NoticeActivity extends BaseActivity {
         binding.loSwipe.setOnRefreshListener(()->{
             // 리스트 초기화
             adapter.setItemListEmpty();
-            // 인덱스 초기화
-            index = 1;
-            requestNotice(index);
+            requestNotice();
         });
     }
 }

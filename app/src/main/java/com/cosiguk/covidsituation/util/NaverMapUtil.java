@@ -3,6 +3,8 @@ package com.cosiguk.covidsituation.util;
 import android.content.Context;
 import android.graphics.Color;
 import android.location.Location;
+import android.util.Log;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
@@ -10,8 +12,11 @@ import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
 import com.cosiguk.covidsituation.R;
+import com.cosiguk.covidsituation.application.MyApplication;
 import com.naver.maps.geometry.LatLng;
 import com.naver.maps.map.CameraUpdate;
+import com.naver.maps.map.LocationSource;
+import com.naver.maps.map.LocationTrackingMode;
 import com.naver.maps.map.MapFragment;
 import com.naver.maps.map.NaverMap;
 import com.naver.maps.map.UiSettings;
@@ -19,6 +24,7 @@ import com.naver.maps.map.overlay.Align;
 import com.naver.maps.map.overlay.InfoWindow;
 import com.naver.maps.map.overlay.Marker;
 import com.naver.maps.map.overlay.OverlayImage;
+import com.naver.maps.map.util.FusedLocationSource;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -29,7 +35,9 @@ public class NaverMapUtil {
     private static FragmentTransaction fragmentTransaction;
     private static FragmentManager fragmentManager;
     private static MapFragment mapView;
+    private static LocationSource locationSource;
 
+    public static final int LOCATION_PERMISSION_REQUEST_CODE = 1000;
     public static final String LAT = "lat";
     public static final String LNG = "lng";
     public static final String CAP = "caption";
@@ -107,12 +115,13 @@ public class NaverMapUtil {
         windows.add(infoWindow);
     }
 
-    // 마커들 초기화
+    // 마커(병원)들 초기화
     public static void setMarkers(NaverMap map) {
         if (markers != null) {
             markers.forEach(marker -> {
-                marker.setWidth(100);
+                marker.setWidth(130);
                 marker.setHeight(130);
+                marker.setIcon(OverlayImage.fromResource(R.drawable.ic_marker_hospital));
                 marker.setMap(map);
             });
         }
@@ -125,16 +134,28 @@ public class NaverMapUtil {
         });
     }
 
-    public static void setCurrentMarker(NaverMap map, Location loc) {
+    public static void setCurrentMarker(Fragment fragment, NaverMap map) {
         if (map != null) {
-            Marker marker = new Marker();
-            marker.setWidth(110);
-            marker.setHeight(145);
-            marker.setPosition(new LatLng(loc.getLatitude(), loc.getLongitude()));
-            marker.setIcon(OverlayImage.fromResource(R.drawable.ic_android_studio));
-            marker.setMap(map);
+            locationSource = new FusedLocationSource(fragment, LOCATION_PERMISSION_REQUEST_CODE);
+            map.getUiSettings().setLocationButtonEnabled(true);
+            map.setLocationTrackingMode(LocationTrackingMode.Face);
+            map.addOnLocationChangeListener(location -> {
+                Log.d("change", "변경");
+            });
+            map.setLocationSource(locationSource);
         }
     }
+
+//    public static void setCurrentMarker(NaverMap map, Location loc) {
+//        if (map != null) {
+//            Marker marker = new Marker();
+//            marker.setWidth(150);
+//            marker.setHeight(150);
+//            marker.setPosition(new LatLng(loc.getLatitude(), loc.getLongitude()));
+//            marker.setIcon(OverlayImage.fromResource(R.drawable.ic_marker_mylocation));
+//            marker.setMap(map);
+//        }
+//    }
 
     public static void setZoom(NaverMap map, int maxLevel, int minLevel) {
         map.setMaxZoom(maxLevel);

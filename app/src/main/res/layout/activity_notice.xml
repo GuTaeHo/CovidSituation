@@ -30,6 +30,20 @@
                     android:layout_height="wrap_content"
                     android:paddingBottom="?attr/actionBarSize"/>
             </LinearLayout>
+            <TextView
+                android:id="@+id/tv_button"
+                android:layout_width="48dp"
+                android:layout_height="48dp"
+                android:clickable="true"
+                android:focusable="true"
+                android:layout_marginBottom="18dp"
+                android:layout_marginEnd="18dp"
+                android:elevation="8dp"
+                android:animateLayoutChanges="true"
+                android:background="@drawable/view_upward"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                android:visibility="gone"/>
         </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
 </layout>

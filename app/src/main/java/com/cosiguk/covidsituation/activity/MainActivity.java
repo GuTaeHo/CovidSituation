@@ -2,8 +2,6 @@ package com.cosiguk.covidsituation.activity;
 
 import android.content.res.Resources;
 import android.os.Bundle;
-import android.os.Handler;
-import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 
@@ -16,13 +14,11 @@ import androidx.fragment.app.FragmentTransaction;
 
 import com.cosiguk.covidsituation.R;
 import com.cosiguk.covidsituation.databinding.ActivityMainBinding;
-import com.cosiguk.covidsituation.databinding.CommonSidebarBinding;
 import com.cosiguk.covidsituation.databinding.CommonToolbarBinding;
 import com.cosiguk.covidsituation.fragment.BoardFragment;
 import com.cosiguk.covidsituation.fragment.NewsFragment;
 import com.cosiguk.covidsituation.fragment.SituationBoardFragment;
 import com.cosiguk.covidsituation.fragment.VaccineFragment;
-import com.cosiguk.covidsituation.util.ActivityUtil;
 import com.cosiguk.covidsituation.util.HandlerUtil;
 import com.cosiguk.covidsituation.util.PackageUtil;
 
@@ -55,7 +51,7 @@ public class MainActivity extends BaseActivity {
         // 모든 뷰에 영향을 미치는 layout 관련 속성을 가져옴 (width, height 등)
         ViewGroup.LayoutParams params = binding.sideView.getLayoutParams();
         // 아래의 코드는 다음과 같음 android:layout_width="현재 화면 너비"
-        params.width = Resources.getSystem().getDisplayMetrics().widthPixels;
+        params.width = (int) (Resources.getSystem().getDisplayMetrics().widthPixels * 0.7);
         // 뷰에 레이아웃 적용
         binding.sideView.setLayoutParams(params);
     }
@@ -153,9 +149,7 @@ public class MainActivity extends BaseActivity {
     }
 
     private void initDrawerCloseButtonListener() {
-        binding.commonSidebar.ivNavClose.setOnClickListener(v -> {
-            binding.loDrawer.closeDrawer(GravityCompat.START);
-        });
+        binding.commonSidebar.ivNavClose.setOnClickListener(v -> binding.loDrawer.closeDrawer(GravityCompat.START));
     }
 
     @Override

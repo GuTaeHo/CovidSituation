@@ -2,6 +2,7 @@ package com.cosiguk.covidsituation.fragment;
 
 import android.os.Bundle;
 
+import androidx.databinding.DataBindingUtil;
 import androidx.fragment.app.Fragment;
 
 import android.view.LayoutInflater;
@@ -9,24 +10,17 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.cosiguk.covidsituation.R;
+import com.cosiguk.covidsituation.databinding.FragmentBoardBinding;
 
 public class BoardFragment extends Fragment {
-    private static final String ARG_PARAM1 = "param1";
-    private static final String ARG_PARAM2 = "param2";
-
-    // TODO: Rename and change types of parameters
-    private String mParam1;
-    private String mParam2;
+    private FragmentBoardBinding binding;
 
     public BoardFragment() {
-        // Required empty public constructor
     }
 
-    public static BoardFragment newInstance(String param1, String param2) {
+    public static BoardFragment newInstance() {
         BoardFragment fragment = new BoardFragment();
         Bundle args = new Bundle();
-        args.putString(ARG_PARAM1, param1);
-        args.putString(ARG_PARAM2, param2);
         fragment.setArguments(args);
         return fragment;
     }
@@ -34,15 +28,12 @@ public class BoardFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        if (getArguments() != null) {
-            mParam1 = getArguments().getString(ARG_PARAM1);
-            mParam2 = getArguments().getString(ARG_PARAM2);
-        }
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.fragment_board, container, false);
+        binding = DataBindingUtil.inflate(inflater, R.layout.fragment_board, container, false);
+        return binding.getRoot();
     }
 }

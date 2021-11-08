@@ -1,7 +1,8 @@
 package com.cosiguk.covidsituation.network;
 
 
-import com.cosiguk.covidsituation.network.resultInterface.BoardListListener;
+import com.cosiguk.covidsituation.network.resultInterface.BoardListener;
+import com.cosiguk.covidsituation.network.resultInterface.SituationBoardListener;
 import com.cosiguk.covidsituation.network.resultInterface.HospitalListener;
 import com.cosiguk.covidsituation.network.resultInterface.NewsListener;
 import com.cosiguk.covidsituation.network.resultInterface.NoticeListener;
@@ -22,7 +23,7 @@ public interface NetworkPresenterInterface {
     void total(HashMap<String, String> requestQuery, TotalListener listener);
 
     // 시,도 별 현황
-    void boardList(HashMap<String, String> requestBoardList, BoardListListener listener);
+    void situationBoardList(HashMap<String, String> requestBoardList, SituationBoardListener listener);
 
     // 뉴스
     void news(HashMap<String, String> headers, HashMap<String, Object> requestNews, NewsListener listener);
@@ -32,4 +33,7 @@ public interface NetworkPresenterInterface {
 
     // 진료소 현황
     void hospital(HashMap<String, String> requestQuery, HospitalListener listener);
+
+    // 게시글
+    void board(HashMap<String, String> requestQuery, BoardListener listener);
 }

@@ -4,15 +4,12 @@ import android.content.Context;
 import android.graphics.Color;
 import android.location.Location;
 import android.util.Log;
-import android.widget.Toast;
-
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
 import com.cosiguk.covidsituation.R;
-import com.cosiguk.covidsituation.application.MyApplication;
 import com.naver.maps.geometry.LatLng;
 import com.naver.maps.map.CameraUpdate;
 import com.naver.maps.map.LocationSource;
@@ -145,17 +142,6 @@ public class NaverMapUtil {
             map.setLocationSource(locationSource);
         }
     }
-
-//    public static void setCurrentMarker(NaverMap map, Location loc) {
-//        if (map != null) {
-//            Marker marker = new Marker();
-//            marker.setWidth(150);
-//            marker.setHeight(150);
-//            marker.setPosition(new LatLng(loc.getLatitude(), loc.getLongitude()));
-//            marker.setIcon(OverlayImage.fromResource(R.drawable.ic_marker_mylocation));
-//            marker.setMap(map);
-//        }
-//    }
 
     public static void setZoom(NaverMap map, int maxLevel, int minLevel) {
         map.setMaxZoom(maxLevel);

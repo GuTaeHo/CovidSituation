@@ -22,16 +22,14 @@ import com.cosiguk.covidsituation.databinding.FragmentSituationBoardBinding;
 import com.cosiguk.covidsituation.dialog.NoticeDialog;
 import com.cosiguk.covidsituation.model.City;
 import com.cosiguk.covidsituation.model.Infection;
-import com.cosiguk.covidsituation.network.resultInterface.BoardListListener;
+import com.cosiguk.covidsituation.network.resultInterface.SituationBoardListener;
 import com.cosiguk.covidsituation.network.resultInterface.TotalListener;
 import com.cosiguk.covidsituation.util.BasicUtil;
 import com.cosiguk.covidsituation.util.ConvertUtil;
 import com.cosiguk.covidsituation.util.LocationUtil;
 
-import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
-import java.util.function.Consumer;
 
 public class SituationBoardFragment extends Fragment {
     private static final String FRAG_TAG = "fragmentTag";
@@ -131,7 +129,7 @@ public class SituationBoardFragment extends Fragment {
 
         MyApplication.showProgressDialog(getActivity(), getResources().getString(R.string.progress_city));
         MyApplication.getNetworkPresenterInstance()
-                .boardList(map, new BoardListListener() {
+                .situationBoardList(map, new SituationBoardListener() {
                     @Override
                     public void success(List<City> items) {
                         setCityItemList(items);

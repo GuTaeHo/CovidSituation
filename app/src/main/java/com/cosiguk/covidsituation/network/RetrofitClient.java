@@ -1,5 +1,6 @@
 package com.cosiguk.covidsituation.network;
 
+import com.cosiguk.covidsituation.network.response.ResponseBoard;
 import com.cosiguk.covidsituation.network.response.ResponseNotice;
 import com.cosiguk.covidsituation.network.response.ResponseVersion;
 
@@ -10,7 +11,6 @@ import retrofit2.Retrofit;
 
 import retrofit2.converter.gson.GsonConverterFactory;
 import retrofit2.http.GET;
-import retrofit2.http.Path;
 
 public class RetrofitClient {
     public static final String URL = "http://test.byeonggook.shop/";
@@ -52,5 +52,8 @@ public class RetrofitClient {
 
         @GET("api/notice/noticeList")
         Call<Response<ResponseNotice>> notice();
+
+        @GET("api/board/boardList")
+        Call<Response<ResponseBoard>> boardList();
     }
 }

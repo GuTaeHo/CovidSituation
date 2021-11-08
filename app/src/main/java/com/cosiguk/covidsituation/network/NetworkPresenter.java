@@ -7,7 +7,8 @@ import com.cosiguk.covidsituation.network.response.ResponseNews;
 import com.cosiguk.covidsituation.network.response.ResponseNotice;
 import com.cosiguk.covidsituation.network.response.ResponseVaccineTotal;
 import com.cosiguk.covidsituation.network.response.ResponseVersion;
-import com.cosiguk.covidsituation.network.resultInterface.BoardListListener;
+import com.cosiguk.covidsituation.network.resultInterface.BoardListener;
+import com.cosiguk.covidsituation.network.resultInterface.SituationBoardListener;
 import com.cosiguk.covidsituation.network.resultInterface.HospitalListener;
 import com.cosiguk.covidsituation.network.resultInterface.NewsListener;
 import com.cosiguk.covidsituation.network.resultInterface.NoticeListener;
@@ -111,7 +112,7 @@ public class NetworkPresenter implements NetworkPresenterInterface {
 
     // 시,도 별 현황 요청
     @Override
-    public void boardList(HashMap<String, String> requestBoardList, BoardListListener listener) {
+    public void situationBoardList(HashMap<String, String> requestBoardList, SituationBoardListener listener) {
         RetrofitPublicClient
                 .getInstance()
                 .getInterface()
@@ -221,6 +222,11 @@ public class NetworkPresenter implements NetworkPresenterInterface {
                         listener.fail(t.toString());
                     }
                 });
+    }
+
+    @Override
+    public void board(HashMap<String, String> requestQuery, BoardListener listener) {
+
     }
 
 

@@ -50,7 +50,7 @@ public class MainActivity extends BaseActivity {
     private void initSideBarWidth() {
         // 모든 뷰에 영향을 미치는 layout 관련 속성을 가져옴 (width, height 등)
         ViewGroup.LayoutParams params = binding.sideView.getLayoutParams();
-        // 아래의 코드는 다음과 같음 android:layout_width="현재 화면 너비"
+        // 아래의 코드는 다음과 같음 android:layout_width="현재 화면 너비 * 0.7"
         params.width = (int) (Resources.getSystem().getDisplayMetrics().widthPixels * 0.7);
         // 뷰에 레이아웃 적용
         binding.sideView.setLayoutParams(params);

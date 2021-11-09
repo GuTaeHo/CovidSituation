@@ -3,8 +3,10 @@ package com.cosiguk.covidsituation.model;
 import com.google.gson.annotations.SerializedName;
 
 public class Board {
+    @SerializedName("title")
+    private String title;
     @SerializedName("id")
-    private String id;
+    private int id;
     @SerializedName("password")
     private String password;
     @SerializedName("nickname")
@@ -15,16 +17,26 @@ public class Board {
     private String createdDate;
     @SerializedName("modifiedDate")
     private String modifiedDate;
+    @SerializedName("hit")
+    private String hit;
     @SerializedName("recommend")
     private int recommend;
     @SerializedName("deprecate")
     private int deprecate;
 
-    public String getId() {
+    public String getTitle() {
+        return title;
+    }
+
+    public void setTitle(String title) {
+        this.title = title;
+    }
+
+    public int getId() {
         return id;
     }
 
-    public void setId(String id) {
+    public void setId(int id) {
         this.id = id;
     }
 
@@ -66,6 +78,14 @@ public class Board {
 
     public void setModifiedDate(String modifiedDate) {
         this.modifiedDate = modifiedDate;
+    }
+
+    public String getHit() {
+        return hit;
+    }
+
+    public void setHit(String hit) {
+        this.hit = hit;
     }
 
     public int getRecommend() {

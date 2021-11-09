@@ -18,7 +18,6 @@ import java.util.ArrayList;
 
 public class NoticeAdapter extends RecyclerView.Adapter<NoticeAdapter.ViewHolder> {
     private ArrayList<Notice> items;
-    private static OnItemClickListener listener = null;
     // Item 클릭 상태 저장 (1 == 열림, 0 == 닫힘)
     private SparseBooleanArray selectedItems;
     // 직전에 클릭된 Item 위치
@@ -27,19 +26,6 @@ public class NoticeAdapter extends RecyclerView.Adapter<NoticeAdapter.ViewHolder
     public NoticeAdapter() {
         this.items = new ArrayList<>();
         this.selectedItems = new SparseBooleanArray();
-    }
-
-    public interface OnItemClickListener {
-        void onItemClick(View v, int pos);
-    }
-
-    public void setOnItemClickListener(OnItemClickListener listener) {
-        this.listener = listener;
-    }
-
-    // 리스트 초기화
-    public void initItemList(ArrayList<Notice> list) {
-        this.items = list;
     }
 
     // 리스트 비우기

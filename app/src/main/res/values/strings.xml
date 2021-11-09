@@ -2,6 +2,8 @@
     <string name="app_name">CovidSituation</string>
 
     <!-- dialog -->
+    <string name="dialog_yes">예</string>
+    <string name="dialog_no">아니요</string>
     <string name="dialog_setting">설정</string>
     <string name="dialog_check">확인</string>
     <string name="dialog_cancel">취소</string>
@@ -78,6 +80,10 @@
     <string name="info_board_title">자유게시판</string>
     <string name="info_board_content">코로나19 관련 정보를 사람들과\n자유롭게 공유할 수 있습니다</string>
     <string name="info_board_append">(최상단에서 위로 스크롤하면 새로고침됩니다)</string>
+
+    <!-- board list -->
+    <string name="board_report_notice">이 게시글을 신고하시겠습니까?</string>
+    <string name="board_delete_notice">이 게시글을 삭제하시겠습니까?</string>
 
     <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>

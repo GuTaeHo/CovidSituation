@@ -1,5 +1,6 @@
 package com.cosiguk.covidsituation.network;
 
+import com.cosiguk.covidsituation.network.response.ResponseBoard;
 import com.cosiguk.covidsituation.network.response.ResponseCity;
 import com.cosiguk.covidsituation.network.response.ResponseHospital;
 import com.cosiguk.covidsituation.network.response.ResponseInfection;
@@ -225,8 +226,30 @@ public class NetworkPresenter implements NetworkPresenterInterface {
     }
 
     @Override
-    public void board(HashMap<String, String> requestQuery, BoardListener listener) {
+    public void boardList(BoardListener listener) {
+        RetrofitClient
+                .getInstance()
+                .getInterface()
+                .boardList()
+                .enqueue(new Callback<Response<ResponseBoard>>() {
+                    @Override
+                    public void onResponse(Call<Response<ResponseBoard>> call, retrofit2.Response<Response<ResponseBoard>> response) {
+                        try {
+                            if (response.body() != null && response.isSuccessful()) {
+                                listener.success(response.body().getResultData().getData());
+                            } else {
+                                listener.fail(response.errorBody().toString());
+                            }
+                        } catch (Exception e) {
+                            listener.fail("boardList Exception " + e.toString());
+                        }
+                    }
 
+                    @Override
+                    public void onFailure(Call<Response<ResponseBoard>> call, Throwable t) {
+                        listener.fail(t.toString());
+                    }
+                });
     }
 
 

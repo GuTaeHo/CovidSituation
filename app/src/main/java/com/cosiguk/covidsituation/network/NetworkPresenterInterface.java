@@ -35,5 +35,5 @@ public interface NetworkPresenterInterface {
     void hospital(HashMap<String, String> requestQuery, HospitalListener listener);
 
     // 게시글
-    void board(HashMap<String, String> requestQuery, BoardListener listener);
+    void boardList(BoardListener listener);
 }

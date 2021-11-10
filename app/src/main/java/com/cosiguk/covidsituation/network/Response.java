@@ -11,6 +11,9 @@ public class Response<T> {
     @SerializedName("message")
     private String message;
 
+    @SerializedName("error")
+    private String error;
+
     @SerializedName("result_data")
     private T result_data;
 
@@ -20,6 +23,10 @@ public class Response<T> {
 
     public String getMessage() {
         return message;
+    }
+
+    public String getError() {
+        return error;
     }
 
     public T getResultData() {

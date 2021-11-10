@@ -11,6 +11,8 @@ import retrofit2.Retrofit;
 
 import retrofit2.converter.gson.GsonConverterFactory;
 import retrofit2.http.GET;
+import retrofit2.http.POST;
+import retrofit2.http.Path;
 
 public class RetrofitClient {
     public static final String URL = "http://test.byeonggook.shop/";
@@ -55,5 +57,8 @@ public class RetrofitClient {
 
         @GET("api/board/boardList")
         Call<Response<ResponseBoard>> boardList();
+
+        @POST("api/board/{boardId}/delete")
+        Call<Response> deleteBoard(@Path("boardID") int boardID);
     }
 }

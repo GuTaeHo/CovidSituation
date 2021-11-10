@@ -1,5 +1,7 @@
 package com.cosiguk.covidsituation.fragment;
 
+import android.annotation.SuppressLint;
+import android.content.Context;
 import android.os.Bundle;
 
 import androidx.databinding.DataBindingUtil;
@@ -11,22 +13,26 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import com.cosiguk.covidsituation.R;
+import com.cosiguk.covidsituation.activity.BoardActivity;
+import com.cosiguk.covidsituation.adapter.BaseRecyclerViewAdapter;
 import com.cosiguk.covidsituation.adapter.BoardListAdapter;
 import com.cosiguk.covidsituation.application.MyApplication;
 import com.cosiguk.covidsituation.databinding.FragmentBoardBinding;
 import com.cosiguk.covidsituation.dialog.NoticeDialog;
 import com.cosiguk.covidsituation.model.Board;
 import com.cosiguk.covidsituation.network.resultInterface.BoardListener;
+import com.cosiguk.covidsituation.util.ActivityUtil;
 
 import java.util.ArrayList;
 
 public class BoardFragment extends Fragment {
     private FragmentBoardBinding binding;
-    private ArrayList<Board> boards;
     private BoardListAdapter adapter;
-    private Parcelable recyclerViewState;
+    private Context context;
+    private BaseRecyclerViewAdapter.OnItemClickListener reportListener;
 
     public BoardFragment() {}
 
@@ -43,26 +49,20 @@ public class BoardFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_board, container, false);
-        initValue();
-        requestNews();
+        initLayout();
         initRefreshListener();
+        requestBoard();
         return binding.getRoot();
     }
 
-    private void initValue() {
-        binding.recyclerview.setLayoutManager(new LinearLayoutManager(getActivity()));
-        adapter = new BoardListAdapter(getActivity(), new ArrayList<>());
-    }
-
-    private void requestNews() {
+    private void requestBoard() {
         MyApplication.showProgressDialog(getActivity(), getResources().getString(R.string.progress_search));
         MyApplication
                 .getNetworkPresenterInstance()
                 .boardList(new BoardListener() {
                     @Override
                     public void success(ArrayList<Board> items) {
-                        setBoardList(items);
-                        initBoardLayout();
+                        adapter.addItems(items);
                         binding.loSwipe.setRefreshing(false);
                         MyApplication.dismissProgressDialog();
                     }
@@ -78,14 +78,10 @@ public class BoardFragment extends Fragment {
                 });
     }
 
-    private void setBoardList(ArrayList<Board> boardList) {
-        // 뉴스 리스트 저장
-        adapter.addAll(boardList);
-    }
-
-    private void initBoardLayout() {
-        // 스크롤 상태 저장
-        recyclerViewState = binding.recyclerview.getLayoutManager().onSaveInstanceState();
+    private void initLayout() {
+        context = getActivity();
+        adapter = new BoardListAdapter(context);
+        binding.recyclerview.setLayoutManager(new LinearLayoutManager(getActivity()));
         binding.recyclerview.setOnScrollChangeListener(new View.OnScrollChangeListener() {
             @Override
             public void onScrollChange(View v, int scrollX, int scrollY, int oldScrollX, int oldScrollY) {
@@ -95,15 +91,77 @@ public class BoardFragment extends Fragment {
                 }
             }
         });
+        adapter.setOnItemClickListener(new BaseRecyclerViewAdapter.OnItemClickListener() {
+            @SuppressLint("NonConstantResourceId")
+            @Override
+            public void onItemClick(View view, int position) {
+                Log.d("board", "clicked");
+                ActivityUtil.startSingleActivityExtra(context, BoardActivity.class, adapter.getItem(position).getId());
+                /*
+                switch (view.getId()) {
+                    case R.id.container:
+                        Log.d("board", "container clicked : " + adapter.getItem(position).getTitle());
+                        ActivityUtil.startSingleActivityExtra(context, BoardActivity.class, adapter.getItem(position).getId());
+                        break;
+                    case R.id.tv_board_like:
+                        Log.d("board", "like clicked");
+                        requestLike();
+                        break;
+                    case R.id.tv_board_unlike:
+                        Log.d("board", "unlike clicked");
+                        requestUnLike();
+                        break;
+                    case R.id.tv_board_report:
+                        Log.d("board", "report clicked");
+                        requestReport(adapter.getItem(position));
+                        break;
+                    case R.id.tv_board_delete:
+                        Log.d("board", "delete clicked");
+                        requestDelete();
+                        break;
+                    default:
+                        Log.d("board", "default clicked");
+                        break;
+                }
+
+                 */
+            }
+        });
         binding.recyclerview.setAdapter(adapter);
-        // 스크롤 상태 복구
-        binding.recyclerview.getLayoutManager().onRestoreInstanceState(recyclerViewState);
     }
 
     private void initRefreshListener() {
         binding.loSwipe.setOnRefreshListener(()->{
-            adapter.setItemListEmpty();
-            requestNews();
+            adapter.clear();
+            requestBoard();
         });
+    }
+
+    private void requestLike() {
+
+    }
+
+    private void requestUnLike() {
+
+    }
+
+    private void requestReport(Board item) {
+        new NoticeDialog(context)
+                .setMsg(getResources().getString(R.string.board_report_notice))
+                .setPositiveMsg(getResources().getString(R.string.dialog_yes))
+                .setNegativeMsg(getResources().getString(R.string.dialog_no))
+                .setNoticeDialogCallbackListener(new NoticeDialog.NoticeDialogCallbackListener() {
+                    @Override
+                    public void positive() {
+                        Toast.makeText(context, "게시글 : " + item.getTitle() + " 신고 완료", Toast.LENGTH_SHORT).show();
+                    }
+
+                    @Override
+                    public void negative() {}
+                }).show();
+    }
+
+    private void requestDelete() {
+
     }
 }

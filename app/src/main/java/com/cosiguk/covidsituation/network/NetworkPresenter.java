@@ -9,6 +9,7 @@ import com.cosiguk.covidsituation.network.response.ResponseNotice;
 import com.cosiguk.covidsituation.network.response.ResponseVaccineTotal;
 import com.cosiguk.covidsituation.network.response.ResponseVersion;
 import com.cosiguk.covidsituation.network.resultInterface.BoardListener;
+import com.cosiguk.covidsituation.network.resultInterface.DeleteBoardListener;
 import com.cosiguk.covidsituation.network.resultInterface.SituationBoardListener;
 import com.cosiguk.covidsituation.network.resultInterface.HospitalListener;
 import com.cosiguk.covidsituation.network.resultInterface.NewsListener;
@@ -247,6 +248,33 @@ public class NetworkPresenter implements NetworkPresenterInterface {
 
                     @Override
                     public void onFailure(Call<Response<ResponseBoard>> call, Throwable t) {
+                        listener.fail(t.toString());
+                    }
+                });
+    }
+
+    @Override
+    public void deleteBoard(int boardID, DeleteBoardListener listener) {
+        RetrofitClient
+                .getInstance()
+                .getInterface()
+                .deleteBoard(boardID)
+                .enqueue(new Callback<Response>() {
+                    @Override
+                    public void onResponse(Call<Response> call, retrofit2.Response<Response> response) {
+                        try {
+                            if (response.body() != null && response.isSuccessful()) {
+                                listener.success(response.body().getCode());
+                            } else {
+                                listener.fail(response.errorBody().toString());
+                            }
+                        } catch (Exception e) {
+                            listener.fail("deleteBoard Exception " + e.toString());
+                        }
+                    }
+
+                    @Override
+                    public void onFailure(Call<Response> call, Throwable t) {
                         listener.fail(t.toString());
                     }
                 });

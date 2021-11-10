@@ -2,6 +2,7 @@ package com.cosiguk.covidsituation.network;
 
 
 import com.cosiguk.covidsituation.network.resultInterface.BoardListener;
+import com.cosiguk.covidsituation.network.resultInterface.DeleteBoardListener;
 import com.cosiguk.covidsituation.network.resultInterface.SituationBoardListener;
 import com.cosiguk.covidsituation.network.resultInterface.HospitalListener;
 import com.cosiguk.covidsituation.network.resultInterface.NewsListener;
@@ -36,4 +37,7 @@ public interface NetworkPresenterInterface {
 
     // 게시글
     void boardList(BoardListener listener);
+
+    // 게시글 삭제
+    void deleteBoard(int boardID, DeleteBoardListener listener);
 }

@@ -7,6 +7,9 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         tools:context=".activity.BoardActivity">
+        <include
+            android:id="@+id/close_toolbar"
+            layout="@layout/close_toolbar"/>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

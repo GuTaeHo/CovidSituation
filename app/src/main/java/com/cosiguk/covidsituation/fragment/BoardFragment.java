@@ -32,7 +32,6 @@ public class BoardFragment extends Fragment {
     private FragmentBoardBinding binding;
     private BoardListAdapter adapter;
     private Context context;
-    private BaseRecyclerViewAdapter.OnItemClickListener reportListener;
 
     public BoardFragment() {}
 
@@ -95,36 +94,7 @@ public class BoardFragment extends Fragment {
             @SuppressLint("NonConstantResourceId")
             @Override
             public void onItemClick(View view, int position) {
-                Log.d("board", "clicked");
                 ActivityUtil.startSingleActivityExtra(context, BoardActivity.class, adapter.getItem(position).getId());
-                /*
-                switch (view.getId()) {
-                    case R.id.container:
-                        Log.d("board", "container clicked : " + adapter.getItem(position).getTitle());
-                        ActivityUtil.startSingleActivityExtra(context, BoardActivity.class, adapter.getItem(position).getId());
-                        break;
-                    case R.id.tv_board_like:
-                        Log.d("board", "like clicked");
-                        requestLike();
-                        break;
-                    case R.id.tv_board_unlike:
-                        Log.d("board", "unlike clicked");
-                        requestUnLike();
-                        break;
-                    case R.id.tv_board_report:
-                        Log.d("board", "report clicked");
-                        requestReport(adapter.getItem(position));
-                        break;
-                    case R.id.tv_board_delete:
-                        Log.d("board", "delete clicked");
-                        requestDelete();
-                        break;
-                    default:
-                        Log.d("board", "default clicked");
-                        break;
-                }
-
-                 */
             }
         });
         binding.recyclerview.setAdapter(adapter);
@@ -135,33 +105,5 @@ public class BoardFragment extends Fragment {
             adapter.clear();
             requestBoard();
         });
-    }
-
-    private void requestLike() {
-
-    }
-
-    private void requestUnLike() {
-
-    }
-
-    private void requestReport(Board item) {
-        new NoticeDialog(context)
-                .setMsg(getResources().getString(R.string.board_report_notice))
-                .setPositiveMsg(getResources().getString(R.string.dialog_yes))
-                .setNegativeMsg(getResources().getString(R.string.dialog_no))
-                .setNoticeDialogCallbackListener(new NoticeDialog.NoticeDialogCallbackListener() {
-                    @Override
-                    public void positive() {
-                        Toast.makeText(context, "게시글 : " + item.getTitle() + " 신고 완료", Toast.LENGTH_SHORT).show();
-                    }
-
-                    @Override
-                    public void negative() {}
-                }).show();
-    }
-
-    private void requestDelete() {
-
     }
 }

@@ -10,22 +10,23 @@
         android:fitsSystemWindows="true"
         android:minHeight="?attr/actionBarSize"
         app:layout_scrollFlags="scroll|enterAlways">
+        <ImageView
+            android:id="@+id/iv_leave"
+            android:background="@drawable/ic_arrow_back_24"
+            android:layout_width="28dp"
+            android:layout_height="28dp"
+            android:layout_gravity="center_vertical|start"/>
         <TextView
             android:id="@+id/toolbar_title"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="start"
             android:fontFamily="@font/nanumsquare_round_bold"
             android:gravity="start"
+            android:padding="6dp"
             android:textSize="18sp"
+            android:layout_marginStart="24dp"
             android:textColor="@color/black_light_20"
             tools:text="타이틀"/>
-        <ImageView
-            android:id="@+id/iv_leave"
-            android:background="@drawable/ic_close_24"
-            android:layout_width="36dp"
-            android:layout_height="36dp"
-            android:layout_gravity="center_vertical|end"
-            android:layout_marginEnd="12dp"/>
     </androidx.appcompat.widget.Toolbar>
 </layout>

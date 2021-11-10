@@ -135,7 +135,7 @@ public class NaverMapUtil {
         if (map != null) {
             locationSource = new FusedLocationSource(fragment, LOCATION_PERMISSION_REQUEST_CODE);
             map.getUiSettings().setLocationButtonEnabled(true);
-            map.setLocationTrackingMode(LocationTrackingMode.Face);
+            map.setLocationTrackingMode(LocationTrackingMode.NoFollow);
             map.addOnLocationChangeListener(location -> {
                 Log.d("change", "변경");
             });

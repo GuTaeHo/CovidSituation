@@ -18,7 +18,9 @@
         <entry key="..\:/CovidSituation/app/src/main/res/drawable/ic_board_24.xml" value="0.31296296296296294" />
         <entry key="..\:/CovidSituation/app/src/main/res/drawable/ic_campaign_24.xml" value="0.31296296296296294" />
         <entry key="..\:/CovidSituation/app/src/main/res/drawable/ic_close_24.xml" value="0.375" />
+        <entry key="..\:/CovidSituation/app/src/main/res/drawable/ic_comment_24.xml" value="0.3111111111111111" />
         <entry key="..\:/CovidSituation/app/src/main/res/drawable/ic_delete_24.xml" value="0.3055555555555556" />
+        <entry key="..\:/CovidSituation/app/src/main/res/drawable/ic_eye_24.xml" value="0.3111111111111111" />
         <entry key="..\:/CovidSituation/app/src/main/res/drawable/ic_fact_check_24.xml" value="0.3194444444444444" />
         <entry key="..\:/CovidSituation/app/src/main/res/drawable/ic_leaderboard_24.xml" value="0.36923076923076925" />
         <entry key="..\:/CovidSituation/app/src/main/res/drawable/ic_location_city_24.xml" value="0.28425925925925927" />
@@ -29,6 +31,7 @@
         <entry key="..\:/CovidSituation/app/src/main/res/drawable/ic_situation_board_24.xml" value="0.31296296296296294" />
         <entry key="..\:/CovidSituation/app/src/main/res/drawable/ic_thumb_down_24.xml" value="0.3138888888888889" />
         <entry key="..\:/CovidSituation/app/src/main/res/drawable/ic_thumb_up_24.xml" value="0.3138888888888889" />
+        <entry key="..\:/CovidSituation/app/src/main/res/drawable/ic_thumb_up_alt_24.xml" value="0.3111111111111111" />
         <entry key="..\:/CovidSituation/app/src/main/res/drawable/ic_upward_24.xml" value="0.30925925925925923" />
         <entry key="..\:/CovidSituation/app/src/main/res/drawable/indicator_round.xml" value="0.32037037037037036" />
         <entry key="..\:/CovidSituation/app/src/main/res/drawable/indicator_selected.xml" value="0.32037037037037036" />
@@ -79,7 +82,7 @@
         <entry key="..\:/CovidSituation/app/src/main/res/layout/fragment_town.xml" value="0.35885416666666664" />
         <entry key="..\:/CovidSituation/app/src/main/res/layout/fragment_vaccine.xml" value="0.2759259259259259" />
         <entry key="..\:/CovidSituation/app/src/main/res/layout/intro_toolbar.xml" value="0.20208333333333334" />
-        <entry key="..\:/CovidSituation/app/src/main/res/layout/item_board.xml" value="0.2611111111111111" />
+        <entry key="..\:/CovidSituation/app/src/main/res/layout/item_board.xml" value="0.43902439024390244" />
         <entry key="..\:/CovidSituation/app/src/main/res/layout/item_board_audience.xml" value="0.2611111111111111" />
         <entry key="..\:/CovidSituation/app/src/main/res/layout/item_board_speaker.xml" value="0.2611111111111111" />
         <entry key="..\:/CovidSituation/app/src/main/res/layout/item_chat.xml" value="0.26944444444444443" />

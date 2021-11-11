@@ -40,7 +40,9 @@ public class BoardListAdapter extends BaseRecyclerViewAdapter<Board, BoardListAd
             holder.binding.tvTitle.setText(item.getTitle());
             holder.binding.tvDate.setText(item.getCreatedDate());
             holder.binding.tvNickname.setText(String.format("%s", item.getNickname()));
-            holder.binding.tvHit.setText(String.format("조회수 %s", item.getHit()));
+            holder.binding.tvHit.setText(String.format("%s", item.getHit()));
+            holder.binding.tvRecommendCount.setText(String.format("%s", item.getRecommend()));
+            holder.binding.tvCommentCount.setText(String.format("%s", item.getReviewCount()));
         }
     }
 

@@ -23,6 +23,8 @@ public class Board {
     private int recommend;
     @SerializedName("deprecate")
     private int deprecate;
+    @SerializedName("review_count")
+    private int reviewCount;
 
     public String getTitle() {
         return title;
@@ -102,5 +104,13 @@ public class Board {
 
     public void setDeprecate(int deprecate) {
         this.deprecate = deprecate;
+    }
+
+    public int getReviewCount() {
+        return reviewCount;
+    }
+
+    public void setReviewCount(int reviewCount) {
+        this.reviewCount = reviewCount;
     }
 }

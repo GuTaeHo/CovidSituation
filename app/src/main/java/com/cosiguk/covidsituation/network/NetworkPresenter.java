@@ -1,6 +1,9 @@
 package com.cosiguk.covidsituation.network;
 
+import com.cosiguk.covidsituation.R;
+import com.cosiguk.covidsituation.model.Board;
 import com.cosiguk.covidsituation.network.response.ResponseBoard;
+import com.cosiguk.covidsituation.network.response.ResponseBoardDetail;
 import com.cosiguk.covidsituation.network.response.ResponseCity;
 import com.cosiguk.covidsituation.network.response.ResponseHospital;
 import com.cosiguk.covidsituation.network.response.ResponseInfection;
@@ -8,7 +11,10 @@ import com.cosiguk.covidsituation.network.response.ResponseNews;
 import com.cosiguk.covidsituation.network.response.ResponseNotice;
 import com.cosiguk.covidsituation.network.response.ResponseVaccineTotal;
 import com.cosiguk.covidsituation.network.response.ResponseVersion;
+import com.cosiguk.covidsituation.network.resultInterface.BoardDeprecateListener;
+import com.cosiguk.covidsituation.network.resultInterface.BoardDetailListener;
 import com.cosiguk.covidsituation.network.resultInterface.BoardListener;
+import com.cosiguk.covidsituation.network.resultInterface.BoardRecommendListener;
 import com.cosiguk.covidsituation.network.resultInterface.DeleteBoardListener;
 import com.cosiguk.covidsituation.network.resultInterface.SituationBoardListener;
 import com.cosiguk.covidsituation.network.resultInterface.HospitalListener;
@@ -252,6 +258,88 @@ public class NetworkPresenter implements NetworkPresenterInterface {
                     }
                 });
     }
+
+    @Override
+    public void boardDetail(int boardID, BoardDetailListener listener) {
+        RetrofitClient
+                .getInstance()
+                .getInterface()
+                .boardDetail(boardID)
+                .enqueue(new Callback<Response<ResponseBoardDetail>>() {
+                    @Override
+                    public void onResponse(Call<Response<ResponseBoardDetail>> call, retrofit2.Response<Response<ResponseBoardDetail>> response) {
+                        try {
+                            if (response.body() != null && response.isSuccessful()) {
+                                listener.success(response.body().getResultData().getData());
+                            } else {
+                                listener.fail(response.errorBody().toString());
+                            }
+                        } catch (Exception e) {
+                            listener.fail("boardDetail Exception " + e.toString());
+                        }
+                    }
+
+                    @Override
+                    public void onFailure(Call<Response<ResponseBoardDetail>> call, Throwable t) {
+                        listener.fail(t.toString());
+                    }
+                });
+    }
+
+    @Override
+    public void boardRecommend(int boardID, BoardRecommendListener listener) {
+        RetrofitClient
+                .getInstance()
+                .getInterface()
+                .boardRecommend(boardID)
+                .enqueue(new Callback<Response>() {
+                    @Override
+                    public void onResponse(Call<Response> call, retrofit2.Response<Response> response) {
+                        try {
+                            if (response.body() != null && response.isSuccessful()) {
+                                listener.success(response.body().getCode());
+                            } else {
+                                listener.fail(getError(response.errorBody()).getError());
+                            }
+                        } catch (Exception e) {
+                            listener.fail("boardRecommend Exception " + e.toString());
+                        }
+                    }
+
+                    @Override
+                    public void onFailure(Call<Response> call, Throwable t) {
+                        listener.fail(t.toString());
+                    }
+                });
+    }
+
+    @Override
+    public void boardDeprecate(int boardID, BoardDeprecateListener listener) {
+        RetrofitClient
+                .getInstance()
+                .getInterface()
+                .boardDeprecate(boardID)
+                .enqueue(new Callback<Response>() {
+                    @Override
+                    public void onResponse(Call<Response> call, retrofit2.Response<Response> response) {
+                        try {
+                            if (response.body() != null && response.isSuccessful()) {
+                                listener.success(response.body().getCode());
+                            } else {
+                                listener.fail(getError(response.errorBody()).getError());
+                            }
+                        } catch (Exception e) {
+                            listener.fail("boardDeprecate Exception " + e.toString());
+                        }
+                    }
+
+                    @Override
+                    public void onFailure(Call<Response> call, Throwable t) {
+                        listener.fail(t.toString());
+                    }
+                });
+    }
+
 
     @Override
     public void deleteBoard(int boardID, DeleteBoardListener listener) {

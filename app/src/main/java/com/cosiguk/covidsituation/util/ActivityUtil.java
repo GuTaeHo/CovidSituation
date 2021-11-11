@@ -6,6 +6,10 @@ import android.net.Uri;
 
 public class ActivityUtil {
     public static final String NOTICE_ID = "notice_id";
+    // 액티비티 응답 결과 사용
+    public static final String RESPONSE_OK = "response_ok";
+    public static final String RESPONSE_CANCEL = "response_cancel";
+    
 
     // 액티비티 스택을 모두 지우고 단일 액티비티 실행
     public static void startNewActivity(Context context, Class<?> c) {

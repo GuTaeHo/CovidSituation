@@ -1,19 +1,23 @@
 package com.cosiguk.covidsituation.fragment;
 
-import android.annotation.SuppressLint;
+import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 
+import androidx.activity.result.ActivityResultCallback;
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.contract.ActivityResultContract;
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.databinding.DataBindingUtil;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
-import android.os.Parcelable;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Toast;
 
 import com.cosiguk.covidsituation.R;
 import com.cosiguk.covidsituation.activity.BoardActivity;
@@ -32,6 +36,7 @@ public class BoardFragment extends Fragment {
     private FragmentBoardBinding binding;
     private BoardListAdapter adapter;
     private Context context;
+    private ActivityResultLauncher<Intent> resultLauncher;
 
     public BoardFragment() {}
 
@@ -48,7 +53,9 @@ public class BoardFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_board, container, false);
+
         initLayout();
+        resultActivityLauncher();
         initRefreshListener();
         requestBoard();
         return binding.getRoot();
@@ -91,10 +98,11 @@ public class BoardFragment extends Fragment {
             }
         });
         adapter.setOnItemClickListener(new BaseRecyclerViewAdapter.OnItemClickListener() {
-            @SuppressLint("NonConstantResourceId")
             @Override
             public void onItemClick(View view, int position) {
-                ActivityUtil.startSingleActivityExtra(context, BoardActivity.class, adapter.getItem(position).getId());
+                Intent intent = new Intent(getActivity(), BoardActivity.class);
+                intent.putExtra(ActivityUtil.NOTICE_ID, adapter.getItem(position).getId());
+                resultLauncher.launch(intent);
             }
         });
         binding.recyclerview.setAdapter(adapter);
@@ -105,5 +113,34 @@ public class BoardFragment extends Fragment {
             adapter.clear();
             requestBoard();
         });
+    }
+
+    private void resultActivityLauncher() {
+        resultLauncher = registerForActivityResult(
+                new ActivityResultContract<Intent, Object>() {
+                    @NonNull
+                    @Override
+                    public Intent createIntent(@NonNull Context context, Intent input) {
+                        input.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP |Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                        return input;
+                    }
+
+                    @Override
+                    public Object parseResult(int resultCode, @Nullable Intent intent) {
+                        if (resultCode == Activity.RESULT_OK) {
+                            return ActivityUtil.RESPONSE_OK;
+                        } else
+                            return ActivityUtil.RESPONSE_CANCEL;
+                    }
+                },
+                new ActivityResultCallback<Object>() {
+                    @Override
+                    public void onActivityResult(Object result) {
+                        if (result.equals(ActivityUtil.RESPONSE_OK)) {
+                            adapter.clear();
+                            requestBoard();
+                        }
+                    }
+                });
     }
 }

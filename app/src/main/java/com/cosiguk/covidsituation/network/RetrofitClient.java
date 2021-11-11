@@ -1,6 +1,7 @@
 package com.cosiguk.covidsituation.network;
 
 import com.cosiguk.covidsituation.network.response.ResponseBoard;
+import com.cosiguk.covidsituation.network.response.ResponseBoardDetail;
 import com.cosiguk.covidsituation.network.response.ResponseNotice;
 import com.cosiguk.covidsituation.network.response.ResponseVersion;
 
@@ -58,7 +59,16 @@ public class RetrofitClient {
         @GET("api/board/boardList")
         Call<Response<ResponseBoard>> boardList();
 
-        @POST("api/board/{boardId}/delete")
+        @GET("api/board/{boardID}")
+        Call<Response<ResponseBoardDetail>> boardDetail(@Path("boardID") int boardID);
+
+        @GET("api/board/{boardID}/recommend")
+        Call<Response> boardRecommend(@Path("boardID") int boardID);
+
+        @GET("api/board/{boardID}/deprecate")
+        Call<Response> boardDeprecate(@Path("boardID") int boardID);
+
+        @POST("api/board/{boardID}/delete")
         Call<Response> deleteBoard(@Path("boardID") int boardID);
     }
 }

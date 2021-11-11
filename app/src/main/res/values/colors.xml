@@ -24,6 +24,12 @@
     <color name="pastel_strong_yellow">#e6e600</color>
     <color name="pastel_strong_android">#00e68a</color>
 
+    <!-- 상태 -->
+    <color name="good">#bbd6ff</color>
+    <color name="bad">#ff9999</color>
+    <color name="good_strong">#66a3ff</color>
+    <color name="bad_strong">#ff6666</color>
+
 
     <!-- 전역 -->
     <color name="action_bar">#f8f8f8</color>

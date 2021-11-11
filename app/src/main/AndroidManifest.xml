@@ -20,7 +20,8 @@
         tools:ignore="LockedOrientationActivity">
         <activity
             android:name=".activity.BoardActivity"
-            android:exported="false" />
+            android:exported="false"
+            android:screenOrientation="portrait" />
         <activity
             android:name=".activity.NoticeActivity"
             android:exported="false"

@@ -6,7 +6,6 @@ import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.databinding.DataBindingUtil;
 import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
 import android.view.LayoutInflater;
@@ -27,11 +26,9 @@ import com.cosiguk.covidsituation.util.BasicUtil;
 import com.cosiguk.covidsituation.util.ConvertUtil;
 import com.cosiguk.covidsituation.util.LocationUtil;
 import com.cosiguk.covidsituation.util.NaverMapUtil;
-import com.naver.maps.map.LocationTrackingMode;
 import com.naver.maps.map.MapFragment;
 import com.naver.maps.map.NaverMap;
 import com.naver.maps.map.OnMapReadyCallback;
-import com.naver.maps.map.overlay.LocationOverlay;
 import com.naver.maps.map.util.FusedLocationSource;
 
 import java.util.ArrayList;
@@ -76,8 +73,8 @@ public class VaccineFragment extends Fragment implements Comparator<Hospital>, O
 
     private void getLocation() {
         if (LocationUtil.isConnect(getActivity())) {
-            if (LocationUtil.getLocation(getActivity()) != null)
-                location = LocationUtil.getLocation(getActivity());
+            if (LocationUtil.getLastLocation(getActivity()) != null)
+                location = LocationUtil.getLastLocation(getActivity());
             else {
                 location = LocationUtil.setBaseLocation();
                 BasicUtil.showToast(getActivity(), getString(R.string.vc_location_unknown));

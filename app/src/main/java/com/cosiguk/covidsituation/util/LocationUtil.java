@@ -6,23 +6,31 @@ import android.content.Context;
 import android.location.Address;
 import android.location.Geocoder;
 import android.location.Location;
+import android.location.LocationListener;
 import android.location.LocationManager;
+import android.os.Bundle;
 import android.util.Log;
 
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.List;
 
 public class LocationUtil {
+    private static LocationManager locationManager;
+    private static Location location;
+    private static int UPDATE_MILLISECOND = 5000;
+    private static int UPDATE_METER = 10;
+
     // 현재 위치 정보를 포함한 객체 반환
-    public static Location getLocation(Context context) {
+    @SuppressLint("MissingPermission")
+    public static Location getLastLocation(Context context) {
         Location location = null;
 
-        if (BasicUtil.checkPermission(context, Manifest.permission.ACCESS_FINE_LOCATION)) {
-            LocationManager locationManager = (LocationManager) context
+        if (BasicUtil.isGranted(context, Manifest.permission.ACCESS_FINE_LOCATION)) {
+            locationManager = (LocationManager) context
                     .getSystemService(Context.LOCATION_SERVICE);
 
             List<String> providers = locationManager.getProviders(true);
+            setLocationUpdateEvent();
 
             // provides 객체의 모든 위치 제공자(GPS, NETWORK, PASSIVE)들로 부터 마지막 위치를 가져와 저장
             for (String provider : providers) {
@@ -42,7 +50,7 @@ public class LocationUtil {
         return location;
     }
 
-    // 위치 서비스 활성화 상태
+    // 위치 서비스 활성화 체크
     public static boolean isConnect(Context context) {
         LocationManager locationManager = (LocationManager) context
                 .getSystemService(Context.LOCATION_SERVICE);
@@ -73,6 +81,47 @@ public class LocationUtil {
         } else {
             return "list 가 null 입니다.";
         }
+    }
+
+    @SuppressLint("MissingPermission")
+    private static void setLocationUpdateEvent() {
+        locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER,
+                UPDATE_MILLISECOND,
+                UPDATE_METER,
+                gpsLocationListener);
+        locationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER,
+                UPDATE_MILLISECOND,
+                UPDATE_METER,
+                gpsLocationListener);
+    }
+
+    private static final LocationListener gpsLocationListener = new LocationListener() {
+        public void onLocationChanged(Location location) {
+            Log.d("locationEvent", "위치 업데이트 : " + location.getLongitude() + ", " + location.getLatitude());
+            setLocation(location);
+        }
+
+        public void onStatusChanged(String provider, int status, Bundle extras) {
+        }
+
+        public void onProviderEnabled(String provider) {
+        }
+
+        public void onProviderDisabled(String provider) {
+        }
+    };
+
+    // Util 클래스의 location 변수에 현재 위치 값 저장
+    private static void setLocation(Location loc) {
+        location = loc;
+    }
+
+    public static Location getLocation() {
+        if (location == null) {
+            setBaseLocation();
+            return location;
+        }
+        return location;
     }
 
     public static Location setBaseLocation() {
@@ -112,4 +161,5 @@ public class LocationUtil {
     private static double rad2deg(double rad) {
         return (rad * 180 / Math.PI);
     }
+
 }

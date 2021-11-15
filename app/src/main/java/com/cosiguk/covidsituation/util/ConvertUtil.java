@@ -1,14 +1,8 @@
 package com.cosiguk.covidsituation.util;
 
-import android.os.Build;
-import android.text.Html;
-import android.text.Spanned;
-
 import java.text.DecimalFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
 import java.util.Date;
 import java.util.Locale;
 

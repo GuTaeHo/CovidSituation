@@ -236,7 +236,7 @@ public class SituationBoardFragment extends Fragment {
     private String getCurrentAddress() {
         if (LocationUtil.isConnect(getActivity())) {
             try {
-                Location location = LocationUtil.getLocation(getActivity());
+                Location location = LocationUtil.getLastLocation(getActivity());
                 String address = LocationUtil.getCoordinateToAddress(getActivity(), location);
                 String[] addresses = address.split("\\s");
                 return addressConvert(addresses[1]);

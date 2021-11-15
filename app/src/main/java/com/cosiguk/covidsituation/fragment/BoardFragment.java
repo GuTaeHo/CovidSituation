@@ -30,6 +30,7 @@ import com.cosiguk.covidsituation.model.Board;
 import com.cosiguk.covidsituation.network.resultInterface.BoardListener;
 import com.cosiguk.covidsituation.util.ActivityUtil;
 
+import java.net.HttpURLConnection;
 import java.util.ArrayList;
 
 public class BoardFragment extends Fragment {
@@ -109,7 +110,7 @@ public class BoardFragment extends Fragment {
     }
 
     private void initRefreshListener() {
-        binding.loSwipe.setOnRefreshListener(()->{
+        binding.loSwipe.setOnRefreshListener(() -> {
             adapter.clear();
             requestBoard();
         });
@@ -120,12 +121,15 @@ public class BoardFragment extends Fragment {
                 new ActivityResultContract<Intent, Object>() {
                     @NonNull
                     @Override
+                    // ActivityResultLauncher 의 launch() 호출 시, 가장 먼저 호출됨
+                    // 인텐트를 초기화한 뒤, 목표 액티비티로 넘김
                     public Intent createIntent(@NonNull Context context, Intent input) {
                         input.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP |Intent.FLAG_ACTIVITY_CLEAR_TOP);
                         return input;
                     }
 
                     @Override
+                    // 목표 액티비티에서 반환된 결과 처리
                     public Object parseResult(int resultCode, @Nullable Intent intent) {
                         if (resultCode == Activity.RESULT_OK) {
                             return ActivityUtil.RESPONSE_OK;
@@ -133,6 +137,7 @@ public class BoardFragment extends Fragment {
                             return ActivityUtil.RESPONSE_CANCEL;
                     }
                 },
+                // parseResult 처리 후 호출
                 new ActivityResultCallback<Object>() {
                     @Override
                     public void onActivityResult(Object result) {

@@ -1,14 +1,13 @@
 package com.cosiguk.covidsituation.activity;
 
-import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.content.res.AppCompatResources;
-import androidx.core.app.ActivityCompat;
 import androidx.databinding.DataBindingUtil;
 
 import android.app.Activity;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
+import android.widget.ArrayAdapter;
+import android.widget.Spinner;
 
 import com.cosiguk.covidsituation.R;
 import com.cosiguk.covidsituation.databinding.ActivityBoardBinding;
@@ -52,6 +51,7 @@ public class BoardActivity extends BaseActivity {
         binding.tvContent.setText(item.getContent());
         binding.tvRecommendCount.setText(String.format("%s", item.getRecommend()));
         binding.tvDeprecateCount.setText(String.format("%s", item.getDeprecate()));
+        setSpinner(binding.spinner);
     }
 
     private void initEvent() {
@@ -134,6 +134,13 @@ public class BoardActivity extends BaseActivity {
 
     private void setBoardItem(Board board) {
         item = board;
+    }
+
+    private void setSpinner(Spinner spinner) {
+        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this,
+                R.array.planets_array, android.R.layout.simple_spinner_item);
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        spinner.setAdapter(adapter);
     }
 
     @Override

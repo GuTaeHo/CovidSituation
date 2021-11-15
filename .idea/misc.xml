@@ -100,6 +100,8 @@
         <entry key="..\:/CovidSituation/app/src/main/res/mipmap-anydpi-v26/ic_application.xml" value="0.2657407407407407" />
         <entry key="..\:/CovidSituation/app/src/main/res/mipmap-anydpi-v26/ic_launcher.xml" value="0.2657407407407407" />
         <entry key="..\:/Users/sbpdt/.gradle/caches/transforms-3/97e7ec19bd11dff7ae3d399ac9d0fa5b/transformed/core-1.5.0/res/layout/custom_dialog.xml" value="0.35885416666666664" />
+        <entry key="..\:/Users/sbpdt/AppData/Local/Android/Sdk/platforms/android-30/data/res/layout/simple_spinner_dropdown_item.xml" value="0.35885416666666664" />
+        <entry key="..\:/Users/sbpdt/AppData/Local/Android/Sdk/platforms/android-30/data/res/layout/simple_spinner_item.xml" value="0.35885416666666664" />
       </map>
     </option>
   </component>

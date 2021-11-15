@@ -1,14 +1,11 @@
 package com.cosiguk.covidsituation.network.resultInterface;
 
-import com.cosiguk.covidsituation.model.Infection;
-
-import java.util.List;
+import com.cosiguk.covidsituation.network.responseinfection.Body;
 
 public interface TotalListener {
-    void success(List<Infection> infection);
-
+    void success(Body infection);
     // 요청 결과가 적절하지 않은 경우
-    void reRequest(List<Infection> infection);
+    void request();
 
     void fail(String message);
 }

@@ -22,6 +22,7 @@ import com.cosiguk.covidsituation.databinding.FragmentSituationBoardBinding;
 import com.cosiguk.covidsituation.dialog.NoticeDialog;
 import com.cosiguk.covidsituation.model.City;
 import com.cosiguk.covidsituation.model.Infection;
+import com.cosiguk.covidsituation.network.responseinfection.Body;
 import com.cosiguk.covidsituation.network.resultInterface.SituationBoardListener;
 import com.cosiguk.covidsituation.network.resultInterface.TotalListener;
 import com.cosiguk.covidsituation.util.BasicUtil;
@@ -94,18 +95,18 @@ public class SituationBoardFragment extends Fragment {
         MyApplication.getNetworkPresenterInstance()
                 .total(map, new TotalListener() {
                     @Override
-                    public void success(List<Infection> items) {
+                    public void success(Body items) {
                         // 작일 정보는 리스트의 두 번째에 포함되어 있음
-                        setYesterdayItems(items.get(1));
+                        setYesterdayItems(items.getItems().getItem().get(1));
                         // 금일 정보는 리스트의 첫 번째에 포함되어 있음
-                        setDailyItems(items.get(0));
+                        setDailyItems(items.getItems().getItem().get(0));
                         // 도시 정보 요청
                         requestCity(map.get("endCreateDt"));
                     }
 
                     @Override
                     // API 정보 갱신 전에 날짜가 변경 될 경우 호출
-                    public void reRequest(List<Infection> infection) {
+                    public void request() {
                         requestSituation(ConvertUtil.PREVIOUS_DAY);
                     }
 

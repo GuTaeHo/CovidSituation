@@ -1,7 +1,5 @@
 package com.cosiguk.covidsituation.network;
 
-import com.cosiguk.covidsituation.R;
-import com.cosiguk.covidsituation.model.Board;
 import com.cosiguk.covidsituation.network.response.ResponseBoard;
 import com.cosiguk.covidsituation.network.response.ResponseBoardDetail;
 import com.cosiguk.covidsituation.network.response.ResponseCity;
@@ -99,13 +97,12 @@ public class NetworkPresenter implements NetworkPresenterInterface {
                     public void onResponse(Call<ResponseInfection> call, retrofit2.Response<ResponseInfection> response) {
                         try {
                             if (response.body() != null && response.isSuccessful()) {
-                                // 통신 성공 시 http 바디 반환
-                                listener.success(response.body().getBody().getItems().getItem());
+                                listener.success(response.body().getBody());
+                            } else if (response.body() != null && response.body().getBody().getTotalCount() == 1 && response.isSuccessful()) {
+                                listener.request();
                             } else {
                                 listener.fail(response.errorBody().string());
                             }
-                        } catch (IndexOutOfBoundsException exception) {
-                            listener.reRequest(response.body().getBody().getItems().getItem());
                         } catch (Exception e) {
                             listener.fail("Total Exception " + e.toString());
                         }

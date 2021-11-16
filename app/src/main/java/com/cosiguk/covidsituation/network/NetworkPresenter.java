@@ -96,10 +96,10 @@ public class NetworkPresenter implements NetworkPresenterInterface {
                     @Override
                     public void onResponse(Call<ResponseInfection> call, retrofit2.Response<ResponseInfection> response) {
                         try {
-                            if (response.body() != null && response.isSuccessful()) {
-                                listener.success(response.body().getBody());
-                            } else if (response.body() != null && response.body().getBody().getTotalCount() == 1 && response.isSuccessful()) {
+                            if (response.body().getBody().getTotalCount() <= 1 && response.body() != null && response.isSuccessful()) {
                                 listener.request();
+                            } else if (response.body() != null && response.isSuccessful()) {
+                                listener.success(response.body().getBody());
                             } else {
                                 listener.fail(response.errorBody().string());
                             }

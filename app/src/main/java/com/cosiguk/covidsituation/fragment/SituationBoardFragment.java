@@ -105,7 +105,6 @@ public class SituationBoardFragment extends Fragment {
                     }
 
                     @Override
-                    // API 정보 갱신 전에 날짜가 변경 될 경우 호출
                     public void request() {
                         requestSituation(ConvertUtil.PREVIOUS_DAY);
                     }
@@ -167,9 +166,9 @@ public class SituationBoardFragment extends Fragment {
         String currentAddress = getCurrentAddress();
         Log.d("currentAddress", currentAddress);
 
+        // 현재 위치에 관련된 정보만 추출하여 저장
         for (int i = 0; i < cityArrayList.size(); i++) {
             if (cityArrayList.get(i).getGubun().equals(currentAddress)) {
-
                 city = cityArrayList.get(i);
             }
         }

@@ -26,9 +26,9 @@ public class BasicUtil {
     // 버전 비교 결과 코드
     public static final int VERSION_ERROR = -1;     // 버전정보 조회 에러
     public static final int VERSION_LATEST = 0;     // 최신버전
-    public static final int VERSION_LOW_MAJOR = 1;  // 메이저 버전이 낮다.
-    public static final int VERSION_LOW_MINOR = 2;  // 마이너 버전이 낮다.
-    public static final int VERSION_LOW_PATCH = 3;  // 패치 버전이 낮다.
+    public static final int VERSION_LOW_MAJOR = 1;  // 메이저 버전 낮음
+    public static final int VERSION_LOW_MINOR = 2;  // 마이너 버전 낮음
+    public static final int VERSION_LOW_PATCH = 3;  // 패치 버전 낮음
 
     public static int stringToInt(String s) {
         return Integer.parseInt(s);

@@ -29,6 +29,7 @@
                 android:background="?android:attr/windowBackground"
                 app:itemIconTint="@drawable/nav_selector_color"
                 app:itemTextColor="@drawable/nav_selector_color"
+                app:itemBackground="@color/white"
                 app:menu="@menu/bottom_navigation" />
         </RelativeLayout>
         <!-- 사이드 페이지 -->

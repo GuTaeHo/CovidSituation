@@ -33,7 +33,6 @@ import java.util.HashMap;
 import java.util.List;
 
 public class SituationBoardFragment extends Fragment {
-    private static final String FRAG_TAG = "fragmentTag";
 
     private FragmentSituationBoardBinding binding;
     // 전체 확진 정보
@@ -49,12 +48,8 @@ public class SituationBoardFragment extends Fragment {
     
     public SituationBoardFragment() {}
 
-    public static SituationBoardFragment newInstance(String fragmentTag) {
-        SituationBoardFragment fragment = new SituationBoardFragment();
-        Bundle args = new Bundle();
-        args.putString(FRAG_TAG, fragmentTag);
-        fragment.setArguments(args);
-        return fragment;
+    public static SituationBoardFragment newInstance() {
+        return new SituationBoardFragment();
     }
 
     @Override

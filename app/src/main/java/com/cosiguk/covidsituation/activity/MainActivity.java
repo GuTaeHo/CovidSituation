@@ -87,7 +87,6 @@ public class MainActivity extends BaseActivity {
         });
         // 최초 프래그먼트 설정
         binding.navView.setSelectedItemId(R.id.nv_situation_board);
-
     }
 
     private void bottomNavigate(int id) {
@@ -105,7 +104,7 @@ public class MainActivity extends BaseActivity {
         if (fragment == null) {
             if (id == R.id.nv_situation_board) {
                 // 사용자 목록을 전달하고 프래그먼트 생성
-                fragment = SituationBoardFragment.newInstance(tag);
+                fragment = SituationBoardFragment.newInstance();
             } else if (id == R.id.nv_news) {
                 fragment = NewsFragment.newInstance();
             } else if (id == R.id.nv_vaccine) {
@@ -116,7 +115,7 @@ public class MainActivity extends BaseActivity {
             // 트랜잭션에 생성된 프래그먼트 추가
             fragmentTransaction.add(R.id.fragment, fragment, tag);
         } else {
-            // 이미 생성된 프래그먼트는 바로 출력
+            // 이미 생성된 프래그먼트는 바로 표시
             fragmentTransaction.show(fragment);
         }
         fragmentTransaction.setPrimaryNavigationFragment(fragment);

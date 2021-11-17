@@ -5,9 +5,11 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 
+import androidx.activity.result.ActivityResult;
 import androidx.activity.result.ActivityResultCallback;
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContract;
+import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.databinding.DataBindingUtil;
@@ -21,6 +23,7 @@ import android.view.ViewGroup;
 
 import com.cosiguk.covidsituation.R;
 import com.cosiguk.covidsituation.activity.BoardActivity;
+import com.cosiguk.covidsituation.activity.BoardAddActivity;
 import com.cosiguk.covidsituation.adapter.BaseRecyclerViewAdapter;
 import com.cosiguk.covidsituation.adapter.BoardListAdapter;
 import com.cosiguk.covidsituation.application.MyApplication;
@@ -30,14 +33,14 @@ import com.cosiguk.covidsituation.model.Board;
 import com.cosiguk.covidsituation.network.resultInterface.BoardListener;
 import com.cosiguk.covidsituation.util.ActivityUtil;
 
-import java.net.HttpURLConnection;
 import java.util.ArrayList;
 
 public class BoardFragment extends Fragment {
     private FragmentBoardBinding binding;
     private BoardListAdapter adapter;
     private Context context;
-    private ActivityResultLauncher<Intent> resultLauncher;
+    private ActivityResultLauncher<Intent> boardDetailLauncher;
+    private ActivityResultLauncher<Intent> boardAddLauncher;
 
     public BoardFragment() {}
 
@@ -56,14 +59,15 @@ public class BoardFragment extends Fragment {
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_board, container, false);
 
         initLayout();
-        resultActivityLauncher();
+        initActivityLauncher();
+        initEvent();
         initRefreshListener();
         requestBoard();
         return binding.getRoot();
     }
 
     private void requestBoard() {
-        MyApplication.showProgressDialog(getActivity(), getResources().getString(R.string.progress_search));
+        MyApplication.showProgressDialog(getActivity(), getString(R.string.progress_search));
         MyApplication
                 .getNetworkPresenterInstance()
                 .boardList(new BoardListener() {
@@ -103,10 +107,16 @@ public class BoardFragment extends Fragment {
             public void onItemClick(View view, int position) {
                 Intent intent = new Intent(getActivity(), BoardActivity.class);
                 intent.putExtra(ActivityUtil.NOTICE_ID, adapter.getItem(position).getId());
-                resultLauncher.launch(intent);
+                boardDetailLauncher.launch(intent);
             }
         });
         binding.recyclerview.setAdapter(adapter);
+    }
+
+    private void initEvent() {
+        binding.tvBoardAdd.setOnClickListener(v -> {
+            boardAddLauncher.launch(new Intent(getActivity(), BoardAddActivity.class));
+        });
     }
 
     private void initRefreshListener() {
@@ -116,8 +126,8 @@ public class BoardFragment extends Fragment {
         });
     }
 
-    private void resultActivityLauncher() {
-        resultLauncher = registerForActivityResult(
+    private void initActivityLauncher() {
+        boardDetailLauncher = registerForActivityResult(
                 new ActivityResultContract<Intent, Object>() {
                     @NonNull
                     @Override
@@ -142,6 +152,18 @@ public class BoardFragment extends Fragment {
                     @Override
                     public void onActivityResult(Object result) {
                         if (result.equals(ActivityUtil.RESPONSE_OK)) {
+                            adapter.clear();
+                            requestBoard();
+                        }
+                    }
+                });
+        boardAddLauncher = registerForActivityResult(
+                new ActivityResultContracts.StartActivityForResult(),
+                new ActivityResultCallback<ActivityResult>() {
+                    @Override
+                    public void onActivityResult(ActivityResult result) {
+                        // 액티비티 응답 처리
+                        if (result.getResultCode() == Activity.RESULT_OK) {
                             adapter.clear();
                             requestBoard();
                         }

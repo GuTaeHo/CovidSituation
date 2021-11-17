@@ -159,14 +159,8 @@ public class SituationBoardFragment extends Fragment {
         cityArrayList.sort((o1, o2) -> o2.getDefCnt() - o1.getDefCnt());
         // 현재 주소
         String currentAddress = getCurrentAddress();
-        Log.d("currentAddress", currentAddress);
 
         // 현재 위치에 관련된 정보만 추출하여 저장
-        for (int i = 0; i < cityArrayList.size(); i++) {
-            if (cityArrayList.get(i).getGubun().equals(currentAddress)) {
-                city = cityArrayList.get(i);
-            }
-        }
         cityArrayList.forEach(item -> {
             if (item.getGubun().equals(currentAddress)) {
                 city = item;

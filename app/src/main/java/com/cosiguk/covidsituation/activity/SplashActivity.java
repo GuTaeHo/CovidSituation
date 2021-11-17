@@ -103,8 +103,7 @@ public class SplashActivity extends BaseActivity {
                                                 }
 
                                                 @Override
-                                                public void negative() {
-                                                }
+                                                public void negative() {}
                                             }).show();
                                     break;
 

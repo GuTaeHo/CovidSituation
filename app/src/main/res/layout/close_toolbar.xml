@@ -12,21 +12,33 @@
         app:layout_scrollFlags="scroll|enterAlways">
         <ImageView
             android:id="@+id/iv_leave"
-            android:background="@drawable/ic_arrow_back_24"
-            android:layout_width="28dp"
-            android:layout_height="28dp"
+            android:background="@drawable/ic_back"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
             android:layout_gravity="center_vertical|start"/>
         <TextView
             android:id="@+id/toolbar_title"
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="start"
             android:fontFamily="@font/nanumsquare_round_bold"
-            android:gravity="start"
             android:padding="6dp"
             android:textSize="18sp"
             android:layout_marginStart="24dp"
             android:textColor="@color/black_light_20"
             tools:text="타이틀"/>
+        <TextView
+            android:id="@+id/tv_button"
+            android:layout_width="wrap_content"
+            android:layout_height="30dp"
+            android:layout_gravity="end"
+            android:gravity="center"
+            android:paddingStart="12dp"
+            android:paddingEnd="12dp"
+            android:background="@drawable/view_round_positive_none"
+            android:visibility="gone"
+            android:fontFamily="@font/nanumsquare_round_bold"
+            android:text="완료"
+            android:layout_marginEnd="13dp"/>
     </androidx.appcompat.widget.Toolbar>
 </layout>

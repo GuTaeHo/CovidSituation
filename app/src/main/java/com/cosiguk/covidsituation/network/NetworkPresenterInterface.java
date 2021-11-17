@@ -1,6 +1,8 @@
 package com.cosiguk.covidsituation.network;
 
 
+import com.cosiguk.covidsituation.network.request.RequestBoardAdd;
+import com.cosiguk.covidsituation.network.resultInterface.BoardAddListener;
 import com.cosiguk.covidsituation.network.resultInterface.BoardDeprecateListener;
 import com.cosiguk.covidsituation.network.resultInterface.BoardDetailListener;
 import com.cosiguk.covidsituation.network.resultInterface.BoardListener;
@@ -15,6 +17,8 @@ import com.cosiguk.covidsituation.network.resultInterface.VaccineListener;
 import com.cosiguk.covidsituation.network.resultInterface.VersionListener;
 
 import java.util.HashMap;
+
+import okhttp3.RequestBody;
 
 public interface NetworkPresenterInterface {
     // 버전 체크
@@ -40,6 +44,9 @@ public interface NetworkPresenterInterface {
 
     // 게시글
     void boardList(BoardListener listener);
+
+    // 게시글 추가
+    void boardAdd(HashMap<String, RequestBody> requestBoardAdd, BoardAddListener listener);
 
     // 게시글 상세
     void boardDetail(int boardID, BoardDetailListener listener);

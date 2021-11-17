@@ -5,14 +5,20 @@ import com.cosiguk.covidsituation.network.response.ResponseBoardDetail;
 import com.cosiguk.covidsituation.network.response.ResponseNotice;
 import com.cosiguk.covidsituation.network.response.ResponseVersion;
 
+import java.util.Map;
+
+import okhttp3.MediaType;
 import okhttp3.OkHttpClient;
+import okhttp3.RequestBody;
 import okhttp3.logging.HttpLoggingInterceptor;
 import retrofit2.Call;
 import retrofit2.Retrofit;
 
 import retrofit2.converter.gson.GsonConverterFactory;
 import retrofit2.http.GET;
+import retrofit2.http.Multipart;
 import retrofit2.http.POST;
+import retrofit2.http.PartMap;
 import retrofit2.http.Path;
 
 public class RetrofitClient {
@@ -61,6 +67,10 @@ public class RetrofitClient {
 
         @GET("api/board/{boardID}")
         Call<Response<ResponseBoardDetail>> boardDetail(@Path("boardID") int boardID);
+
+        @Multipart
+        @POST("api/board/boardAdd")
+        Call<Response> boardAdd(@PartMap Map<String, RequestBody> params);
 
         @GET("api/board/{boardID}/recommend")
         Call<Response> boardRecommend(@Path("boardID") int boardID);

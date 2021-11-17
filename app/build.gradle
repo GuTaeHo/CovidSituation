@@ -60,6 +60,7 @@ dependencies {
     implementation 'com.tickaroo.tikxml:annotation:0.8.13'
     implementation 'com.tickaroo.tikxml:core:0.8.13'
     implementation 'com.tickaroo.tikxml:retrofit-converter:0.8.13'
+    implementation 'com.google.firebase:firebase-crashlytics-buildtools:2.8.0'
     annotationProcessor 'com.tickaroo.tikxml:processor:0.8.13'
     // 위험 권한
     implementation 'gun0912.ted:tedpermission:2.2.0'

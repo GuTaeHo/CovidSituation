@@ -50,7 +50,7 @@ public class LocationUtil {
         return location;
     }
 
-    // 위치 서비스 활성화 체크
+    // 위치기능 활성화 체크
     public static boolean isConnect(Context context) {
         LocationManager locationManager = (LocationManager) context
                 .getSystemService(Context.LOCATION_SERVICE);
@@ -124,6 +124,7 @@ public class LocationUtil {
         return location;
     }
 
+    // 기본 위치 (서울)
     public static Location setBaseLocation() {
         Location location = new Location("dummy provider");
         location.setLatitude(37.5511565);

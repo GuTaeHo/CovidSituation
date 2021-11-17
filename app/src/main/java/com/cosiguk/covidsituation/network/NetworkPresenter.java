@@ -1,5 +1,8 @@
 package com.cosiguk.covidsituation.network;
 
+import androidx.annotation.NonNull;
+
+import com.cosiguk.covidsituation.network.request.RequestBoardAdd;
 import com.cosiguk.covidsituation.network.response.ResponseBoard;
 import com.cosiguk.covidsituation.network.response.ResponseBoardDetail;
 import com.cosiguk.covidsituation.network.response.ResponseCity;
@@ -9,6 +12,7 @@ import com.cosiguk.covidsituation.network.response.ResponseNews;
 import com.cosiguk.covidsituation.network.response.ResponseNotice;
 import com.cosiguk.covidsituation.network.response.ResponseVaccineTotal;
 import com.cosiguk.covidsituation.network.response.ResponseVersion;
+import com.cosiguk.covidsituation.network.resultInterface.BoardAddListener;
 import com.cosiguk.covidsituation.network.resultInterface.BoardDeprecateListener;
 import com.cosiguk.covidsituation.network.resultInterface.BoardDetailListener;
 import com.cosiguk.covidsituation.network.resultInterface.BoardListener;
@@ -25,6 +29,7 @@ import com.google.gson.Gson;
 
 import java.util.HashMap;
 
+import okhttp3.RequestBody;
 import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -237,12 +242,12 @@ public class NetworkPresenter implements NetworkPresenterInterface {
                 .boardList()
                 .enqueue(new Callback<Response<ResponseBoard>>() {
                     @Override
-                    public void onResponse(Call<Response<ResponseBoard>> call, retrofit2.Response<Response<ResponseBoard>> response) {
+                    public void onResponse(@NonNull Call<Response<ResponseBoard>> call, @NonNull retrofit2.Response<Response<ResponseBoard>> response) {
                         try {
                             if (response.body() != null && response.isSuccessful()) {
                                 listener.success(response.body().getResultData().getData());
                             } else {
-                                listener.fail(response.errorBody().toString());
+                                listener.fail(getError(response.errorBody()).getError());
                             }
                         } catch (Exception e) {
                             listener.fail("boardList Exception " + e.toString());
@@ -250,7 +255,34 @@ public class NetworkPresenter implements NetworkPresenterInterface {
                     }
 
                     @Override
-                    public void onFailure(Call<Response<ResponseBoard>> call, Throwable t) {
+                    public void onFailure(@NonNull Call<Response<ResponseBoard>> call, @NonNull Throwable t) {
+                        listener.fail(t.toString());
+                    }
+                });
+    }
+
+    @Override
+    public void boardAdd(HashMap<String, RequestBody> requestBoardAdd, BoardAddListener listener) {
+        RetrofitClient
+                .getInstance()
+                .getInterface()
+                .boardAdd(requestBoardAdd)
+                .enqueue(new Callback<Response>() {
+                    @Override
+                    public void onResponse(Call<Response> call, retrofit2.Response<Response> response) {
+                        try {
+                            if (response.body() != null && response.isSuccessful()) {
+                                listener.success();
+                            } else {
+                                listener.fail(getError(response.errorBody()).getError());
+                            }
+                        } catch (Exception e) {
+                            listener.fail("boardAdd Exception " + e.toString());
+                        }
+                    }
+
+                    @Override
+                    public void onFailure(Call<Response> call, Throwable t) {
                         listener.fail(t.toString());
                     }
                 });
@@ -269,7 +301,7 @@ public class NetworkPresenter implements NetworkPresenterInterface {
                             if (response.body() != null && response.isSuccessful()) {
                                 listener.success(response.body().getResultData().getData());
                             } else {
-                                listener.fail(response.errorBody().toString());
+                                listener.fail(getError(response.errorBody()).getError());
                             }
                         } catch (Exception e) {
                             listener.fail("boardDetail Exception " + e.toString());
@@ -351,7 +383,7 @@ public class NetworkPresenter implements NetworkPresenterInterface {
                             if (response.body() != null && response.isSuccessful()) {
                                 listener.success(response.body().getCode());
                             } else {
-                                listener.fail(response.errorBody().toString());
+                                listener.fail(getError(response.errorBody()).getError());
                             }
                         } catch (Exception e) {
                             listener.fail("deleteBoard Exception " + e.toString());

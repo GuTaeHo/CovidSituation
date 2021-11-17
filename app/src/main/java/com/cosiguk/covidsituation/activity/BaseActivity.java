@@ -4,6 +4,8 @@ import android.content.Context;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.MenuItem;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Toast;
@@ -77,20 +79,17 @@ public class BaseActivity extends AppCompatActivity {
         }
     }
 
-    /*
-    protected void showProgressDialog(String message) {
-        progressDialog = ProgressDialogManager.showSingle(this, progressDialog, "", message);
-    }
-
-    protected void dismissProgressDialog() {
-        ProgressDialogManager.dismiss(progressDialog);
-    }
-     */
-
     public void hideKeyboard() {
         if (getCurrentFocus() != null) {
             InputMethodManager inputMethodManager = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
             inputMethodManager.hideSoftInputFromWindow(getCurrentFocus().getWindowToken(), 0);
+        }
+    }
+
+    public void showKeyboard() {
+        if (getCurrentFocus() != null) {
+            InputMethodManager inputMethodManager = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+            inputMethodManager.showSoftInputFromInputMethod(getCurrentFocus().getWindowToken(), 0);
         }
     }
 

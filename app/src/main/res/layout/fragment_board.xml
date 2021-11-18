@@ -23,12 +23,10 @@
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="18dp"
                 android:padding="6dp"
-                android:elevation="4dp"
-                android:foreground="?attr/selectableItemBackground"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
-                android:background="@drawable/view_round_light_gray" >
+                android:background="@drawable/view_round_border_light_gray" >
                 <ImageView
                     android:layout_width="24dp"
                     android:layout_height="24dp"

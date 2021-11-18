@@ -12,12 +12,10 @@ import com.cosiguk.covidsituation.R;
 import com.cosiguk.covidsituation.databinding.ActivityBoardAddBinding;
 import com.cosiguk.covidsituation.databinding.CloseToolbarBinding;
 import com.cosiguk.covidsituation.dialog.NoticeDialog;
-import com.cosiguk.covidsituation.network.request.RequestBoardAdd;
 import com.cosiguk.covidsituation.network.resultInterface.BoardAddListener;
 import com.cosiguk.covidsituation.util.ObserveUtil;
 import com.cosiguk.covidsituation.util.PatternUtil;
-
-import org.jetbrains.annotations.NotNull;
+import com.cosiguk.covidsituation.util.ViewUtil;
 
 import java.util.HashMap;
 import java.util.Locale;
@@ -42,6 +40,7 @@ public class BoardAddActivity extends BaseActivity {
     }
 
     private void initLayout() {
+        setStatusColor(getColor(R.color.status_white));
         closeToolbarBinding.ivLeave.setBackgroundResource(R.drawable.ic_close_24);
         closeToolbarBinding.tvButton.setVisibility(View.VISIBLE);
         closeToolbarBinding.toolbarTitle.setText(getString(R.string.toolbar_title_board_add));
@@ -102,7 +101,7 @@ public class BoardAddActivity extends BaseActivity {
         if (title.length() > 25) {
             binding.etTitle.startAnimation(shake);
             binding.etTitle.requestFocus();
-            showToast("제목은 25자 이내로 작성해주세요");
+            showToastPosition("제목은 25자 이내로 작성해주세요", ViewUtil.getAbsoluteHeight(binding.etTitle));
             showKeyboard();
             return;
         }
@@ -110,7 +109,7 @@ public class BoardAddActivity extends BaseActivity {
         if (content.length() > 250) {
             binding.etContent.startAnimation(shake);
             binding.etContent.requestFocus();
-            showToast("내용은 250자 이내로 작성해주세요");
+            showToastPosition("내용은 250자 이내로 작성해주세요", ViewUtil.getAbsoluteHeight(binding.etContent));
             showKeyboard();
             return;
         }
@@ -118,7 +117,7 @@ public class BoardAddActivity extends BaseActivity {
         if (!PatternUtil.isNickNamePattern(nickName)) {
             binding.etNickname.startAnimation(shake);
             binding.etNickname.requestFocus();
-            showToast("닉네임은 10자 이하로 작성해주세요");
+            showToastPosition("닉네임은 3 ~ 10자 사이로 작성해주세요", ViewUtil.getAbsoluteHeight(binding.etNickname));
             showKeyboard();
             return;
         }
@@ -126,7 +125,7 @@ public class BoardAddActivity extends BaseActivity {
         if (!PatternUtil.isPassWordPattern(password)) {
             binding.etPassword.startAnimation(shake);
             binding.etPassword.requestFocus();
-            showToast("비밀번호는 20자 이하로 작성해주세요");
+            showToastPosition("비밀번호는 5 ~ 20자 이하로 작성해주세요", ViewUtil.getAbsoluteHeight(binding.etPassword));
             showKeyboard();
             return;
         }

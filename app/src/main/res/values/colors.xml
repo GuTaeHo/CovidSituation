@@ -6,6 +6,10 @@
     <color name="teal_200">#FF03DAC5</color>
     <color name="teal_700">#FF018786</color>
 
+    <!-- 상태바 -->
+    <color name="status_white">#FFFFFF</color>
+    <color name="status_default">#FFFFFF</color>
+
     <!-- 백그라운드 -->
     <color name="pastel_red">#ffcccc</color>
     <color name="pastel_green">#ccffcc</color>

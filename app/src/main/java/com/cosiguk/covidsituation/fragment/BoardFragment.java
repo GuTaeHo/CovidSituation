@@ -34,6 +34,7 @@ import com.cosiguk.covidsituation.network.resultInterface.BoardListener;
 import com.cosiguk.covidsituation.util.ActivityUtil;
 
 import java.util.ArrayList;
+import java.util.Objects;
 
 public class BoardFragment extends Fragment {
     private FragmentBoardBinding binding;
@@ -41,6 +42,7 @@ public class BoardFragment extends Fragment {
     private Context context;
     private ActivityResultLauncher<Intent> boardDetailLauncher;
     private ActivityResultLauncher<Intent> boardAddLauncher;
+    private OnStatusColorUpdateListener onStatusColorUpdateListener;
 
     public BoardFragment() {}
 
@@ -162,6 +164,9 @@ public class BoardFragment extends Fragment {
                 new ActivityResultCallback<ActivityResult>() {
                     @Override
                     public void onActivityResult(ActivityResult result) {
+                        // 상태바 업데이트 이벤트 호출
+                        onStatusColorUpdateListener.onUpdate(
+                                requireActivity().getColor(R.color.app_background));
                         // 액티비티 응답 처리
                         if (result.getResultCode() == Activity.RESULT_OK) {
                             adapter.clear();
@@ -169,5 +174,18 @@ public class BoardFragment extends Fragment {
                         }
                     }
                 });
+    }
+
+    @Override
+    public void onAttach(@NonNull Context context) {
+        super.onAttach(context);
+        if (context instanceof OnStatusColorUpdateListener) {
+            onStatusColorUpdateListener = (OnStatusColorUpdateListener) context;
+        }
+    }
+
+    // 액티비티 상태바 색상변환 인터페이스
+    public interface OnStatusColorUpdateListener {
+        void onUpdate(int color);
     }
 }

@@ -22,7 +22,7 @@ import com.cosiguk.covidsituation.fragment.VaccineFragment;
 import com.cosiguk.covidsituation.util.HandlerUtil;
 import com.cosiguk.covidsituation.util.PackageUtil;
 
-public class MainActivity extends BaseActivity {
+public class MainActivity extends BaseActivity implements BoardFragment.OnStatusColorUpdateListener {
     private ActivityMainBinding binding;
     private CommonToolbarBinding commonToolbarBinding;
     public Fragment fragment;
@@ -149,6 +149,12 @@ public class MainActivity extends BaseActivity {
 
     private void initDrawerCloseButtonListener() {
         binding.commonSidebar.ivNavClose.setOnClickListener(v -> binding.loDrawer.closeDrawer(GravityCompat.START));
+    }
+
+    // 프래그먼트에서 전송받은 상태바 색상
+    @Override
+    public void onUpdate(int color) {
+        setStatusColor(color);
     }
 
     @Override

@@ -28,6 +28,7 @@ public class IntroActivity extends BaseActivity {
     }
 
     private void initLayout() {
+        setStatusColor(getColor(R.color.status_white));
         closeToolbarBinding.toolbarTitle.setText("");
         adapter = new ViewPagerAdapter(IntroActivity.this, NUM_PAGES);
         binding.pager.setAdapter(adapter);
@@ -75,7 +76,10 @@ public class IntroActivity extends BaseActivity {
         // 버튼 클릭 리스너
         binding.tvNext.setOnClickListener(v -> nextPage());
         binding.tvPrevious.setOnClickListener(v -> previousPage());
-        closeToolbarBinding.ivLeave.setOnClickListener(v -> finish());
+        closeToolbarBinding.ivLeave.setOnClickListener(v -> {
+            setStatusColor(getColor(R.color.status_bar));
+            finish();
+        });
     }
 
     private void nextPage() {
@@ -90,5 +94,11 @@ public class IntroActivity extends BaseActivity {
     private void previousPage() {
         int currentPages = binding.pager.getCurrentItem();
         binding.pager.setCurrentItem(currentPages - 1, true);
+    }
+
+    @Override
+    public void onBackPressed() {
+        setStatusColor(getColor(R.color.status_bar));
+        finish();
     }
 }

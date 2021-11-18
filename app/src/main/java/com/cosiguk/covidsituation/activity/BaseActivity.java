@@ -2,12 +2,17 @@ package com.cosiguk.covidsituation.activity;
 
 import android.content.Context;
 import android.graphics.Color;
+import android.graphics.PorterDuff;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.view.Gravity;
+import android.view.LayoutInflater;
 import android.view.MenuItem;
+import android.view.View;
 import android.view.inputmethod.InputMethodManager;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -95,6 +100,29 @@ public class BaseActivity extends AppCompatActivity {
 
     public void showToast(String message) {
         Toast.makeText(this, message, Toast.LENGTH_SHORT).show();
+    }
+
+    public void showToastPosition(String message, int height) {
+        LayoutInflater inflater = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        View view = inflater.inflate(R.layout.toast_dark, null);
+        TextView textView = view.findViewById(R.id.tv_toast_content);
+        textView.setText(message);
+        Toast toast = Toast.makeText(this, message, Toast.LENGTH_LONG);
+        toast.setView(view);
+        toast.setGravity(Gravity.TOP, 0, height);
+        toast.show();
+    }
+
+    public void setStatusColor(int color) {
+        if (getWindow() != null) {
+            getWindow().setStatusBarColor(color);
+        }
+    }
+
+    public void setStatusDefaultColor() {
+        if (getWindow() != null) {
+            getWindow().setStatusBarColor(getColor(R.color.status_bar));
+        }
     }
 
     @Override

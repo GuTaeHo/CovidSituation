@@ -20,10 +20,10 @@
             android:id="@+id/toolbar_title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_gravity="start"
+            android:layout_gravity="center"
             android:fontFamily="@font/nanumsquare_round_bold"
             android:padding="6dp"
-            android:textSize="18sp"
+            android:textSize="16sp"
             android:layout_marginStart="24dp"
             android:textColor="@color/black_light_20"
             tools:text="타이틀"/>

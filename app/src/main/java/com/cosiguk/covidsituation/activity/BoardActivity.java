@@ -2,6 +2,7 @@ package com.cosiguk.covidsituation.activity;
 
 import androidx.appcompat.content.res.AppCompatResources;
 import androidx.databinding.DataBindingUtil;
+import androidx.recyclerview.widget.LinearLayoutManager;
 
 import android.app.Activity;
 import android.os.Bundle;
@@ -10,6 +11,7 @@ import android.widget.ArrayAdapter;
 import android.widget.Spinner;
 
 import com.cosiguk.covidsituation.R;
+import com.cosiguk.covidsituation.adapter.ChatAdapter;
 import com.cosiguk.covidsituation.databinding.ActivityBoardBinding;
 import com.cosiguk.covidsituation.databinding.CloseToolbarBinding;
 import com.cosiguk.covidsituation.dialog.NoticeDialog;
@@ -17,12 +19,17 @@ import com.cosiguk.covidsituation.model.Board;
 import com.cosiguk.covidsituation.network.resultInterface.BoardDeprecateListener;
 import com.cosiguk.covidsituation.network.resultInterface.BoardDetailListener;
 import com.cosiguk.covidsituation.network.resultInterface.BoardRecommendListener;
+import com.cosiguk.covidsituation.network.resultInterface.ChatListener;
 import com.cosiguk.covidsituation.util.ActivityUtil;
+
+import java.util.ArrayList;
+import java.util.Locale;
 
 public class BoardActivity extends BaseActivity {
     private final int SUCCESS = 0;
     private ActivityBoardBinding binding;
     private CloseToolbarBinding commonToolbarBinding;
+    private ChatAdapter adapter;
     private Board item;
     private int userID;
 
@@ -39,11 +46,12 @@ public class BoardActivity extends BaseActivity {
 
     private void initValue() {
         userID = getIntent().getIntExtra(ActivityUtil.NOTICE_ID, -1);
+        adapter = new ChatAdapter(BoardActivity.this);
     }
 
     private void initLayout() {
+        setStatusColor(getColor(R.color.status_white));
         commonToolbarBinding.toolbarTitle.setText(getResources().getString(R.string.bd_toolbar));
-        commonToolbarBinding.toolbar.setBackgroundColor(getResources().getColor(R.color.app_background, null));
         binding.tvTitle.setText(item.getTitle());
         binding.tvNickname.setText(item.getNickname());
         binding.tvDate.setText(item.getCreatedDate());
@@ -51,11 +59,14 @@ public class BoardActivity extends BaseActivity {
         binding.tvContent.setText(item.getContent());
         binding.tvRecommendCount.setText(String.format("%s", item.getRecommend()));
         binding.tvDeprecateCount.setText(String.format("%s", item.getDeprecate()));
-        setSpinner(binding.spinner);
+        initTextChat();
+        initSpinner(binding.spinner);
+        initChat();
     }
 
     private void initEvent() {
         commonToolbarBinding.ivLeave.setOnClickListener(v -> {
+            setStatusDefaultColor();
             setResult(Activity.RESULT_OK);
             finish();
         });
@@ -65,9 +76,10 @@ public class BoardActivity extends BaseActivity {
 
     // 인터넷 연결이 끊어졌을 경우 레이아웃 초기화
     private void setEmptyLayout() {
+        setStatusColor(getColor(R.color.status_white));
         commonToolbarBinding.toolbarTitle.setText(getResources().getString(R.string.bd_toolbar));
-        commonToolbarBinding.toolbar.setBackgroundColor(getResources().getColor(R.color.app_background, null));
         binding.loBoardDetail.setVisibility(View.GONE);
+        binding.recyclerview.setVisibility(View.GONE);
         binding.tvNetworkError.setVisibility(View.VISIBLE);
     }
 
@@ -78,12 +90,29 @@ public class BoardActivity extends BaseActivity {
                     @Override
                     public void success(Board board) {
                         setBoardItem(board);
+                        requestChat();
+                    }
+
+                    @Override
+                    public void fail(String message) {
+                        dismissProgressDialog();
+                        setEmptyLayout();
+                    }
+                });
+    }
+
+    private void requestChat() {
+        networkPresenter
+                .chatList(userID, new ChatListener() {
+                    @Override
+                    public void success(ArrayList<Board> boards) {
+                        adapter.addItems(boards);
                         initLayout();
                         dismissProgressDialog();
                     }
 
                     @Override
-                    public void fail(String message) {
+                    public void fail(String msg) {
                         dismissProgressDialog();
                         setEmptyLayout();
                     }
@@ -136,15 +165,27 @@ public class BoardActivity extends BaseActivity {
         item = board;
     }
 
-    private void setSpinner(Spinner spinner) {
+    private void initTextChat() {
+        if (adapter.getItemCount() != 0) {
+            binding.tvChatTitle.setText(String.format(Locale.KOREA,"댓글 %d개", adapter.getItemCount()));
+        }
+    }
+
+    private void initSpinner(Spinner spinner) {
         ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this,
                 R.array.planets_array, android.R.layout.simple_spinner_item);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spinner.setAdapter(adapter);
     }
 
+    private void initChat() {
+        binding.recyclerview.setLayoutManager(new LinearLayoutManager(BoardActivity.this));
+        binding.recyclerview.setAdapter(adapter);
+    }
+
     @Override
     public void onBackPressed() {
+        setStatusDefaultColor();
         setResult(Activity.RESULT_OK);
         finish();
     }

@@ -43,6 +43,8 @@ public class BoardFragment extends Fragment {
     private ActivityResultLauncher<Intent> boardDetailLauncher;
     private ActivityResultLauncher<Intent> boardAddLauncher;
     private OnStatusColorUpdateListener onStatusColorUpdateListener;
+    // 프로그래스 디스플레이 상태
+    private boolean displayProgress;
 
     public BoardFragment() {}
 
@@ -60,6 +62,7 @@ public class BoardFragment extends Fragment {
                              Bundle savedInstanceState) {
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_board, container, false);
 
+        initValue();
         initLayout();
         initActivityLauncher();
         initEvent();
@@ -68,8 +71,14 @@ public class BoardFragment extends Fragment {
         return binding.getRoot();
     }
 
+    private void initValue() {
+        context = getActivity();
+        adapter = new BoardListAdapter(context);
+        displayProgress = true;
+    }
+
     private void requestBoard() {
-        MyApplication.showProgressDialog(getActivity(), getString(R.string.progress_search));
+        if (displayProgress) MyApplication.showProgressDialog(getActivity(), getString(R.string.progress_search));
         MyApplication
                 .getNetworkPresenterInstance()
                 .boardList(new BoardListener() {
@@ -77,23 +86,27 @@ public class BoardFragment extends Fragment {
                     public void success(ArrayList<Board> items) {
                         adapter.addItems(items);
                         binding.loSwipe.setRefreshing(false);
-                        MyApplication.dismissProgressDialog();
+                        if (displayProgress) {
+                            MyApplication.dismissProgressDialog();
+                            displayProgress = false;
+                        };
                     }
 
                     @Override
                     public void fail(String message) {
-                        MyApplication.dismissProgressDialog();
                         binding.loSwipe.setRefreshing(false);
                         new NoticeDialog(getActivity())
                                 .setMsg(message)
                                 .show();
+                        if (displayProgress) {
+                            MyApplication.dismissProgressDialog();
+                            displayProgress = false;
+                        };
                     }
                 });
     }
 
     private void initLayout() {
-        context = getActivity();
-        adapter = new BoardListAdapter(context);
         binding.recyclerview.setLayoutManager(new LinearLayoutManager(getActivity()));
         binding.recyclerview.setOnScrollChangeListener(new View.OnScrollChangeListener() {
             @Override
@@ -116,7 +129,7 @@ public class BoardFragment extends Fragment {
     }
 
     private void initEvent() {
-        binding.tvBoardAdd.setOnClickListener(v -> {
+        binding.loBoardAdd.setOnClickListener(v -> {
             boardAddLauncher.launch(new Intent(getActivity(), BoardAddActivity.class));
         });
     }

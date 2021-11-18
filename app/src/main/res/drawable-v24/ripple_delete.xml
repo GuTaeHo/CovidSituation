@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ripple xmlns:android="http://schemas.android.com/apk/res/android"
+    android:color="#e6e6ff">
+    <!-- Background가 될 Item, 단순한 Rectangle Shape를 예시로 했다 -->
+    <item android:drawable="@drawable/ic_delete_24" />
+</ripple>

@@ -22,14 +22,14 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="18dp"
-                android:padding="6dp"
+                android:padding="10dp"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 android:background="@drawable/view_round_border_light_gray" >
                 <ImageView
-                    android:layout_width="24dp"
-                    android:layout_height="24dp"
+                    android:layout_width="18dp"
+                    android:layout_height="18dp"
                     android:layout_gravity="center"
                     android:background="@drawable/ic_create_24" />
                 <TextView
@@ -38,8 +38,9 @@
                     android:layout_height="wrap_content"
                     android:text="@string/toolbar_title_board_add"
                     android:fontFamily="@font/nanumsquare_round_bold"
-                    android:textSize="16sp"
-                    android:padding="6dp"
+                    android:textSize="12sp"
+                    android:paddingStart="6dp"
+                    android:paddingEnd="6dp"
                     android:layout_gravity="center"
                     android:animateLayoutChanges="true" />
             </LinearLayout>

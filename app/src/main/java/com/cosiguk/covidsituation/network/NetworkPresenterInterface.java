@@ -7,6 +7,7 @@ import com.cosiguk.covidsituation.network.resultInterface.BoardDeprecateListener
 import com.cosiguk.covidsituation.network.resultInterface.BoardDetailListener;
 import com.cosiguk.covidsituation.network.resultInterface.BoardListener;
 import com.cosiguk.covidsituation.network.resultInterface.BoardRecommendListener;
+import com.cosiguk.covidsituation.network.resultInterface.ChatListener;
 import com.cosiguk.covidsituation.network.resultInterface.DeleteBoardListener;
 import com.cosiguk.covidsituation.network.resultInterface.SituationBoardListener;
 import com.cosiguk.covidsituation.network.resultInterface.HospitalListener;
@@ -33,7 +34,7 @@ public interface NetworkPresenterInterface {
     // 시,도 별 현황
     void situationBoardList(HashMap<String, String> requestBoardList, SituationBoardListener listener);
 
-    // 뉴스
+    // 뉴스 조회
     void news(HashMap<String, String> headers, HashMap<String, Object> requestNews, NewsListener listener);
 
     // 백신 접종 현황
@@ -42,7 +43,7 @@ public interface NetworkPresenterInterface {
     // 진료소 현황
     void hospital(HashMap<String, String> requestQuery, HospitalListener listener);
 
-    // 게시글
+    // 게시글 조회
     void boardList(BoardListener listener);
 
     // 게시글 추가
@@ -57,8 +58,9 @@ public interface NetworkPresenterInterface {
     // 게시글 비추천
     void boardDeprecate(int boardID, BoardDeprecateListener listener);
 
-    // 게시글글
-
-   // 게시글 삭제
+    // 게시글 삭제
     void deleteBoard(int boardID, DeleteBoardListener listener);
+
+    // 댓글 조회
+    void chatList(int boardID, ChatListener listener);
 }

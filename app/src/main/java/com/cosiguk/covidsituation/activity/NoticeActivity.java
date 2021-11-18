@@ -48,7 +48,7 @@ public class NoticeActivity extends BaseActivity {
     }
 
     private void initLayout() {
-        closeToolbarBinding.toolbar.setBackground(ResourcesCompat.getDrawable(getResources(), R.color.app_background, null));
+        setStatusColor(getColor(R.color.status_white));
         closeToolbarBinding.toolbarTitle.setText(getResources().getString(R.string.side_contents_notice_title));
         binding.recyclerview.setLayoutManager(new LinearLayoutManager(NoticeActivity.this));
     }
@@ -86,7 +86,10 @@ public class NoticeActivity extends BaseActivity {
         binding.tvButton.setOnClickListener(v -> {
             binding.recyclerview.smoothScrollToPosition(RECYCLER_VIEW_TOP);
         });
-        closeToolbarBinding.ivLeave.setOnClickListener(v -> finish());
+        closeToolbarBinding.ivLeave.setOnClickListener(v -> {
+            setStatusDefaultColor();
+            finish();
+        });
         initRefreshListener();
     }
 
@@ -112,5 +115,11 @@ public class NoticeActivity extends BaseActivity {
             adapter.setItemListEmpty();
             requestNotice();
         });
+    }
+
+    @Override
+    public void onBackPressed() {
+        setStatusDefaultColor();
+        finish();
     }
 }

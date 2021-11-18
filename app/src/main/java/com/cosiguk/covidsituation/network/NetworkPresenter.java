@@ -17,6 +17,7 @@ import com.cosiguk.covidsituation.network.resultInterface.BoardDeprecateListener
 import com.cosiguk.covidsituation.network.resultInterface.BoardDetailListener;
 import com.cosiguk.covidsituation.network.resultInterface.BoardListener;
 import com.cosiguk.covidsituation.network.resultInterface.BoardRecommendListener;
+import com.cosiguk.covidsituation.network.resultInterface.ChatListener;
 import com.cosiguk.covidsituation.network.resultInterface.DeleteBoardListener;
 import com.cosiguk.covidsituation.network.resultInterface.SituationBoardListener;
 import com.cosiguk.covidsituation.network.resultInterface.HospitalListener;
@@ -327,7 +328,7 @@ public class NetworkPresenter implements NetworkPresenterInterface {
                         try {
                             if (response.body() != null && response.isSuccessful()) {
                                 listener.success(response.body().getCode());
-                            } else {
+                            } else if (response.errorBody() != null)  {
                                 listener.fail(getError(response.errorBody()).getError());
                             }
                         } catch (Exception e) {
@@ -354,7 +355,7 @@ public class NetworkPresenter implements NetworkPresenterInterface {
                         try {
                             if (response.body() != null && response.isSuccessful()) {
                                 listener.success(response.body().getCode());
-                            } else {
+                            } else if (response.errorBody() != null)  {
                                 listener.fail(getError(response.errorBody()).getError());
                             }
                         } catch (Exception e) {
@@ -382,7 +383,7 @@ public class NetworkPresenter implements NetworkPresenterInterface {
                         try {
                             if (response.body() != null && response.isSuccessful()) {
                                 listener.success(response.body().getCode());
-                            } else {
+                            } else if (response.errorBody() != null) {
                                 listener.fail(getError(response.errorBody()).getError());
                             }
                         } catch (Exception e) {
@@ -392,6 +393,33 @@ public class NetworkPresenter implements NetworkPresenterInterface {
 
                     @Override
                     public void onFailure(Call<Response> call, Throwable t) {
+                        listener.fail(t.toString());
+                    }
+                });
+    }
+
+    @Override
+    public void chatList(int boardID, ChatListener listener) {
+        RetrofitClient
+                .getInstance()
+                .getInterface()
+                .chatList(boardID)
+                .enqueue(new Callback<Response<ResponseBoard>>() {
+                    @Override
+                    public void onResponse(Call<Response<ResponseBoard>> call, retrofit2.Response<Response<ResponseBoard>> response) {
+                        try {
+                            if (response.body() != null && response.isSuccessful()) {
+                                listener.success(response.body().getResultData().getData());
+                            } else if (response.errorBody() != null) {
+                                listener.fail(getError(response.errorBody()).getError());
+                            }
+                        } catch (Exception e) {
+                            listener.fail("chatList Exception " + e.toString());
+                        }
+                    }
+
+                    @Override
+                    public void onFailure(Call<Response<ResponseBoard>> call, Throwable t) {
                         listener.fail(t.toString());
                     }
                 });

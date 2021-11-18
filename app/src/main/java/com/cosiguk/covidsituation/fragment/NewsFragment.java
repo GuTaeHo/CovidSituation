@@ -88,8 +88,10 @@ public class NewsFragment extends Fragment {
                         binding.loSwipe.setRefreshing(false);
                         setNewsList(list);
                         initNewsLayout();
-                        if (displayProgress) MyApplication.dismissProgressDialog();
-                        displayProgress = false;
+                        if (displayProgress) {
+                            MyApplication.dismissProgressDialog();
+                            displayProgress = false;
+                        };
                     }
 
                     @Override
@@ -99,8 +101,10 @@ public class NewsFragment extends Fragment {
                         new NoticeDialog(getActivity())
                                 .setMsg(message)
                                 .show();
-                        if (displayProgress) MyApplication.dismissProgressDialog();
-                        displayProgress = false;
+                        if (displayProgress) {
+                            MyApplication.dismissProgressDialog();
+                            displayProgress = false;
+                        };
                     }
                 });
     }

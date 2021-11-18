@@ -80,5 +80,8 @@ public class RetrofitClient {
 
         @POST("api/board/{boardID}/delete")
         Call<Response> deleteBoard(@Path("boardID") int boardID);
+
+        @GET("api/chat/{boardID}/chatList")
+        Call<Response<ResponseBoard>> chatList(@Path("boardID") int boardID);
     }
 }

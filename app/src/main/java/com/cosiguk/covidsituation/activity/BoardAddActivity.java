@@ -101,7 +101,7 @@ public class BoardAddActivity extends BaseActivity {
         if (title.length() > 25) {
             binding.etTitle.startAnimation(shake);
             binding.etTitle.requestFocus();
-            showToastPosition("제목은 25자 이내로 작성해주세요", ViewUtil.getAbsoluteHeight(binding.etTitle));
+            showToastPosition(getString(R.string.validate_title), ViewUtil.getAbsoluteHeight(binding.etTitle));
             showKeyboard();
             return;
         }
@@ -109,23 +109,23 @@ public class BoardAddActivity extends BaseActivity {
         if (content.length() > 250) {
             binding.etContent.startAnimation(shake);
             binding.etContent.requestFocus();
-            showToastPosition("내용은 250자 이내로 작성해주세요", ViewUtil.getAbsoluteHeight(binding.etContent));
+            showToastPosition(getString(R.string.validate_content_board_add), ViewUtil.getAbsoluteHeight(binding.etContent));
             showKeyboard();
             return;
         }
 
-        if (!PatternUtil.isNickNamePattern(nickName)) {
+        if (PatternUtil.isNickNamePattern(nickName)) {
             binding.etNickname.startAnimation(shake);
             binding.etNickname.requestFocus();
-            showToastPosition("닉네임은 3 ~ 10자 사이로 작성해주세요", ViewUtil.getAbsoluteHeight(binding.etNickname));
+            showToastPosition(getString(R.string.validate_nickname), ViewUtil.getAbsoluteHeight(binding.etNickname));
             showKeyboard();
             return;
         }
 
-        if (!PatternUtil.isPassWordPattern(password)) {
+        if (PatternUtil.isPassWordPattern(password)) {
             binding.etPassword.startAnimation(shake);
             binding.etPassword.requestFocus();
-            showToastPosition("비밀번호는 5 ~ 20자 이하로 작성해주세요", ViewUtil.getAbsoluteHeight(binding.etPassword));
+            showToastPosition(getString(R.string.validate_password), ViewUtil.getAbsoluteHeight(binding.etPassword));
             showKeyboard();
             return;
         }

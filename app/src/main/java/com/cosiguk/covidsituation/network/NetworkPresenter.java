@@ -2,7 +2,6 @@ package com.cosiguk.covidsituation.network;
 
 import androidx.annotation.NonNull;
 
-import com.cosiguk.covidsituation.network.request.RequestBoardAdd;
 import com.cosiguk.covidsituation.network.response.ResponseBoard;
 import com.cosiguk.covidsituation.network.response.ResponseBoardDetail;
 import com.cosiguk.covidsituation.network.response.ResponseCity;
@@ -17,6 +16,7 @@ import com.cosiguk.covidsituation.network.resultInterface.BoardDeprecateListener
 import com.cosiguk.covidsituation.network.resultInterface.BoardDetailListener;
 import com.cosiguk.covidsituation.network.resultInterface.BoardListener;
 import com.cosiguk.covidsituation.network.resultInterface.BoardRecommendListener;
+import com.cosiguk.covidsituation.network.resultInterface.ChatAddListener;
 import com.cosiguk.covidsituation.network.resultInterface.ChatListener;
 import com.cosiguk.covidsituation.network.resultInterface.DeleteBoardListener;
 import com.cosiguk.covidsituation.network.resultInterface.SituationBoardListener;
@@ -420,6 +420,33 @@ public class NetworkPresenter implements NetworkPresenterInterface {
 
                     @Override
                     public void onFailure(Call<Response<ResponseBoard>> call, Throwable t) {
+                        listener.fail(t.toString());
+                    }
+                });
+    }
+
+    @Override
+    public void chatAdd(int boardID, HashMap<String, RequestBody> requestChatAdd, ChatAddListener listener) {
+        RetrofitClient
+                .getInstance()
+                .getInterface()
+                .chatAdd(boardID, requestChatAdd)
+                .enqueue(new Callback<Response>() {
+                    @Override
+                    public void onResponse(Call<Response> call, retrofit2.Response<Response> response) {
+                        try {
+                            if (response.body() != null && response.isSuccessful()) {
+                                listener.success();
+                            } else if (response.errorBody() != null) {
+                                listener.fail(getError(response.errorBody()).getError());
+                            }
+                        } catch (Exception e) {
+                            listener.fail("chatAdd Exception " + e.toString());
+                        }
+                    }
+
+                    @Override
+                    public void onFailure(Call<Response> call, Throwable t) {
                         listener.fail(t.toString());
                     }
                 });

@@ -1,12 +1,12 @@
 package com.cosiguk.covidsituation.network;
 
 
-import com.cosiguk.covidsituation.network.request.RequestBoardAdd;
 import com.cosiguk.covidsituation.network.resultInterface.BoardAddListener;
 import com.cosiguk.covidsituation.network.resultInterface.BoardDeprecateListener;
 import com.cosiguk.covidsituation.network.resultInterface.BoardDetailListener;
 import com.cosiguk.covidsituation.network.resultInterface.BoardListener;
 import com.cosiguk.covidsituation.network.resultInterface.BoardRecommendListener;
+import com.cosiguk.covidsituation.network.resultInterface.ChatAddListener;
 import com.cosiguk.covidsituation.network.resultInterface.ChatListener;
 import com.cosiguk.covidsituation.network.resultInterface.DeleteBoardListener;
 import com.cosiguk.covidsituation.network.resultInterface.SituationBoardListener;
@@ -63,4 +63,7 @@ public interface NetworkPresenterInterface {
 
     // 댓글 조회
     void chatList(int boardID, ChatListener listener);
+
+    // 댓글 추가
+    void chatAdd(int boardID, HashMap<String, RequestBody> requestChatAdd, ChatAddListener listener);
 }

@@ -2,7 +2,7 @@ package com.cosiguk.covidsituation.network.request;
 
 import com.google.gson.annotations.SerializedName;
 
-public class RequestBoardAdd {
+public class RequestPost {
     @SerializedName("title")
     private String title;
 

@@ -42,6 +42,7 @@
             app:layout_constraintBottom_toTopOf="@id/lo_chat">
 
             <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/content_container"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
 
@@ -226,7 +227,7 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:background="@drawable/view_round_light_gray"
-                android:hint="@string/board_add_nickname_hint"
+                android:hint="@string/hint_nickname"
                 android:inputType="text"
                 android:maxLength="10"
                 android:maxLines="1"
@@ -236,14 +237,14 @@
                 android:layout_marginEnd="6dp"
                 app:layout_constraintEnd_toStartOf="@id/et_password"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintBottom_toTopOf="@id/et_content" />
+                app:layout_constraintBottom_toTopOf="@id/lo_content" />
 
             <EditText
                 android:id="@+id/et_password"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:background="@drawable/view_round_light_gray"
-                android:hint="@string/board_add_password_hint"
+                android:hint="@string/hint_password"
                 android:inputType="textPassword"
                 android:maxLength="20"
                 android:maxLines="1"
@@ -253,38 +254,47 @@
                 android:layout_marginStart="6dp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toEndOf="@id/et_nickname"
-                app:layout_constraintBottom_toTopOf="@id/et_content" />
+                app:layout_constraintBottom_toTopOf="@id/lo_content" />
 
-            <EditText
-                android:id="@+id/et_content"
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/lo_content"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="@drawable/view_round_light_gray"
-                android:hint="@string/board_add_content_hint"
-                android:inputType="textPassword"
-                android:maxLength="20"
-                android:maxLines="3"
-                android:padding="12dp"
-                android:textSize="12sp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintBottom_toBottomOf="parent" />
+                app:layout_constraintBottom_toBottomOf="parent"
+                android:orientation="horizontal">
+                <EditText
+                    android:id="@+id/et_content"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:background="@null"
+                    android:hint="@string/hint_content"
+                    android:inputType="textMultiLine"
+                    android:maxLength="100"
+                    android:maxLines="3"
+                    android:padding="12dp"
+                    android:textSize="12sp"
+                    app:layout_constraintEnd_toStartOf="@id/tv_send_comment"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintBottom_toBottomOf="parent" />
 
-            <TextView
-                android:id="@+id/tv_send_comment"
-                android:layout_width="28dp"
-                android:layout_height="28dp"
-                android:background="@drawable/ic_send_24"
-                android:gravity="center_vertical"
-                android:clickable="true"
-                android:focusable="true"
-                android:padding="12dp"
-                android:textSize="12sp"
-                android:layout_marginEnd="6dp"
-                app:layout_constraintEnd_toEndOf="@id/et_content"
-                app:layout_constraintTop_toTopOf="@id/et_content"
-                app:layout_constraintBottom_toBottomOf="@id/et_content" />
-
+                <TextView
+                    android:id="@+id/tv_send_comment"
+                    android:layout_width="28dp"
+                    android:layout_height="28dp"
+                    android:background="@drawable/ic_send_24"
+                    android:gravity="center_vertical"
+                    android:clickable="true"
+                    android:focusable="true"
+                    android:padding="12dp"
+                    android:textSize="12sp"
+                    android:layout_marginEnd="6dp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintBottom_toBottomOf="parent" />
+            </androidx.constraintlayout.widget.ConstraintLayout>
         </androidx.constraintlayout.widget.ConstraintLayout>
 
     </androidx.constraintlayout.widget.ConstraintLayout>

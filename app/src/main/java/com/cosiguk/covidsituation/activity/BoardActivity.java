@@ -7,6 +7,8 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import android.app.Activity;
 import android.os.Bundle;
 import android.view.View;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.ArrayAdapter;
 import android.widget.Spinner;
 
@@ -19,11 +21,18 @@ import com.cosiguk.covidsituation.model.Board;
 import com.cosiguk.covidsituation.network.resultInterface.BoardDeprecateListener;
 import com.cosiguk.covidsituation.network.resultInterface.BoardDetailListener;
 import com.cosiguk.covidsituation.network.resultInterface.BoardRecommendListener;
+import com.cosiguk.covidsituation.network.resultInterface.ChatAddListener;
 import com.cosiguk.covidsituation.network.resultInterface.ChatListener;
 import com.cosiguk.covidsituation.util.ActivityUtil;
+import com.cosiguk.covidsituation.util.PatternUtil;
+import com.cosiguk.covidsituation.util.ViewUtil;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Locale;
+
+import okhttp3.MediaType;
+import okhttp3.RequestBody;
 
 public class BoardActivity extends BaseActivity {
     private final int SUCCESS = 0;
@@ -32,6 +41,7 @@ public class BoardActivity extends BaseActivity {
     private ChatAdapter adapter;
     private Board item;
     private int userID;
+    private Animation shake;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -47,6 +57,7 @@ public class BoardActivity extends BaseActivity {
     private void initValue() {
         userID = getIntent().getIntExtra(ActivityUtil.NOTICE_ID, -1);
         adapter = new ChatAdapter(BoardActivity.this);
+        shake = AnimationUtils.loadAnimation(this, R.anim.anim_shake);
     }
 
     private void initLayout() {
@@ -70,8 +81,10 @@ public class BoardActivity extends BaseActivity {
             setResult(Activity.RESULT_OK);
             finish();
         });
+        binding.contentContainer.setOnClickListener(v -> hideKeyboard());
         binding.loRecommend.setOnClickListener(v -> requestLike());
         binding.loDeprecate.setOnClickListener(v -> requestUnLike());
+        binding.tvSendComment.setOnClickListener(v -> sendComment());
     }
 
     // 인터넷 연결이 끊어졌을 경우 레이아웃 초기화
@@ -81,6 +94,68 @@ public class BoardActivity extends BaseActivity {
         binding.loBoardDetail.setVisibility(View.GONE);
         binding.recyclerview.setVisibility(View.GONE);
         binding.tvNetworkError.setVisibility(View.VISIBLE);
+    }
+
+    private void sendComment() {
+        String nickName = binding.etNickname.getText().toString().trim();
+        String password = binding.etPassword.getText().toString().trim();
+        String content = binding.etContent.getText().toString().trim();
+
+        if ("".equals(nickName)) {
+            binding.etNickname.startAnimation(shake);
+            binding.etNickname.requestFocus();
+            showKeyboard();
+            return;
+        }
+
+        if ("".equals(password)) {
+            binding.etPassword.startAnimation(shake);
+            binding.etPassword.requestFocus();
+            showKeyboard();
+            return;
+        }
+
+        if ("".equals(content)) {
+            binding.etContent.startAnimation(shake);
+            binding.etContent.requestFocus();
+            showKeyboard();
+            return;
+        }
+
+        if (content.length() > 100) {
+            binding.etContent.startAnimation(shake);
+            binding.etContent.requestFocus();
+            showToastPosition(getString(R.string.validate_content_comment), ViewUtil.getAbsoluteHeight(binding.etContent));
+            showKeyboard();
+            return;
+        }
+
+        if (PatternUtil.isNickNamePattern(nickName)) {
+            binding.etNickname.startAnimation(shake);
+            binding.etNickname.requestFocus();
+            showToastPosition(getString(R.string.validate_nickname), ViewUtil.getAbsoluteHeight(binding.etNickname));
+            showKeyboard();
+            return;
+        }
+
+        if (PatternUtil.isPassWordPattern(password)) {
+            binding.etPassword.startAnimation(shake);
+            binding.etPassword.requestFocus();
+            showToastPosition(getString(R.string.validate_password), ViewUtil.getAbsoluteHeight(binding.etPassword));
+            showKeyboard();
+            return;
+        }
+
+        RequestBody nickNameBody = RequestBody.create(MediaType.parse("multipart/form-data"), nickName);
+        RequestBody passwordBody = RequestBody.create(MediaType.parse("multipart/form-data"), password);
+        RequestBody contentBody = RequestBody.create(MediaType.parse("multipart/form-data"), content);
+
+        HashMap<String, RequestBody> requestMap = new HashMap<>();
+        requestMap.put("nickname", nickNameBody);
+        requestMap.put("password", passwordBody);
+        requestMap.put("content", contentBody);
+
+        requestChatAdd(requestMap);
     }
 
     private void requestBoard() {
@@ -161,6 +236,25 @@ public class BoardActivity extends BaseActivity {
                 });
     }
 
+    private void requestChatAdd(HashMap<String, RequestBody> request) {
+        networkPresenter
+                .chatAdd(userID, request, new ChatAddListener() {
+                    @Override
+                    public void success() {
+                        adapter.clear();
+                        removeChatText();
+                        requestBoard();
+                    }
+
+                    @Override
+                    public void fail(String msg) {
+                        new NoticeDialog(BoardActivity.this)
+                                .setMsg(msg)
+                                .show();
+                    }
+                });
+    }
+
     private void setBoardItem(Board board) {
         item = board;
     }
@@ -181,6 +275,13 @@ public class BoardActivity extends BaseActivity {
     private void initChat() {
         binding.recyclerview.setLayoutManager(new LinearLayoutManager(BoardActivity.this));
         binding.recyclerview.setAdapter(adapter);
+    }
+
+    // 채팅 완료 후 텍스트 삭제
+    private void removeChatText() {
+        binding.etNickname.setText("");
+        binding.etPassword.setText("");
+        binding.etContent.setText("");
     }
 
     @Override

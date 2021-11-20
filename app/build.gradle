@@ -13,7 +13,7 @@ android {
         minSdk 24
         targetSdk 30
         versionCode 1
-        versionName "2.0"
+        versionName "2.1"
         // API Key
         buildConfigField "String", "PUBLIC_SERVICE_KEY", properties['public_service_key']
         buildConfigField "String", "CLIENT_ID", properties['client_id']

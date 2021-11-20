@@ -5,12 +5,14 @@ import com.google.gson.annotations.SerializedName;
 
 import java.util.ArrayList;
 
-public class ResponseBoard {
+public class ResponseChat {
     @SerializedName("data")
-    private ResponseBoardData data;
+    private ArrayList<Board> data;
 
-    public ResponseBoardData getData() {
+    public ArrayList<Board> getData() {
+        if (data == null) {
+            data = new ArrayList<>();
+        }
         return data;
     }
 }
-

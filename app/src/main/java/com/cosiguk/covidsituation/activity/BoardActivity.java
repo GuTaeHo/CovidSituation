@@ -146,9 +146,9 @@ public class BoardActivity extends BaseActivity {
             return;
         }
 
-        RequestBody nickNameBody = RequestBody.create(MediaType.parse("multipart/form-data"), nickName);
-        RequestBody passwordBody = RequestBody.create(MediaType.parse("multipart/form-data"), password);
-        RequestBody contentBody = RequestBody.create(MediaType.parse("multipart/form-data"), content);
+        RequestBody nickNameBody = RequestBody.create(nickName, MediaType.parse("multipart/form-data"));
+        RequestBody passwordBody = RequestBody.create(password, MediaType.parse("multipart/form-data"));
+        RequestBody contentBody = RequestBody.create(content, MediaType.parse("multipart/form-data"));
 
         HashMap<String, RequestBody> requestMap = new HashMap<>();
         requestMap.put("nickname", nickNameBody);

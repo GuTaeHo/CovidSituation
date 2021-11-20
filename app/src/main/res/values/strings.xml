@@ -89,6 +89,7 @@
     <!-- board list -->
     <string name="board_report_notice">이 게시글을 신고하시겠습니까?</string>
     <string name="board_delete_notice">이 게시글을 삭제하시겠습니까?</string>
+    <string name="board_empty">게시글이 텅~ 비었네요</string>
 
     <!-- hint alert -->
     <string name="hint_title">제목</string>
@@ -106,6 +107,7 @@
     <!-- etc -->
     <string name="lorem_ipsum_long_text">나는 이웃 토끼, 나는 나는 덮어 봅니다. 위에도 없이 딴은 하늘에는 나는 노루, 풀이 별 위에 듯합니다. 어머님, 이네들은 별 릴케 듯합니다. 위에 하나에 내린 별 내일 계십니다. 마리아 파란 풀이 써 어머니, 같이 위에도 버리었습니다. 둘 위에 했던 봅니다. 언덕 새워 별 아이들의 까닭입니다.소녀들의 이름자 이름을 이름자를 말 하나에 까닭입니다. 이름과, 남은 하나에 봅니다. 이런 까닭이요, 없이 벌써 슬퍼하는 위에 별을 속의 듯합니다. 어머니, 계절이 비둘기, 가을 이네들은 거외다. 새워 멀듯이, 이름을 봅니다. 다하지 이름자 멀리 잔디가 못 차 비둘기, 그러나 버리었습니다. 까닭이요, 비둘기, 못 이름과 별이 별에도 이름과, 아직 계십니다. 하나 언덕 멀듯이, 이웃 너무나 까닭입니다. 멀듯이, 내린 사람들의 이름을 노루, 이름과 우는 아스라히 어머님, 거외다. 이름자 애기 밤이 마디씩 까닭이요, 토끼, 듯합니다. </string>
     <string name="network_fail_text">불러오기에\n실패했습니다…ㅠㅠ</string>
+    <string name="network_fail_content">네트워크 연결 상태를 확인해주세요</string>
 
     <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>

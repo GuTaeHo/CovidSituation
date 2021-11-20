@@ -4,6 +4,7 @@ import androidx.annotation.NonNull;
 
 import com.cosiguk.covidsituation.network.response.ResponseBoard;
 import com.cosiguk.covidsituation.network.response.ResponseBoardDetail;
+import com.cosiguk.covidsituation.network.response.ResponseChat;
 import com.cosiguk.covidsituation.network.response.ResponseCity;
 import com.cosiguk.covidsituation.network.response.ResponseHospital;
 import com.cosiguk.covidsituation.network.response.ResponseInfection;
@@ -236,11 +237,11 @@ public class NetworkPresenter implements NetworkPresenterInterface {
     }
 
     @Override
-    public void boardList(BoardListener listener) {
+    public void boardList(HashMap<String, RequestBody> request, BoardListener listener) {
         RetrofitClient
                 .getInstance()
                 .getInterface()
-                .boardList()
+                .boardList(request)
                 .enqueue(new Callback<Response<ResponseBoard>>() {
                     @Override
                     public void onResponse(@NonNull Call<Response<ResponseBoard>> call, @NonNull retrofit2.Response<Response<ResponseBoard>> response) {
@@ -404,9 +405,9 @@ public class NetworkPresenter implements NetworkPresenterInterface {
                 .getInstance()
                 .getInterface()
                 .chatList(boardID)
-                .enqueue(new Callback<Response<ResponseBoard>>() {
+                .enqueue(new Callback<Response<ResponseChat>>() {
                     @Override
-                    public void onResponse(Call<Response<ResponseBoard>> call, retrofit2.Response<Response<ResponseBoard>> response) {
+                    public void onResponse(Call<Response<ResponseChat>> call, retrofit2.Response<Response<ResponseChat>> response) {
                         try {
                             if (response.body() != null && response.isSuccessful()) {
                                 listener.success(response.body().getResultData().getData());
@@ -419,7 +420,7 @@ public class NetworkPresenter implements NetworkPresenterInterface {
                     }
 
                     @Override
-                    public void onFailure(Call<Response<ResponseBoard>> call, Throwable t) {
+                    public void onFailure(Call<Response<ResponseChat>> call, Throwable t) {
                         listener.fail(t.toString());
                     }
                 });

@@ -1,13 +1,10 @@
 package com.cosiguk.covidsituation.network.resultInterface;
 
-import com.cosiguk.covidsituation.model.Board;
-import com.cosiguk.covidsituation.model.City;
-
-import java.util.ArrayList;
-import java.util.List;
+import com.cosiguk.covidsituation.network.response.ResponseBoard;
+import com.cosiguk.covidsituation.network.response.ResponseBoardData;
 
 public interface BoardListener {
-    void success(ArrayList<Board> items);
+    void success(ResponseBoardData items);
 
     void fail(String message);
 }

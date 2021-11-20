@@ -29,12 +29,16 @@ import com.cosiguk.covidsituation.adapter.BoardListAdapter;
 import com.cosiguk.covidsituation.application.MyApplication;
 import com.cosiguk.covidsituation.databinding.FragmentBoardBinding;
 import com.cosiguk.covidsituation.dialog.NoticeDialog;
-import com.cosiguk.covidsituation.model.Board;
+import com.cosiguk.covidsituation.network.response.ResponseBoardData;
 import com.cosiguk.covidsituation.network.resultInterface.BoardListener;
 import com.cosiguk.covidsituation.util.ActivityUtil;
+import com.cosiguk.covidsituation.util.NetworkUtil;
+import com.cosiguk.covidsituation.util.ToastUtil;
 
-import java.util.ArrayList;
-import java.util.Objects;
+import java.util.HashMap;
+
+import okhttp3.MediaType;
+import okhttp3.RequestBody;
 
 public class BoardFragment extends Fragment {
     private FragmentBoardBinding binding;
@@ -43,8 +47,15 @@ public class BoardFragment extends Fragment {
     private ActivityResultLauncher<Intent> boardDetailLauncher;
     private ActivityResultLauncher<Intent> boardAddLauncher;
     private OnStatusColorUpdateListener onStatusColorUpdateListener;
-    // 프로그래스 디스플레이 상태
-    private boolean displayProgress;
+    private HashMap<String, RequestBody> requestMap;
+    private boolean displayProgressStatus;
+    private boolean isEndPage;
+    // 전체 게시글 개수
+    private int totalCount;
+    // 요청 시 페이지 번호
+    private int page;
+    // 요청 시 페이지 개수
+    private int size;
 
     public BoardFragment() {}
 
@@ -67,43 +78,74 @@ public class BoardFragment extends Fragment {
         initActivityLauncher();
         initEvent();
         initRefreshListener();
-        requestBoard();
+        setRequestParams();
         return binding.getRoot();
     }
 
+    // 액티비티 실행 후 최초 1번만 실행
     private void initValue() {
         context = getActivity();
         adapter = new BoardListAdapter(context);
-        displayProgress = true;
+        requestMap = new HashMap<>();
+        displayProgressStatus = true;
+        initRequestParams();
+    }
+
+    private void initRequestParams() {
+        isEndPage = false;
+        page = 0;
+        size = 7;
+    }
+
+    private void setRequestParams() {
+        RequestBody requestPage = RequestBody.create(String.valueOf(page), MediaType.parse("multipart/form-data"));
+        RequestBody requestSize = RequestBody.create(String.valueOf(size), MediaType.parse("multipart/form-data"));
+
+        requestMap.put("page", requestPage);
+        requestMap.put("size", requestSize);
+
+        if (!isEndPage) {
+            requestBoard();
+        }
     }
 
     private void requestBoard() {
-        if (displayProgress) MyApplication.showProgressDialog(getActivity(), getString(R.string.progress_search));
-        MyApplication
-                .getNetworkPresenterInstance()
-                .boardList(new BoardListener() {
-                    @Override
-                    public void success(ArrayList<Board> items) {
-                        adapter.addItems(items);
-                        binding.loSwipe.setRefreshing(false);
-                        if (displayProgress) {
-                            MyApplication.dismissProgressDialog();
-                            displayProgress = false;
-                        };
-                    }
+        if (NetworkUtil.isConnected(context)) {
+            if (displayProgressStatus) MyApplication.showProgressDialog(getActivity(), getString(R.string.progress_search));
+            MyApplication
+                    .getNetworkPresenterInstance()
+                    .boardList(requestMap, new BoardListener() {
+                        @Override
+                        public void success(ResponseBoardData response) {
+                            if (response.getTotalCount() == 0) {
+                                showBoardEmpty();
+                                isEndPage = true;
+                            } else {
+                                totalCount = response.getTotalCount();
+                                adapter.addItems(response.getBoardList());
+                                showContent();
+                            }
+                            binding.loSwipe.setRefreshing(false);
+                            if (displayProgressStatus) {
+                                MyApplication.dismissProgressDialog();
+                                displayProgressStatus = false;
+                            };
+                        }
 
-                    @Override
-                    public void fail(String message) {
-                        binding.loSwipe.setRefreshing(false);
-                        new NoticeDialog(getActivity())
-                                .setMsg(message)
-                                .show();
-                        if (displayProgress) {
-                            MyApplication.dismissProgressDialog();
-                            displayProgress = false;
-                        };
-                    }
-                });
+                        @Override
+                        public void fail(String message) {
+                            binding.loSwipe.setRefreshing(false);
+                            new NoticeDialog(getActivity())
+                                    .setMsg(message)
+                                    .show();
+                            if (displayProgressStatus) {
+                                MyApplication.dismissProgressDialog();
+                                displayProgressStatus = false;
+                            };
+                        }
+                    });
+        } else
+            showNetworkError();
     }
 
     private void initLayout() {
@@ -114,6 +156,14 @@ public class BoardFragment extends Fragment {
                 // 스크롤이 끝에 도달했는지 확인
                 if (!binding.recyclerview.canScrollVertically(1)) {
                     Log.d("onStage()", adapter.getItemCount() + "");
+                    // 마지막 게시글 확인
+                    if ((page + 1) * size >= totalCount) {
+                        isEndPage = true;
+                    } else {
+                        page += 1;
+                        setRequestParams();
+                        // 어댑터 마지막 부분에 프로그래스 아이템 추가하기!!
+                    }
                 }
             }
         });
@@ -127,18 +177,49 @@ public class BoardFragment extends Fragment {
         });
         binding.recyclerview.setAdapter(adapter);
     }
-
     private void initEvent() {
         binding.loBoardAdd.setOnClickListener(v -> {
-            boardAddLauncher.launch(new Intent(getActivity(), BoardAddActivity.class));
+            if (NetworkUtil.isConnected(context)) {
+                boardAddLauncher.launch(new Intent(getActivity(), BoardAddActivity.class));
+            } else {
+                ToastUtil.showDarkToast(context, getString(R.string.network_fail_content));
+            }
         });
     }
 
     private void initRefreshListener() {
         binding.loSwipe.setOnRefreshListener(() -> {
             adapter.clear();
-            requestBoard();
+            isEndPage = false;
+            page = 0;
+            setRequestParams();
         });
+    }
+    
+    // 인터넷 연결 상태에 따른 레이아웃 호출
+    private void showNetworkError() {
+        binding.loSwipe.setRefreshing(false);
+        binding.tvErrorTitle.setText(getString(R.string.network_fail_text));
+        binding.tvErrorContent.setText(getString(R.string.network_fail_content));
+        binding.loErrorLayout.setVisibility(View.VISIBLE);
+        binding.recyclerview.setVisibility(View.GONE);
+        binding.loBoardAdd.setVisibility(View.GONE);
+    }
+
+    private void showBoardEmpty() {
+        binding.loSwipe.setRefreshing(false);
+        binding.tvErrorTitle.setText(getString(R.string.board_empty));
+        binding.tvErrorContent.setText("");
+        binding.loErrorLayout.setVisibility(View.VISIBLE);
+        binding.recyclerview.setVisibility(View.GONE);
+        binding.loBoardAdd.setVisibility(View.GONE);
+    }
+    
+    private void showContent() {
+        binding.loSwipe.setRefreshing(false);
+        binding.loErrorLayout.setVisibility(View.GONE);
+        binding.recyclerview.setVisibility(View.VISIBLE);
+        binding.loBoardAdd.setVisibility(View.VISIBLE);
     }
 
     private void initActivityLauncher() {
@@ -168,7 +249,8 @@ public class BoardFragment extends Fragment {
                     public void onActivityResult(Object result) {
                         if (result.equals(ActivityUtil.RESPONSE_OK)) {
                             adapter.clear();
-                            requestBoard();
+                            initRequestParams();
+                            setRequestParams();
                         }
                     }
                 });
@@ -183,7 +265,8 @@ public class BoardFragment extends Fragment {
                         // 액티비티 응답 처리
                         if (result.getResultCode() == Activity.RESULT_OK) {
                             adapter.clear();
-                            requestBoard();
+                            initRequestParams();
+                            setRequestParams();
                         }
                     }
                 });

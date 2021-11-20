@@ -2,6 +2,7 @@ package com.cosiguk.covidsituation.network;
 
 import com.cosiguk.covidsituation.network.response.ResponseBoard;
 import com.cosiguk.covidsituation.network.response.ResponseBoardDetail;
+import com.cosiguk.covidsituation.network.response.ResponseChat;
 import com.cosiguk.covidsituation.network.response.ResponseNotice;
 import com.cosiguk.covidsituation.network.response.ResponseVersion;
 
@@ -62,8 +63,9 @@ public class RetrofitClient {
         @GET("api/notice/noticeList")
         Call<Response<ResponseNotice>> notice();
 
-        @GET("api/board/boardList")
-        Call<Response<ResponseBoard>> boardList();
+        @Multipart
+        @POST("api/board/boardList")
+        Call<Response<ResponseBoard>> boardList(@PartMap Map<String, RequestBody> params);
 
         @GET("api/board/{boardID}")
         Call<Response<ResponseBoardDetail>> boardDetail(@Path("boardID") int boardID);
@@ -82,7 +84,7 @@ public class RetrofitClient {
         Call<Response> deleteBoard(@Path("boardID") int boardID);
 
         @GET("api/chat/{boardID}/chatList")
-        Call<Response<ResponseBoard>> chatList(@Path("boardID") int boardID);
+        Call<Response<ResponseChat>> chatList(@Path("boardID") int boardID);
 
         @Multipart
         @POST("api/chat/{boardID}/chatAdd")

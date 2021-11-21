@@ -247,7 +247,7 @@ public class NetworkPresenter implements NetworkPresenterInterface {
                     public void onResponse(@NonNull Call<Response<ResponseBoard>> call, @NonNull retrofit2.Response<Response<ResponseBoard>> response) {
                         try {
                             if (response.body() != null && response.isSuccessful()) {
-                                listener.success(response.body().getResultData().getData());
+                                listener.success(response.body().getResultData());
                             } else {
                                 listener.fail(getError(response.errorBody()).getError());
                             }

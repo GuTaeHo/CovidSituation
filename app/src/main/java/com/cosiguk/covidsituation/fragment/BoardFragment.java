@@ -29,6 +29,7 @@ import com.cosiguk.covidsituation.adapter.BoardListAdapter;
 import com.cosiguk.covidsituation.application.MyApplication;
 import com.cosiguk.covidsituation.databinding.FragmentBoardBinding;
 import com.cosiguk.covidsituation.dialog.NoticeDialog;
+import com.cosiguk.covidsituation.network.response.ResponseBoard;
 import com.cosiguk.covidsituation.network.response.ResponseBoardData;
 import com.cosiguk.covidsituation.network.resultInterface.BoardListener;
 import com.cosiguk.covidsituation.util.ActivityUtil;
@@ -116,13 +117,13 @@ public class BoardFragment extends Fragment {
                     .getNetworkPresenterInstance()
                     .boardList(requestMap, new BoardListener() {
                         @Override
-                        public void success(ResponseBoardData response) {
+                        public void success(ResponseBoard response) {
                             if (response.getTotalCount() == 0) {
                                 showBoardEmpty();
                                 isEndPage = true;
                             } else {
                                 totalCount = response.getTotalCount();
-                                adapter.addItems(response.getBoardList());
+                                adapter.addItems(response.getData());
                                 showContent();
                             }
                             binding.loSwipe.setRefreshing(false);

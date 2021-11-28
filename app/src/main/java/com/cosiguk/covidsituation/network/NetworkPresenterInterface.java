@@ -7,7 +7,9 @@ import com.cosiguk.covidsituation.network.resultInterface.BoardDetailListener;
 import com.cosiguk.covidsituation.network.resultInterface.BoardListener;
 import com.cosiguk.covidsituation.network.resultInterface.BoardRecommendListener;
 import com.cosiguk.covidsituation.network.resultInterface.ChatAddListener;
+import com.cosiguk.covidsituation.network.resultInterface.ChatDeprecateListener;
 import com.cosiguk.covidsituation.network.resultInterface.ChatListener;
+import com.cosiguk.covidsituation.network.resultInterface.ChatRecommendListener;
 import com.cosiguk.covidsituation.network.resultInterface.DeleteBoardListener;
 import com.cosiguk.covidsituation.network.resultInterface.SituationBoardListener;
 import com.cosiguk.covidsituation.network.resultInterface.HospitalListener;
@@ -66,4 +68,10 @@ public interface NetworkPresenterInterface {
 
     // 댓글 추가
     void chatAdd(int boardID, HashMap<String, RequestBody> requestChatAdd, ChatAddListener listener);
+
+    // 댓글 추천
+    void chatRecommend(int chatID, ChatRecommendListener listener);
+
+    // 댓글 비추천
+    void chatDeprecate(int chatID, ChatDeprecateListener listener);
 }

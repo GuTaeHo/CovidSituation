@@ -89,5 +89,11 @@ public class RetrofitClient {
         @Multipart
         @POST("api/chat/{boardID}/chatAdd")
         Call<Response> chatAdd(@Path("boardID") int boardID, @PartMap Map<String, RequestBody> params);
+
+        @GET("api/chat/{chatID}/recommend")
+        Call<Response> chatRecommend(@Path("chatID") int chatID);
+
+        @GET("api/chat/{chatID}/deprecate")
+        Call<Response> chatDeprecate(@Path("chatID") int chatID);
     }
 }

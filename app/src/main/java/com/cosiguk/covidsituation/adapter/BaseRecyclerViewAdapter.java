@@ -9,7 +9,7 @@ import java.util.ArrayList;
 
 // 어댑터의 상위에 있는 추상 클래스
 // 어댑터 생성 시, model type 과 홀더를 받아 저장하며, 각 아이템에 대한 클릭 리스너가 정의되어있음
-//
+
 public abstract class BaseRecyclerViewAdapter<T, H extends RecyclerView.ViewHolder> extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     protected ArrayList<T> items;
     protected Context context;

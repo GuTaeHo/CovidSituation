@@ -73,7 +73,7 @@
         <entry key="..\:/CovidSituation/app/src/main/res/drawable/view_upward.xml" value="0.30925925925925923" />
         <entry key="..\:/CovidSituation/app/src/main/res/font/app_base_font_scdream_bold.xml" value="0.3814814814814815" />
         <entry key="..\:/CovidSituation/app/src/main/res/font/app_base_font_scdream_regular.xml" value="0.3814814814814815" />
-        <entry key="..\:/CovidSituation/app/src/main/res/layout/activity_board.xml" value="0.25833333333333336" />
+        <entry key="..\:/CovidSituation/app/src/main/res/layout/activity_board.xml" value="0.3333333333333333" />
         <entry key="..\:/CovidSituation/app/src/main/res/layout/activity_board_add.xml" value="0.2564814814814815" />
         <entry key="..\:/CovidSituation/app/src/main/res/layout/activity_intro.xml" value="0.2212962962962963" />
         <entry key="..\:/CovidSituation/app/src/main/res/layout/activity_main.xml" value="0.27314814814814814" />
@@ -111,6 +111,8 @@
         <entry key="..\:/CovidSituation/app/src/main/res/layout/pager_news.xml" value="0.35885416666666664" />
         <entry key="..\:/CovidSituation/app/src/main/res/layout/pager_situation_board.xml" value="0.35885416666666664" />
         <entry key="..\:/CovidSituation/app/src/main/res/layout/pager_vaccine.xml" value="0.35885416666666664" />
+        <entry key="..\:/CovidSituation/app/src/main/res/layout/spinner_board.xml" value="0.35885416666666664" />
+        <entry key="..\:/CovidSituation/app/src/main/res/layout/spinner_dropdown.xml" value="0.35885416666666664" />
         <entry key="..\:/CovidSituation/app/src/main/res/layout/toast_dark.xml" value="0.35885416666666664" />
         <entry key="..\:/CovidSituation/app/src/main/res/layout/view_chat.xml" value="0.35885416666666664" />
         <entry key="..\:/CovidSituation/app/src/main/res/menu/bottom_navigation.xml" value="0.35885416666666664" />

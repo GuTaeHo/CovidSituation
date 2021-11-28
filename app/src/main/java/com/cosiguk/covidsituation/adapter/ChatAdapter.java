@@ -10,10 +10,12 @@ import androidx.databinding.DataBindingUtil;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.cosiguk.covidsituation.R;
+import com.cosiguk.covidsituation.activity.BoardActivity;
+import com.cosiguk.covidsituation.activity.MainActivity;
 import com.cosiguk.covidsituation.databinding.ItemChatBinding;
 import com.cosiguk.covidsituation.model.Board;
 
-public class ChatAdapter extends BaseRecyclerViewAdapter<Board, ChatAdapter.ViewHolder>{
+public class ChatAdapter extends BaseRecyclerViewAdapter<Board, ChatAdapter.ViewHolder> {
 
     public ChatAdapter(Context context) {
         super(context);
@@ -35,6 +37,14 @@ public class ChatAdapter extends BaseRecyclerViewAdapter<Board, ChatAdapter.View
             holder.binding.tvContent.setText(item.getContent());
             holder.binding.tvRecommendCount.setText(String.format("%s", item.getRecommend()));
             holder.binding.tvDeprecateCount.setText(String.format("%s", item.getDeprecate()));
+            holder.binding.loRecommend.setOnClickListener(v ->
+                ((BoardActivity) context).requestChatRecommend(item.getId()));
+            holder.binding.loDeprecate.setOnClickListener(v ->
+                ((BoardActivity) context).requestChatDeprecate(item.getId()));
+            holder.binding.tvReport.setOnClickListener(v ->
+                ((BoardActivity) context).requestChatReport(item.getId()));
+            holder.binding.tvDelete.setOnClickListener(v ->
+                ((BoardActivity) context).requestChatDelete(item.getId()));
         }
     }
 

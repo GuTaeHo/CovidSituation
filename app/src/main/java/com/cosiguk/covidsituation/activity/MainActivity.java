@@ -110,7 +110,7 @@ public class MainActivity extends BaseActivity implements BoardFragment.OnStatus
             } else if (id == R.id.nv_vaccine) {
                 fragment = VaccineFragment.newInstance();
             } else {
-                fragment = new BoardFragment();
+                fragment = BoardFragment.newInstance();
             }
             // 트랜잭션에 생성된 프래그먼트 추가
             fragmentTransaction.add(R.id.fragment, fragment, tag);

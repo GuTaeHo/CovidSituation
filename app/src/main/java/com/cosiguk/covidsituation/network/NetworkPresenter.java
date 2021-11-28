@@ -18,7 +18,9 @@ import com.cosiguk.covidsituation.network.resultInterface.BoardDetailListener;
 import com.cosiguk.covidsituation.network.resultInterface.BoardListener;
 import com.cosiguk.covidsituation.network.resultInterface.BoardRecommendListener;
 import com.cosiguk.covidsituation.network.resultInterface.ChatAddListener;
+import com.cosiguk.covidsituation.network.resultInterface.ChatDeprecateListener;
 import com.cosiguk.covidsituation.network.resultInterface.ChatListener;
+import com.cosiguk.covidsituation.network.resultInterface.ChatRecommendListener;
 import com.cosiguk.covidsituation.network.resultInterface.DeleteBoardListener;
 import com.cosiguk.covidsituation.network.resultInterface.SituationBoardListener;
 import com.cosiguk.covidsituation.network.resultInterface.HospitalListener;
@@ -37,6 +39,9 @@ import retrofit2.Call;
 import retrofit2.Callback;
 
 public class NetworkPresenter implements NetworkPresenterInterface {
+    private static final int SUCCESS = 0;
+    private static final int FAIL = -1;
+
     @Override
     public void version(VersionListener listener) {
         RetrofitClient
@@ -443,6 +448,60 @@ public class NetworkPresenter implements NetworkPresenterInterface {
                             }
                         } catch (Exception e) {
                             listener.fail("chatAdd Exception " + e.toString());
+                        }
+                    }
+
+                    @Override
+                    public void onFailure(Call<Response> call, Throwable t) {
+                        listener.fail(t.toString());
+                    }
+                });
+    }
+
+    @Override
+    public void chatRecommend(int chatID, ChatRecommendListener listener) {
+        RetrofitClient
+                .getInstance()
+                .getInterface()
+                .chatRecommend(chatID)
+                .enqueue(new Callback<Response>() {
+                    @Override
+                    public void onResponse(Call<Response> call, retrofit2.Response<Response> response) {
+                        try {
+                            if (response.body() != null && response.isSuccessful()) {
+                                listener.success();
+                            } else if (response.errorBody() != null) {
+                                listener.fail(getError(response.errorBody()).getError());
+                            }
+                        } catch (Exception e) {
+                            listener.fail("chatRecommend Exception " + e.toString());
+                        }
+                    }
+
+                    @Override
+                    public void onFailure(Call<Response> call, Throwable t) {
+                        listener.fail(t.toString());
+                    }
+                });
+    }
+
+    @Override
+    public void chatDeprecate(int chatID, ChatDeprecateListener listener) {
+        RetrofitClient
+                .getInstance()
+                .getInterface()
+                .chatDeprecate(chatID)
+                .enqueue(new Callback<Response>() {
+                    @Override
+                    public void onResponse(Call<Response> call, retrofit2.Response<Response> response) {
+                        try {
+                            if (response.body() != null && response.isSuccessful()) {
+                                listener.success();
+                            } else if (response.errorBody() != null) {
+                                listener.fail(getError(response.errorBody()).getError());
+                            }
+                        } catch (Exception e) {
+                            listener.fail("chatDeprecate Exception " + e.toString());
                         }
                     }
 

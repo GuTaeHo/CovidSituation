@@ -4,8 +4,11 @@ import androidx.appcompat.content.res.AppCompatResources;
 import androidx.databinding.DataBindingUtil;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.os.Bundle;
+import android.util.Log;
+import android.view.Gravity;
 import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
@@ -13,6 +16,7 @@ import android.widget.ArrayAdapter;
 import android.widget.Spinner;
 
 import com.cosiguk.covidsituation.R;
+import com.cosiguk.covidsituation.adapter.BaseRecyclerViewAdapter;
 import com.cosiguk.covidsituation.adapter.ChatAdapter;
 import com.cosiguk.covidsituation.databinding.ActivityBoardBinding;
 import com.cosiguk.covidsituation.databinding.CloseToolbarBinding;
@@ -22,9 +26,12 @@ import com.cosiguk.covidsituation.network.resultInterface.BoardDeprecateListener
 import com.cosiguk.covidsituation.network.resultInterface.BoardDetailListener;
 import com.cosiguk.covidsituation.network.resultInterface.BoardRecommendListener;
 import com.cosiguk.covidsituation.network.resultInterface.ChatAddListener;
+import com.cosiguk.covidsituation.network.resultInterface.ChatDeprecateListener;
 import com.cosiguk.covidsituation.network.resultInterface.ChatListener;
+import com.cosiguk.covidsituation.network.resultInterface.ChatRecommendListener;
 import com.cosiguk.covidsituation.util.ActivityUtil;
 import com.cosiguk.covidsituation.util.PatternUtil;
+import com.cosiguk.covidsituation.util.ToastUtil;
 import com.cosiguk.covidsituation.util.ViewUtil;
 
 import java.util.ArrayList;
@@ -82,8 +89,8 @@ public class BoardActivity extends BaseActivity {
             finish();
         });
         binding.contentContainer.setOnClickListener(v -> hideKeyboard());
-        binding.loRecommend.setOnClickListener(v -> requestLike());
-        binding.loDeprecate.setOnClickListener(v -> requestUnLike());
+        binding.loRecommend.setOnClickListener(v -> requestBoardRecommend());
+        binding.loDeprecate.setOnClickListener(v -> requestBoardDeprecate());
         binding.tvSendComment.setOnClickListener(v -> sendComment());
     }
 
@@ -158,6 +165,7 @@ public class BoardActivity extends BaseActivity {
         requestChatAdd(requestMap);
     }
 
+    // 게시글 요청
     private void requestBoard() {
         showProgressDialog(BoardActivity.this, getResources().getString(R.string.progress_board_detail));
         networkPresenter
@@ -176,12 +184,14 @@ public class BoardActivity extends BaseActivity {
                 });
     }
 
+    // 댓글 요청
     private void requestChat() {
         networkPresenter
                 .chatList(userID, new ChatListener() {
                     @Override
                     public void success(ArrayList<Board> boards) {
                         adapter.addItems(boards);
+                        // setChatClickEvent();
                         initLayout();
                         dismissProgressDialog();
                     }
@@ -194,7 +204,8 @@ public class BoardActivity extends BaseActivity {
                 });
     }
 
-    private void requestLike() {
+    // 게시글 좋아요
+    private void requestBoardRecommend() {
         networkPresenter
                 .boardRecommend(userID, new BoardRecommendListener() {
                     @Override
@@ -215,7 +226,8 @@ public class BoardActivity extends BaseActivity {
                 });
     }
 
-    private void requestUnLike() {
+    // 게시글 싫어요
+    private void requestBoardDeprecate() {
         networkPresenter
                 .boardDeprecate(userID, new BoardDeprecateListener() {
                     @Override
@@ -236,6 +248,7 @@ public class BoardActivity extends BaseActivity {
                 });
     }
 
+    // 댓글 등록
     private void requestChatAdd(HashMap<String, RequestBody> request) {
         networkPresenter
                 .chatAdd(userID, request, new ChatAddListener() {
@@ -255,6 +268,52 @@ public class BoardActivity extends BaseActivity {
                 });
     }
 
+    // 댓글 좋아요
+    public void requestChatRecommend(int chatID) {
+        networkPresenter
+                .chatRecommend(chatID, new ChatRecommendListener() {
+                    @Override
+                    public void success() {
+                        adapter.clear();
+                        requestBoard();
+                    }
+
+                    @Override
+                    public void fail(String msg) {
+                        ToastUtil.showToastCenter(BoardActivity.this, msg);
+                    }
+                });
+    }
+
+    // 댓글 싫어요
+    public void requestChatDeprecate(int chatID) {
+        networkPresenter
+                .chatDeprecate(chatID, new ChatDeprecateListener() {
+                    @Override
+                    public void success() {
+                        adapter.clear();
+                        requestBoard();
+                    }
+
+                    @Override
+                    public void fail(String msg) {
+                        ToastUtil.showToastCenter(BoardActivity.this, msg);
+                    }
+                });
+
+    }
+
+    // 댓글 신고
+    public void requestChatReport(int chatID) {
+
+    }
+
+    // 댓글 삭제
+    public void requestChatDelete(int chatID) {
+
+    }
+
+    // 게시글은 어댑터 사용 X, 액티비티 자체에서 값 설정
     private void setBoardItem(Board board) {
         item = board;
     }
@@ -266,10 +325,46 @@ public class BoardActivity extends BaseActivity {
     }
 
     private void initSpinner(Spinner spinner) {
+        // 어댑터 초기화 (context, 스트링 아이템, 초기 레이아웃)
         ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this,
-                R.array.planets_array, android.R.layout.simple_spinner_item);
-        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+                R.array.planets_array, R.layout.spinner_board);
+        // drop down 레이아웃 설정
+        adapter.setDropDownViewResource(R.layout.spinner_dropdown);
         spinner.setAdapter(adapter);
+    }
+
+    // 댓글 클릭 이벤트 정의
+    private void setChatClickEvent() {
+
+        adapter.setOnItemClickListener(new BaseRecyclerViewAdapter.OnItemClickListener() {
+            @SuppressLint("NonConstantResourceId")
+            @Override
+            public void onItemClick(View view, int position) {
+                Log.d("adapterClicked", "view : " + view.toString() + ", position : " + position);
+                // 클릭된 아이템의 id 획득
+                int chatID = adapter.getItem(position).getId();
+                switch (view.getId()) {
+                    case R.id.lo_recommend:
+                        requestChatRecommend(chatID);
+                        break;
+                    case R.id.lo_deprecate:
+                        requestChatDeprecate(chatID);
+                        break;
+                    case R.id.tv_report:
+                        requestChatReport(chatID);
+                        break;
+                    case R.id.tv_delete:
+                        requestChatDelete(chatID);
+                        break;
+                    case R.id.container:
+                        showToast("컨테이너 클릭됨, ID : " + chatID);
+                        break;
+                    default:
+                        showToast("이벤트 설정중 문제가 생겼습니다...");
+                        break;
+                }
+            }
+        });
     }
 
     private void initChat() {

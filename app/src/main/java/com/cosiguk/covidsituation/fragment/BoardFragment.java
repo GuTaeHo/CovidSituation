@@ -24,13 +24,13 @@ import android.view.ViewGroup;
 import com.cosiguk.covidsituation.R;
 import com.cosiguk.covidsituation.activity.BoardActivity;
 import com.cosiguk.covidsituation.activity.BoardAddActivity;
+import com.cosiguk.covidsituation.activity.MainActivity;
 import com.cosiguk.covidsituation.adapter.BaseRecyclerViewAdapter;
 import com.cosiguk.covidsituation.adapter.BoardListAdapter;
 import com.cosiguk.covidsituation.application.MyApplication;
 import com.cosiguk.covidsituation.databinding.FragmentBoardBinding;
 import com.cosiguk.covidsituation.dialog.NoticeDialog;
 import com.cosiguk.covidsituation.network.response.ResponseBoard;
-import com.cosiguk.covidsituation.network.response.ResponseBoardData;
 import com.cosiguk.covidsituation.network.resultInterface.BoardListener;
 import com.cosiguk.covidsituation.util.ActivityUtil;
 import com.cosiguk.covidsituation.util.NetworkUtil;
@@ -42,6 +42,10 @@ import okhttp3.MediaType;
 import okhttp3.RequestBody;
 
 public class BoardFragment extends Fragment {
+    // 최초 요청 페이지 번호
+    private static final int PAGE_INDEX = 0;
+    // 요청 시 게시글 사이즈
+    private static final int PAGE_SIZE = 10;
     private FragmentBoardBinding binding;
     private BoardListAdapter adapter;
     private Context context;
@@ -94,8 +98,8 @@ public class BoardFragment extends Fragment {
 
     private void initRequestParams() {
         isEndPage = false;
-        page = 0;
-        size = 7;
+        page = PAGE_INDEX;
+        size = PAGE_SIZE;
     }
 
     private void setRequestParams() {
@@ -154,9 +158,9 @@ public class BoardFragment extends Fragment {
         binding.recyclerview.setOnScrollChangeListener(new View.OnScrollChangeListener() {
             @Override
             public void onScrollChange(View v, int scrollX, int scrollY, int oldScrollX, int oldScrollY) {
-                // 스크롤이 끝에 도달했는지 확인
+                // 스크롤이 끝에 도달 시 호출
                 if (!binding.recyclerview.canScrollVertically(1)) {
-                    Log.d("onStage()", adapter.getItemCount() + "");
+                    Log.d("adapterEnd", adapter.getItemCount() + "");
                     // 마지막 게시글 확인
                     if ((page + 1) * size >= totalCount) {
                         isEndPage = true;
@@ -191,8 +195,9 @@ public class BoardFragment extends Fragment {
     private void initRefreshListener() {
         binding.loSwipe.setOnRefreshListener(() -> {
             adapter.clear();
+            page = PAGE_INDEX;
+            size = PAGE_SIZE;
             isEndPage = false;
-            page = 0;
             setRequestParams();
         });
     }

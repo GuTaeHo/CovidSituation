@@ -11,7 +11,6 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.cosiguk.covidsituation.R;
 import com.cosiguk.covidsituation.activity.BoardActivity;
-import com.cosiguk.covidsituation.activity.MainActivity;
 import com.cosiguk.covidsituation.databinding.ItemChatBinding;
 import com.cosiguk.covidsituation.model.Board;
 

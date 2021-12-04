@@ -44,6 +44,7 @@ public class MainActivity extends BaseActivity implements BoardFragment.OnStatus
         initNavigation();
         // 사이드바 초기화
         initSideBarWidth();
+        // 사이드바 버전 초기화
         initDrawerVersion();
     }
 

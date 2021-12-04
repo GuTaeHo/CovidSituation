@@ -50,13 +50,13 @@ public class NetworkPresenter implements NetworkPresenterInterface {
                 .version()
                 .enqueue(new Callback<Response<ResponseVersion>>() {
                     @Override
-                    public void onResponse(Call<Response<ResponseVersion>> call, retrofit2.Response<Response<ResponseVersion>> response) {
+                    public void onResponse(@NonNull Call<Response<ResponseVersion>> call, @NonNull retrofit2.Response<Response<ResponseVersion>> response) {
                         try {
                             if (response.body() != null && response.isSuccessful()) {
                                 // 통신 성공 시 http 바디 반환
                                 listener.success(response.body().getResultData().getVersion());
-                            } else {
-                                listener.fail(response.errorBody().string());
+                            } else if (response.errorBody() != null){
+                                listener.fail(getError(response.errorBody()).getMessage());
                             }
                         } catch (Exception e) {
                             listener.fail("Total Exception " + e.toString());
@@ -64,7 +64,7 @@ public class NetworkPresenter implements NetworkPresenterInterface {
                     }
 
                     @Override
-                    public void onFailure(Call<Response<ResponseVersion>> call, Throwable t) {
+                    public void onFailure(@NonNull Call<Response<ResponseVersion>> call, @NonNull Throwable t) {
                         listener.fail(t.toString());
                     }
                 });
@@ -78,12 +78,12 @@ public class NetworkPresenter implements NetworkPresenterInterface {
                 .notice()
                 .enqueue(new Callback<Response<ResponseNotice>>() {
                     @Override
-                    public void onResponse(Call<Response<ResponseNotice>> call, retrofit2.Response<Response<ResponseNotice>> response) {
+                    public void onResponse(@NonNull Call<Response<ResponseNotice>> call, @NonNull retrofit2.Response<Response<ResponseNotice>> response) {
                         try {
                             if (response.body() != null && response.isSuccessful()) {
                                 listener.success(response.body().getResultData().getData());
-                            } else {
-                                listener.fail(response.errorBody().string());
+                            } else if (response.errorBody() != null) {
+                                listener.fail(getError(response.errorBody()).getMessage());
                             }
                         } catch (Exception e) {
                             listener.fail("Notice Exception " + e.toString());
@@ -91,7 +91,7 @@ public class NetworkPresenter implements NetworkPresenterInterface {
                     }
 
                     @Override
-                    public void onFailure(Call<Response<ResponseNotice>> call, Throwable t) {
+                    public void onFailure(@NonNull Call<Response<ResponseNotice>> call, @NonNull Throwable t) {
                         listener.fail(t.toString());
                     }
                 });
@@ -106,14 +106,14 @@ public class NetworkPresenter implements NetworkPresenterInterface {
                 .total(requestTotal)
                 .enqueue(new Callback<ResponseInfection>() {
                     @Override
-                    public void onResponse(Call<ResponseInfection> call, retrofit2.Response<ResponseInfection> response) {
+                    public void onResponse(@NonNull Call<ResponseInfection> call, @NonNull retrofit2.Response<ResponseInfection> response) {
                         try {
                             if (response.body().getBody().getTotalCount() <= 1 && response.body() != null && response.isSuccessful()) {
                                 listener.request();
                             } else if (response.body() != null && response.isSuccessful()) {
                                 listener.success(response.body().getBody());
-                            } else {
-                                listener.fail(response.errorBody().string());
+                            } else if (response.errorBody() != null) {
+                                listener.fail(getError(response.errorBody()).getMessage());
                             }
                         } catch (Exception e) {
                             listener.fail("Total Exception " + e.toString());
@@ -121,7 +121,7 @@ public class NetworkPresenter implements NetworkPresenterInterface {
                     }
 
                     @Override
-                    public void onFailure(Call<ResponseInfection> call, Throwable t) {
+                    public void onFailure(@NonNull Call<ResponseInfection> call, @NonNull Throwable t) {
                         listener.fail(t.toString());
                     }
                 });
@@ -136,13 +136,13 @@ public class NetworkPresenter implements NetworkPresenterInterface {
                 .boardList(requestBoardList)
                 .enqueue(new Callback<ResponseCity>() {
                     @Override
-                    public void onResponse(Call<ResponseCity> call, retrofit2.Response<ResponseCity> response) {
+                    public void onResponse(@NonNull Call<ResponseCity> call, @NonNull retrofit2.Response<ResponseCity> response) {
                         try {
                             if (response.body() != null && response.isSuccessful()) {
                                 // 통신 성공 시 http 바디 반환
                                 listener.success(response.body().getBody().getItems().getItem());
-                            } else {
-                                listener.fail(response.errorBody().string());
+                            } else if (response.errorBody() != null){
+                                listener.fail(getError(response.errorBody()).getMessage());
                             }
                         } catch (Exception e) {
                             listener.fail("BoardList Exception " + e.toString());
@@ -150,7 +150,7 @@ public class NetworkPresenter implements NetworkPresenterInterface {
                     }
 
                     @Override
-                    public void onFailure(Call<ResponseCity> call, Throwable t) {
+                    public void onFailure(@NonNull Call<ResponseCity> call, @NonNull Throwable t) {
                         listener.fail(t.toString());
                     }
                 });
@@ -165,13 +165,13 @@ public class NetworkPresenter implements NetworkPresenterInterface {
                 .news(headers, requestNews)
                 .enqueue(new Callback<ResponseNews>() {
                     @Override
-                    public void onResponse(Call<ResponseNews> call, retrofit2.Response<ResponseNews> response) {
+                    public void onResponse(@NonNull Call<ResponseNews> call, @NonNull retrofit2.Response<ResponseNews> response) {
                         try {
                             if (response.body() != null && response.isSuccessful()) {
                                 // 통신 성공 시 http 바디 반환
                                 listener.success(response.body().getItems());
-                            } else {
-                                listener.fail(response.errorBody().toString());
+                            } else if (response.errorBody() != null){
+                                listener.fail(getError(response.errorBody()).toString());
                             }
                         } catch (Exception e) {
                             listener.fail("News Exception " + e.toString());
@@ -179,7 +179,7 @@ public class NetworkPresenter implements NetworkPresenterInterface {
                     }
 
                     @Override
-                    public void onFailure(Call<ResponseNews> call, Throwable t) {
+                    public void onFailure(@NonNull Call<ResponseNews> call, @NonNull Throwable t) {
                         listener.fail(t.toString());
                     }
                 });
@@ -193,12 +193,12 @@ public class NetworkPresenter implements NetworkPresenterInterface {
                 .totalVaccine(requestQuery)
                 .enqueue(new Callback<ResponseVaccineTotal>() {
                     @Override
-                    public void onResponse(Call<ResponseVaccineTotal> call, retrofit2.Response<ResponseVaccineTotal> response) {
+                    public void onResponse(@NonNull Call<ResponseVaccineTotal> call, @NonNull retrofit2.Response<ResponseVaccineTotal> response) {
                         try {
                             if (response.body() != null && response.isSuccessful()) {
                                 listener.success(response.body().getData());
-                            } else {
-                                listener.fail(response.errorBody().toString());
+                            } else if (response.errorBody() != null){
+                                listener.fail(getError(response.errorBody()).toString());
                             }
                         } catch (IndexOutOfBoundsException exception) {
                             listener.request(response.body().getData());
@@ -208,7 +208,7 @@ public class NetworkPresenter implements NetworkPresenterInterface {
                     }
 
                     @Override
-                    public void onFailure(Call<ResponseVaccineTotal> call, Throwable t) {
+                    public void onFailure(@NonNull Call<ResponseVaccineTotal> call, @NonNull Throwable t) {
                         listener.fail(t.toString());
                     }
                 });
@@ -222,12 +222,12 @@ public class NetworkPresenter implements NetworkPresenterInterface {
                 .hospital(requestQuery)
                 .enqueue(new Callback<ResponseHospital>() {
                     @Override
-                    public void onResponse(Call<ResponseHospital> call, retrofit2.Response<ResponseHospital> response) {
+                    public void onResponse(@NonNull Call<ResponseHospital> call, @NonNull retrofit2.Response<ResponseHospital> response) {
                         try {
                             if (response.body() != null && response.isSuccessful()) {
                                 listener.success(response.body().getData());
-                            } else {
-                                listener.fail(response.errorBody().toString());
+                            } else if (response.errorBody() != null){
+                                listener.fail(getError(response.errorBody()).toString());
                             }
                         } catch (Exception e) {
                             listener.fail("hospital Exception " + e.toString());
@@ -235,7 +235,7 @@ public class NetworkPresenter implements NetworkPresenterInterface {
                     }
 
                     @Override
-                    public void onFailure(Call<ResponseHospital> call, Throwable t) {
+                    public void onFailure(@NonNull Call<ResponseHospital> call, @NonNull Throwable t) {
                         listener.fail(t.toString());
                     }
                 });
@@ -253,8 +253,8 @@ public class NetworkPresenter implements NetworkPresenterInterface {
                         try {
                             if (response.body() != null && response.isSuccessful()) {
                                 listener.success(response.body().getResultData());
-                            } else {
-                                listener.fail(getError(response.errorBody()).getError());
+                            } else if (response.errorBody() != null){
+                                listener.fail(getError(response.errorBody()).toString());
                             }
                         } catch (Exception e) {
                             listener.fail("boardList Exception " + e.toString());
@@ -274,14 +274,14 @@ public class NetworkPresenter implements NetworkPresenterInterface {
                 .getInstance()
                 .getInterface()
                 .boardAdd(requestBoardAdd)
-                .enqueue(new Callback<Response>() {
+                .enqueue(new Callback<Response<Object>>() {
                     @Override
-                    public void onResponse(Call<Response> call, retrofit2.Response<Response> response) {
+                    public void onResponse(@NonNull Call<Response<Object>> call, @NonNull retrofit2.Response<Response<Object>> response) {
                         try {
                             if (response.body() != null && response.isSuccessful()) {
                                 listener.success();
-                            } else {
-                                listener.fail(getError(response.errorBody()).getError());
+                            } else if (response.errorBody() != null){
+                                listener.fail(getError(response.errorBody()).toString());
                             }
                         } catch (Exception e) {
                             listener.fail("boardAdd Exception " + e.toString());
@@ -289,7 +289,7 @@ public class NetworkPresenter implements NetworkPresenterInterface {
                     }
 
                     @Override
-                    public void onFailure(Call<Response> call, Throwable t) {
+                    public void onFailure(@NonNull Call<Response<Object>> call, @NonNull Throwable t) {
                         listener.fail(t.toString());
                     }
                 });
@@ -303,12 +303,12 @@ public class NetworkPresenter implements NetworkPresenterInterface {
                 .boardDetail(boardID)
                 .enqueue(new Callback<Response<ResponseBoardDetail>>() {
                     @Override
-                    public void onResponse(Call<Response<ResponseBoardDetail>> call, retrofit2.Response<Response<ResponseBoardDetail>> response) {
+                    public void onResponse(@NonNull Call<Response<ResponseBoardDetail>> call, @NonNull retrofit2.Response<Response<ResponseBoardDetail>> response) {
                         try {
                             if (response.body() != null && response.isSuccessful()) {
                                 listener.success(response.body().getResultData().getData());
-                            } else {
-                                listener.fail(getError(response.errorBody()).getError());
+                            } else if (response.errorBody() != null){
+                                listener.fail(getError(response.errorBody()).toString());
                             }
                         } catch (Exception e) {
                             listener.fail("boardDetail Exception " + e.toString());
@@ -316,7 +316,7 @@ public class NetworkPresenter implements NetworkPresenterInterface {
                     }
 
                     @Override
-                    public void onFailure(Call<Response<ResponseBoardDetail>> call, Throwable t) {
+                    public void onFailure(@NonNull Call<Response<ResponseBoardDetail>> call, @NonNull Throwable t) {
                         listener.fail(t.toString());
                     }
                 });
@@ -328,9 +328,9 @@ public class NetworkPresenter implements NetworkPresenterInterface {
                 .getInstance()
                 .getInterface()
                 .boardRecommend(boardID)
-                .enqueue(new Callback<Response>() {
+                .enqueue(new Callback<Response<Object>>() {
                     @Override
-                    public void onResponse(Call<Response> call, retrofit2.Response<Response> response) {
+                    public void onResponse(@NonNull Call<Response<Object>> call, @NonNull retrofit2.Response<Response<Object>> response) {
                         try {
                             if (response.body() != null && response.isSuccessful()) {
                                 listener.success(response.body().getCode());
@@ -343,7 +343,7 @@ public class NetworkPresenter implements NetworkPresenterInterface {
                     }
 
                     @Override
-                    public void onFailure(Call<Response> call, Throwable t) {
+                    public void onFailure(@NonNull Call<Response<Object>> call, @NonNull Throwable t) {
                         listener.fail(t.toString());
                     }
                 });
@@ -355,9 +355,9 @@ public class NetworkPresenter implements NetworkPresenterInterface {
                 .getInstance()
                 .getInterface()
                 .boardDeprecate(boardID)
-                .enqueue(new Callback<Response>() {
+                .enqueue(new Callback<Response<Object>>() {
                     @Override
-                    public void onResponse(Call<Response> call, retrofit2.Response<Response> response) {
+                    public void onResponse(@NonNull Call<Response<Object>> call, @NonNull retrofit2.Response<Response<Object>> response) {
                         try {
                             if (response.body() != null && response.isSuccessful()) {
                                 listener.success(response.body().getCode());
@@ -370,7 +370,7 @@ public class NetworkPresenter implements NetworkPresenterInterface {
                     }
 
                     @Override
-                    public void onFailure(Call<Response> call, Throwable t) {
+                    public void onFailure(@NonNull Call<Response<Object>> call, @NonNull Throwable t) {
                         listener.fail(t.toString());
                     }
                 });
@@ -383,9 +383,9 @@ public class NetworkPresenter implements NetworkPresenterInterface {
                 .getInstance()
                 .getInterface()
                 .deleteBoard(boardID)
-                .enqueue(new Callback<Response>() {
+                .enqueue(new Callback<Response<Object>>() {
                     @Override
-                    public void onResponse(Call<Response> call, retrofit2.Response<Response> response) {
+                    public void onResponse(@NonNull Call<Response<Object>> call, @NonNull retrofit2.Response<Response<Object>> response) {
                         try {
                             if (response.body() != null && response.isSuccessful()) {
                                 listener.success(response.body().getCode());
@@ -398,7 +398,7 @@ public class NetworkPresenter implements NetworkPresenterInterface {
                     }
 
                     @Override
-                    public void onFailure(Call<Response> call, Throwable t) {
+                    public void onFailure(@NonNull Call<Response<Object>> call, @NonNull Throwable t) {
                         listener.fail(t.toString());
                     }
                 });
@@ -412,7 +412,7 @@ public class NetworkPresenter implements NetworkPresenterInterface {
                 .chatList(boardID)
                 .enqueue(new Callback<Response<ResponseChat>>() {
                     @Override
-                    public void onResponse(Call<Response<ResponseChat>> call, retrofit2.Response<Response<ResponseChat>> response) {
+                    public void onResponse(@NonNull Call<Response<ResponseChat>> call, @NonNull retrofit2.Response<Response<ResponseChat>> response) {
                         try {
                             if (response.body() != null && response.isSuccessful()) {
                                 listener.success(response.body().getResultData().getData());
@@ -425,7 +425,7 @@ public class NetworkPresenter implements NetworkPresenterInterface {
                     }
 
                     @Override
-                    public void onFailure(Call<Response<ResponseChat>> call, Throwable t) {
+                    public void onFailure(@NonNull Call<Response<ResponseChat>> call, @NonNull Throwable t) {
                         listener.fail(t.toString());
                     }
                 });
@@ -437,9 +437,9 @@ public class NetworkPresenter implements NetworkPresenterInterface {
                 .getInstance()
                 .getInterface()
                 .chatAdd(boardID, requestChatAdd)
-                .enqueue(new Callback<Response>() {
+                .enqueue(new Callback<Response<Object>>() {
                     @Override
-                    public void onResponse(Call<Response> call, retrofit2.Response<Response> response) {
+                    public void onResponse(@NonNull Call<Response<Object>> call, @NonNull retrofit2.Response<Response<Object>> response) {
                         try {
                             if (response.body() != null && response.isSuccessful()) {
                                 listener.success();
@@ -452,7 +452,7 @@ public class NetworkPresenter implements NetworkPresenterInterface {
                     }
 
                     @Override
-                    public void onFailure(Call<Response> call, Throwable t) {
+                    public void onFailure(@NonNull Call<Response<Object>> call, @NonNull Throwable t) {
                         listener.fail(t.toString());
                     }
                 });
@@ -464,9 +464,9 @@ public class NetworkPresenter implements NetworkPresenterInterface {
                 .getInstance()
                 .getInterface()
                 .chatRecommend(chatID)
-                .enqueue(new Callback<Response>() {
+                .enqueue(new Callback<Response<Object>>() {
                     @Override
-                    public void onResponse(Call<Response> call, retrofit2.Response<Response> response) {
+                    public void onResponse(@NonNull Call<Response<Object>> call, @NonNull retrofit2.Response<Response<Object>> response) {
                         try {
                             if (response.body() != null && response.isSuccessful()) {
                                 listener.success();
@@ -479,7 +479,7 @@ public class NetworkPresenter implements NetworkPresenterInterface {
                     }
 
                     @Override
-                    public void onFailure(Call<Response> call, Throwable t) {
+                    public void onFailure(@NonNull Call<Response<Object>> call, @NonNull Throwable t) {
                         listener.fail(t.toString());
                     }
                 });
@@ -491,9 +491,9 @@ public class NetworkPresenter implements NetworkPresenterInterface {
                 .getInstance()
                 .getInterface()
                 .chatDeprecate(chatID)
-                .enqueue(new Callback<Response>() {
+                .enqueue(new Callback<Response<Object>>() {
                     @Override
-                    public void onResponse(Call<Response> call, retrofit2.Response<Response> response) {
+                    public void onResponse(@NonNull Call<Response<Object>> call, @NonNull retrofit2.Response<Response<Object>> response) {
                         try {
                             if (response.body() != null && response.isSuccessful()) {
                                 listener.success();
@@ -506,7 +506,7 @@ public class NetworkPresenter implements NetworkPresenterInterface {
                     }
 
                     @Override
-                    public void onFailure(Call<Response> call, Throwable t) {
+                    public void onFailure(@NonNull Call<Response<Object>> call, @NonNull Throwable t) {
                         listener.fail(t.toString());
                     }
                 });

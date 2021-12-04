@@ -1,7 +1,6 @@
 package com.cosiguk.covidsituation.network.responsecity;
 
 import com.cosiguk.covidsituation.model.City;
-import com.cosiguk.covidsituation.model.Infection;
 import com.tickaroo.tikxml.annotation.Element;
 import com.tickaroo.tikxml.annotation.Xml;
 

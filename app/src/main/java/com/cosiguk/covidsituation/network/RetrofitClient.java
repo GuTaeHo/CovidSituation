@@ -8,7 +8,6 @@ import com.cosiguk.covidsituation.network.response.ResponseVersion;
 
 import java.util.Map;
 
-import okhttp3.MediaType;
 import okhttp3.OkHttpClient;
 import okhttp3.RequestBody;
 import okhttp3.logging.HttpLoggingInterceptor;
@@ -72,28 +71,28 @@ public class RetrofitClient {
 
         @Multipart
         @POST("api/board/boardAdd")
-        Call<Response> boardAdd(@PartMap Map<String, RequestBody> params);
+        Call<Response<Object>> boardAdd(@PartMap Map<String, RequestBody> params);
 
         @GET("api/board/{boardID}/recommend")
-        Call<Response> boardRecommend(@Path("boardID") int boardID);
+        Call<Response<Object>> boardRecommend(@Path("boardID") int boardID);
 
         @GET("api/board/{boardID}/deprecate")
-        Call<Response> boardDeprecate(@Path("boardID") int boardID);
+        Call<Response<Object>> boardDeprecate(@Path("boardID") int boardID);
 
         @POST("api/board/{boardID}/delete")
-        Call<Response> deleteBoard(@Path("boardID") int boardID);
+        Call<Response<Object>> deleteBoard(@Path("boardID") int boardID);
 
         @GET("api/chat/{boardID}/chatList")
         Call<Response<ResponseChat>> chatList(@Path("boardID") int boardID);
 
         @Multipart
         @POST("api/chat/{boardID}/chatAdd")
-        Call<Response> chatAdd(@Path("boardID") int boardID, @PartMap Map<String, RequestBody> params);
+        Call<Response<Object>> chatAdd(@Path("boardID") int boardID, @PartMap Map<String, RequestBody> params);
 
         @GET("api/chat/{chatID}/recommend")
-        Call<Response> chatRecommend(@Path("chatID") int chatID);
+        Call<Response<Object>> chatRecommend(@Path("chatID") int chatID);
 
         @GET("api/chat/{chatID}/deprecate")
-        Call<Response> chatDeprecate(@Path("chatID") int chatID);
+        Call<Response<Object>> chatDeprecate(@Path("chatID") int chatID);
     }
 }

@@ -155,7 +155,7 @@ public class MainActivity extends BaseActivity implements BoardFragment.OnStatus
     // 프래그먼트에서 전송받은 상태바 색상
     @Override
     public void onUpdate(int color) {
-        setStatusColor(color);
+        setStatusBarColor(color);
     }
 
     @Override

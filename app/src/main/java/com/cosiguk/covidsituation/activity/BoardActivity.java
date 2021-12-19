@@ -1,19 +1,18 @@
 package com.cosiguk.covidsituation.activity;
 
-import androidx.appcompat.content.res.AppCompatResources;
-import androidx.databinding.DataBindingUtil;
-import androidx.recyclerview.widget.LinearLayoutManager;
-
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.Gravity;
 import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.ArrayAdapter;
 import android.widget.Spinner;
+
+import androidx.appcompat.content.res.AppCompatResources;
+import androidx.databinding.DataBindingUtil;
+import androidx.recyclerview.widget.LinearLayoutManager;
 
 import com.cosiguk.covidsituation.R;
 import com.cosiguk.covidsituation.adapter.BaseRecyclerViewAdapter;
@@ -62,13 +61,13 @@ public class BoardActivity extends BaseActivity {
     }
 
     private void initValue() {
-        userID = getIntent().getIntExtra(ActivityUtil.NOTICE_ID, -1);
+        userID = getIntent().getIntExtra(ActivityUtil.DATA, -1);
         adapter = new ChatAdapter(BoardActivity.this);
         shake = AnimationUtils.loadAnimation(this, R.anim.anim_shake);
     }
 
     private void initLayout() {
-        setStatusColor(getColor(R.color.status_white));
+        setStatusBarColor(getColor(R.color.status_white));
         commonToolbarBinding.toolbarTitle.setText(getResources().getString(R.string.bd_toolbar));
         binding.tvTitle.setText(item.getTitle());
         binding.tvNickname.setText(item.getNickname());
@@ -84,7 +83,7 @@ public class BoardActivity extends BaseActivity {
 
     private void initEvent() {
         commonToolbarBinding.ivLeave.setOnClickListener(v -> {
-            setStatusDefaultColor();
+            setStatusBarDefaultColor();
             setResult(Activity.RESULT_OK);
             finish();
         });
@@ -96,7 +95,7 @@ public class BoardActivity extends BaseActivity {
 
     // 인터넷 연결이 끊어졌을 경우 레이아웃 초기화
     private void setEmptyLayout() {
-        setStatusColor(getColor(R.color.status_white));
+        setStatusBarColor(getColor(R.color.status_white));
         commonToolbarBinding.toolbarTitle.setText(getResources().getString(R.string.bd_toolbar));
         binding.loBoardDetail.setVisibility(View.GONE);
         binding.recyclerview.setVisibility(View.GONE);
@@ -381,7 +380,7 @@ public class BoardActivity extends BaseActivity {
 
     @Override
     public void onBackPressed() {
-        setStatusDefaultColor();
+        setStatusBarDefaultColor();
         setResult(Activity.RESULT_OK);
         finish();
     }

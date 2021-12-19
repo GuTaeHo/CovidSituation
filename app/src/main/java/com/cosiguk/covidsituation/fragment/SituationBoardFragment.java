@@ -3,18 +3,17 @@ package com.cosiguk.covidsituation.fragment;
 import android.Manifest;
 import android.location.Location;
 import android.os.Bundle;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
 
 import androidx.databinding.DataBindingUtil;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.GridLayoutManager;
 
-import android.util.Log;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
-
 import com.cosiguk.covidsituation.BuildConfig;
 import com.cosiguk.covidsituation.R;
+import com.cosiguk.covidsituation.activity.CityDetailActivity;
 import com.cosiguk.covidsituation.activity.SplashActivity;
 import com.cosiguk.covidsituation.adapter.CityAdapter;
 import com.cosiguk.covidsituation.application.MyApplication;
@@ -25,26 +24,27 @@ import com.cosiguk.covidsituation.model.Infection;
 import com.cosiguk.covidsituation.network.responseinfection.Body;
 import com.cosiguk.covidsituation.network.resultInterface.SituationBoardListener;
 import com.cosiguk.covidsituation.network.resultInterface.TotalListener;
+import com.cosiguk.covidsituation.util.ActivityUtil;
 import com.cosiguk.covidsituation.util.BasicUtil;
 import com.cosiguk.covidsituation.util.ConvertUtil;
 import com.cosiguk.covidsituation.util.LocationUtil;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
 public class SituationBoardFragment extends Fragment {
 
     private FragmentSituationBoardBinding binding;
+    private CityAdapter adapter;
     // 전체 확진 정보
     private Infection infection;
     // 전일 확진 정보
     private Infection yesterdayInfection;
     // 시, 도 확진 정보 리스트
     private List<City> cityArrayList;
-    // 재귀 요청 방지
-    int maxCount;
     // 현재 도시
-    City city;
+    private City city;
     
     public SituationBoardFragment() {}
 
@@ -61,8 +61,8 @@ public class SituationBoardFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_situation_board, container, false);
-        maxCount = 0;
         checkPermission();
+        initAdapter();
         requestSituation(0);
         return binding.getRoot();
     }
@@ -71,17 +71,18 @@ public class SituationBoardFragment extends Fragment {
         BasicUtil.initPermissions(getActivity(), new String[]{Manifest.permission.ACCESS_FINE_LOCATION});
     }
 
+    private void initAdapter() {
+        adapter = new CityAdapter(getActivity());
+    }
+
     // 확진 현황 요청
     private void requestSituation(int initMillisecond) {
-        if (maxCount < 2) {
-            HashMap<String, String> map = new HashMap<>();
-            map.put("ServiceKey", BuildConfig.PUBLIC_SERVICE_KEY);
-            map.put("startCreateDt", ConvertUtil.getYesterdayFormatTime(initMillisecond));
-            map.put("endCreateDt", ConvertUtil.getCurrentFormatTime(initMillisecond));
+        HashMap<String, String> map = new HashMap<>();
+        map.put("ServiceKey", BuildConfig.PUBLIC_SERVICE_KEY);
+        map.put("startCreateDt", ConvertUtil.getYesterdayFormatTime(initMillisecond));
+        map.put("endCreateDt", ConvertUtil.getCurrentFormatTime(initMillisecond));
 
-            requestTotal(map);
-        }
-        ++maxCount;
+        requestTotal(map);
     }
 
     // 전체 확진 정보 API 요청
@@ -168,6 +169,14 @@ public class SituationBoardFragment extends Fragment {
         });
         cityArrayList.remove(city);
         cityArrayList.add(1, city);
+        // 아이템 각각에 클릭 이벤트 구현
+        adapter.setOnItemClickListener((view, position) -> {
+            ActivityUtil.startSingleActivityExtra(
+                    getActivity(),
+                    CityDetailActivity.class,
+                    adapter.getItem(position).getGubun());
+        });
+        adapter.addItems((ArrayList<City>) cityArrayList);
     }
 
     private void initDailyLayout() {
@@ -176,12 +185,12 @@ public class SituationBoardFragment extends Fragment {
         // 일일 확진자
         binding.tvDailyInfect.setText(String.format("확진환자 (%s)",
                 ConvertUtil.convertCommaSeparator(infection.getDecideCnt() - yesterdayInfection.getDecideCnt())));
-        // 일일 완치자
-        binding.tvDailyCare.setText(String.format("격리해제 (%s)",
-                ConvertUtil.convertCommaSeparator(infection.getClearCnt() - yesterdayInfection.getClearCnt())));
-        // 사망자
+        // 일일 사망자
         binding.tvDailyDeath.setText(String.format("사망자 (%s)",
                 ConvertUtil.convertCommaSeparator(infection.getDeathCnt()- yesterdayInfection.getDeathCnt())));
+        // 일일 검사자
+        binding.tvDailyExamine.setText(String.format("검사수 (%s)",
+                ConvertUtil.convertCommaSeparator(infection.getAccExamCnt() - yesterdayInfection.getAccExamCnt())));
     }
 
     private void initTotalLayout() {
@@ -192,10 +201,6 @@ public class SituationBoardFragment extends Fragment {
         binding.tvTotalInfect.setText(ConvertUtil.convertCommaSeparator(infection.getDecideCnt()));
         binding.tvTotalInfectCompare.setText(String.format("(%s)",
                 ConvertUtil.convertSignCommaSeparator(infection.getDecideCnt() - yesterdayInfection.getDecideCnt())));
-        // 총 완치자
-        binding.tvTotalCure.setText(ConvertUtil.convertCommaSeparator(infection.getClearCnt()));
-        binding.tvTotalCureCompare.setText(String.format("(%s)",
-                ConvertUtil.convertSignCommaSeparator(infection.getClearCnt() - yesterdayInfection.getClearCnt())));
         // 총 사망자
         binding.tvTotalDeath.setText(ConvertUtil.convertCommaSeparator(infection.getDeathCnt()));
         binding.tvTotalDeathCompare.setText(String.format("(%s)",
@@ -204,19 +209,10 @@ public class SituationBoardFragment extends Fragment {
         binding.tvTotalExam.setText(ConvertUtil.convertCommaSeparator(infection.getAccExamCnt()));
         binding.tvTotalExamCompare.setText(String.format("(%s)",
                 ConvertUtil.convertSignCommaSeparator(infection.getAccExamCnt() - yesterdayInfection.getAccExamCnt())));
-        // 검사 진행 중
-        binding.tvTotalCheck.setText(ConvertUtil.convertCommaSeparator(infection.getExamCnt()));
-        binding.tvTotalCheckCompare.setText(String.format("(%s)",
-                ConvertUtil.convertSignCommaSeparator(infection.getExamCnt() - yesterdayInfection.getExamCnt())));
-        // 결과 음성 수
-        binding.tvTotalNegative.setText(ConvertUtil.convertCommaSeparator(infection.getResutlNegCnt()));
-        binding.tvTotalNegativeCompare.setText(String.format("(%s)",
-                ConvertUtil.convertSignCommaSeparator(infection.getResutlNegCnt() - yesterdayInfection.getResutlNegCnt())));
     }
 
     private void initCityLayout() {
         binding.recyclerview.setLayoutManager(new GridLayoutManager(getActivity(), 2));
-        CityAdapter adapter = new CityAdapter(getActivity(), cityArrayList);
         binding.recyclerview.setAdapter(adapter);
     }
 
@@ -237,11 +233,13 @@ public class SituationBoardFragment extends Fragment {
         }
     }
 
-    // 특정 문자 변환
+    // 주소 변환
     private String addressConvert(String address) {
         if (SplashActivity.getProvince(address) != null) {
+            // ex -> "대구"
             return SplashActivity.getProvince(address);
         } else {
+            // ex -> "서울"
             return SplashActivity.getProvince(getResources().getString(R.string.location_base));
         }
     }

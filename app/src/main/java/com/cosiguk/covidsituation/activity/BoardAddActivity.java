@@ -40,7 +40,7 @@ public class BoardAddActivity extends BaseActivity {
     }
 
     private void initLayout() {
-        setStatusColor(getColor(R.color.status_white));
+        setStatusBarColor(getColor(R.color.status_white));
         closeToolbarBinding.ivLeave.setBackgroundResource(R.drawable.ic_close_24);
         closeToolbarBinding.tvButton.setVisibility(View.VISIBLE);
         closeToolbarBinding.toolbarTitle.setText(getString(R.string.toolbar_title_board_add));

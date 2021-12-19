@@ -5,7 +5,7 @@ import android.content.Intent;
 import android.net.Uri;
 
 public class ActivityUtil {
-    public static final String NOTICE_ID = "notice_id";
+    public static final String DATA = "data";
     // 액티비티 응답 결과 사용
     public static final String RESPONSE_OK = "response_ok";
     public static final String RESPONSE_CANCEL = "response_cancel";
@@ -30,9 +30,9 @@ public class ActivityUtil {
         context.startActivity(intent);
     }
 
-    public static void startSingleActivityExtra(Context context, Class<?> c, int id) {
+    public static void startSingleActivityExtra(Context context, Class<?> c, String data) {
         Intent intent = new Intent(context, c);
-        intent.putExtra(NOTICE_ID, id);
+        intent.putExtra(DATA, data);
         intent.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP | Intent.FLAG_ACTIVITY_CLEAR_TOP);
         context.startActivity(intent);
     }

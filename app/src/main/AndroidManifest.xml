@@ -19,6 +19,9 @@
         android:theme="@style/Theme.CovidSituation"
         tools:ignore="LockedOrientationActivity">
         <activity
+            android:name=".activity.CityDetailActivity"
+            android:exported="false" />
+        <activity
             android:name=".activity.BoardAddActivity"
             android:exported="false"
             android:screenOrientation="portrait" />

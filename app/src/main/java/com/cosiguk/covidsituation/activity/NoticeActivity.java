@@ -2,9 +2,7 @@ package com.cosiguk.covidsituation.activity;
 
 import android.os.Bundle;
 import android.os.Parcelable;
-import android.util.Log;
 
-import androidx.core.content.res.ResourcesCompat;
 import androidx.databinding.DataBindingUtil;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
@@ -48,7 +46,7 @@ public class NoticeActivity extends BaseActivity {
     }
 
     private void initLayout() {
-        setStatusColor(getColor(R.color.status_white));
+        setStatusBarColor(getColor(R.color.status_white));
         closeToolbarBinding.toolbarTitle.setText(getResources().getString(R.string.side_contents_notice_title));
         binding.recyclerview.setLayoutManager(new LinearLayoutManager(NoticeActivity.this));
     }
@@ -87,7 +85,7 @@ public class NoticeActivity extends BaseActivity {
             binding.recyclerview.smoothScrollToPosition(RECYCLER_VIEW_TOP);
         });
         closeToolbarBinding.ivLeave.setOnClickListener(v -> {
-            setStatusDefaultColor();
+            setStatusBarDefaultColor();
             finish();
         });
         initRefreshListener();
@@ -119,7 +117,7 @@ public class NoticeActivity extends BaseActivity {
 
     @Override
     public void onBackPressed() {
-        setStatusDefaultColor();
+        setStatusBarDefaultColor();
         finish();
     }
 }

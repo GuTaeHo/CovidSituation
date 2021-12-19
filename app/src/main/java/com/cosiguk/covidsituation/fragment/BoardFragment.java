@@ -4,6 +4,10 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
 
 import androidx.activity.result.ActivityResult;
 import androidx.activity.result.ActivityResultCallback;
@@ -16,15 +20,9 @@ import androidx.databinding.DataBindingUtil;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
-import android.util.Log;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
-
 import com.cosiguk.covidsituation.R;
 import com.cosiguk.covidsituation.activity.BoardActivity;
 import com.cosiguk.covidsituation.activity.BoardAddActivity;
-import com.cosiguk.covidsituation.activity.MainActivity;
 import com.cosiguk.covidsituation.adapter.BaseRecyclerViewAdapter;
 import com.cosiguk.covidsituation.adapter.BoardListAdapter;
 import com.cosiguk.covidsituation.application.MyApplication;
@@ -176,7 +174,7 @@ public class BoardFragment extends Fragment {
             @Override
             public void onItemClick(View view, int position) {
                 Intent intent = new Intent(getActivity(), BoardActivity.class);
-                intent.putExtra(ActivityUtil.NOTICE_ID, adapter.getItem(position).getId());
+                intent.putExtra(ActivityUtil.DATA, adapter.getItem(position).getId());
                 boardDetailLauncher.launch(intent);
             }
         });

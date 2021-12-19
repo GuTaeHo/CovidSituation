@@ -1,12 +1,7 @@
 package com.cosiguk.covidsituation.activity;
 
 import android.content.Context;
-import android.graphics.Color;
-import android.graphics.PorterDuff;
-import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
-import android.text.Editable;
-import android.text.TextWatcher;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
@@ -26,7 +21,6 @@ import com.cosiguk.covidsituation.databinding.CommonToolbarBinding;
 import com.cosiguk.covidsituation.dialog.ProgressDialog;
 import com.cosiguk.covidsituation.network.NetworkPresenter;
 import com.cosiguk.covidsituation.util.BackPressCloseHandler;
-import com.cosiguk.covidsituation.util.ProgressDialogManager;
 
 
 public class BaseActivity extends AppCompatActivity {
@@ -113,13 +107,13 @@ public class BaseActivity extends AppCompatActivity {
         toast.show();
     }
 
-    public void setStatusColor(int color) {
+    public void setStatusBarColor(int color) {
         if (getWindow() != null) {
             getWindow().setStatusBarColor(color);
         }
     }
 
-    public void setStatusDefaultColor() {
+    public void setStatusBarDefaultColor() {
         if (getWindow() != null) {
             getWindow().setStatusBarColor(getColor(R.color.status_bar));
         }

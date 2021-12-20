@@ -3,6 +3,11 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="..\:/AndroidProject/CovidSituation/app/src/main/res/drawable/view_gray_bottom_line.xml" value="0.3676923076923077" />
+        <entry key="..\:/AndroidProject/CovidSituation/app/src/main/res/drawable/view_round_border_light_gray.xml" value="0.3676923076923077" />
+        <entry key="..\:/AndroidProject/CovidSituation/app/src/main/res/drawable/view_round_bottom_right.xml" value="0.3676923076923077" />
+        <entry key="..\:/AndroidProject/CovidSituation/app/src/main/res/drawable/view_round_gray.xml" value="0.3676923076923077" />
+        <entry key="..\:/AndroidProject/CovidSituation/app/src/main/res/drawable/view_round_table.xml" value="0.3676923076923077" />
         <entry key="..\:/AndroidProject/CovidSituation/app/src/main/res/layout/activity_board_add.xml" value="0.3572916666666667" />
         <entry key="..\:/AndroidProject/CovidSituation/app/src/main/res/layout/activity_city_detail.xml" value="0.3572916666666667" />
         <entry key="..\:/AndroidProject/CovidSituation/app/src/main/res/layout/close_toolbar.xml" value="0.3572916666666667" />

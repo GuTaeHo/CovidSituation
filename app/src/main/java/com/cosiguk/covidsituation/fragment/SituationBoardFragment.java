@@ -212,6 +212,7 @@ public class SituationBoardFragment extends Fragment {
     }
 
     private void initCityLayout() {
+        binding.tvListTitleIntro.setText("현 위치 : " + getCurrentAddressShort());
         binding.recyclerview.setLayoutManager(new GridLayoutManager(getActivity(), 2));
         binding.recyclerview.setAdapter(adapter);
     }
@@ -224,6 +225,24 @@ public class SituationBoardFragment extends Fragment {
                 String address = LocationUtil.getCoordinateToAddress(getActivity(), location);
                 String[] addresses = address.split("\\s");
                 return addressConvert(addresses[1]);
+            } catch (NullPointerException e) {
+                return getActivity().getResources().getString(R.string.location_base);
+            }
+        } else {
+            // base location
+            return getActivity().getResources().getString(R.string.location_base);
+        }
+    }
+
+    // 지오코딩 결과 간략화하여 반환
+    private String getCurrentAddressShort() {
+        if (LocationUtil.isConnect(getActivity())) {
+            try {
+                Location location = LocationUtil.getLastLocation(getActivity());
+                String address = LocationUtil.getCoordinateToAddress(getActivity(), location);
+                String[] addresses = address.split("\\s");
+                // ex -> 대구광역시 남구
+                return addresses[1] + " " + addresses[2];
             } catch (NullPointerException e) {
                 return getActivity().getResources().getString(R.string.location_base);
             }

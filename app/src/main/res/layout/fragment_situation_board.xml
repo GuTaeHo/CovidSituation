@@ -154,7 +154,7 @@
                             android:layout_height="wrap_content"
                             android:fontFamily="@font/nanumsquare_round_extra_bold"
                             android:gravity="center"
-                            android:textSize="20sp"
+                            android:textSize="18sp"
                             tools:text="311,289" />
 
                         <TextView
@@ -187,7 +187,7 @@
                             android:layout_height="wrap_content"
                             android:fontFamily="@font/nanumsquare_round_extra_bold"
                             android:gravity="center"
-                            android:textSize="20sp"
+                            android:textSize="18sp"
                             tools:text="2,481" />
 
                         <TextView
@@ -220,7 +220,7 @@
                             android:layout_height="wrap_content"
                             android:fontFamily="@font/nanumsquare_round_extra_bold"
                             android:gravity="center"
-                            android:textSize="18sp"
+                            android:textSize="16sp"
                             tools:text="14,544,258" />
 
                         <TextView
@@ -260,7 +260,8 @@
                     android:textSize="16sp"
                     android:text="시/도 별 감염현황"
                     app:layout_constraintStart_toEndOf="@id/iv_city"
-                    app:layout_constraintTop_toTopOf="parent" />
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintBottom_toBottomOf="parent"/>
                 <ImageView
                     android:layout_width="12dp"
                     android:layout_height="12dp"
@@ -274,9 +275,9 @@
                     android:layout_height="match_parent"
                     android:paddingStart="6dp"
                     android:paddingEnd="6dp"
-                    android:fontFamily="@font/nanumsquare_round_extra_bold"
+                    android:fontFamily="@font/nanumsquare_round_bold"
                     android:gravity="center_vertical"
-                    android:textSize="16sp"
+                    android:textSize="11sp"
                     android:text="현 위치"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintTop_toTopOf="parent"

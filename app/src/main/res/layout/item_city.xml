@@ -37,10 +37,11 @@
                     android:id="@+id/tv_infect"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:textSize="16sp"
+                    android:textSize="13sp"
                     android:fontFamily="@font/nanumsquare_round_bold"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/tv_city"
+                    app:layout_constraintBottom_toBottomOf="@id/tv_infect_contents"
                     android:text="확진환자"/>
                 <TextView
                     android:id="@+id/tv_infect_contents"
@@ -55,52 +56,58 @@
                     android:id="@+id/tv_compare"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:textSize="16sp"
+                    android:textSize="12sp"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/tv_infect"
+                    app:layout_constraintBottom_toBottomOf="@id/tv_compare_contents"
                     android:text="전일대비"/>
                 <TextView
                     android:id="@+id/tv_compare_contents"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:textSize="13sp"
                     app:layout_constraintTop_toBottomOf="@id/tv_infect_contents"
                     app:layout_constraintEnd_toEndOf="parent"
-                    android:fontFamily="@font/scdream_bold"
+                    android:fontFamily="@font/scdream_medium"
                     android:textColor="@color/pastel_strong_red"
                     tools:text="+68"/>
                 <TextView
                     android:id="@+id/tv_death"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:textSize="16sp"
+                    android:textSize="12sp"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/tv_compare"
+                    app:layout_constraintBottom_toBottomOf="@id/tv_death_contents"
                     android:text="사망자"/>
                 <TextView
                     android:id="@+id/tv_death_contents"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:textSize="13sp"
                     android:textColor="@color/pastel_strong_orange"
                     app:layout_constraintTop_toBottomOf="@id/tv_compare_contents"
                     app:layout_constraintEnd_toEndOf="parent"
-                    android:fontFamily="@font/scdream_bold"
+                    android:fontFamily="@font/scdream_medium"
                     tools:text="811"/>
                 <TextView
                     android:id="@+id/tv_complete"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:textSize="16sp"
+                    android:textSize="12sp"
                     app:layout_constraintTop_toBottomOf="@id/tv_death"
                     app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintBottom_toBottomOf="@id/tv_complete_contents"
                     android:text="격리해제"/>
 
                 <TextView
                     android:id="@+id/tv_complete_contents"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:textSize="13sp"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/tv_death_contents"
-                    android:fontFamily="@font/scdream_bold"
+                    android:fontFamily="@font/scdream_medium"
                     tools:text="14,481" />
             </androidx.constraintlayout.widget.ConstraintLayout>
         </androidx.cardview.widget.CardView>

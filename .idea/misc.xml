@@ -15,6 +15,8 @@
         <entry key="..\:/AndroidProject/CovidSituation/app/src/main/res/layout/fragment_town.xml" value="0.2" />
         <entry key="..\:/AndroidProject/CovidSituation/app/src/main/res/layout/item_board.xml" value="0.3572916666666667" />
         <entry key="..\:/AndroidProject/CovidSituation/app/src/main/res/layout/item_city.xml" value="0.3572916666666667" />
+        <entry key="..\:/AndroidProject/CovidSituation/app/src/main/res/layout/selector_toolbar.xml" value="0.3572916666666667" />
+        <entry key="..\:/AndroidProject/CovidSituation/app/src/main/res/layout/spinner_toolbar.xml" value="0.2" />
         <entry key="..\:/CovidSituation/app/src/main/res/drawable-v24/ic_launcher_foreground.xml" value="0.31296296296296294" />
         <entry key="..\:/CovidSituation/app/src/main/res/drawable-v24/nav_selector_color.xml" value="0.3685185185185185" />
         <entry key="..\:/CovidSituation/app/src/main/res/drawable-v24/ripple_delete.xml" value="0.30092592592592593" />

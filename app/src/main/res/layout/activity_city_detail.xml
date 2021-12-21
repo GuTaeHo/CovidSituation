@@ -7,13 +7,20 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         tools:context=".activity.CityDetailActivity">
-
         <include
-            android:id="@+id/close_toolbar"
-            layout="@layout/close_toolbar"
+            android:id="@+id/spinner_toolbar"
+            layout="@layout/spinner_toolbar"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"/>
 
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            app:layout_constraintTop_toBottomOf="@id/spinner_toolbar"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent">
+        </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

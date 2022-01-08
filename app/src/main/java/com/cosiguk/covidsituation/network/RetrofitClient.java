@@ -3,6 +3,7 @@ package com.cosiguk.covidsituation.network;
 import com.cosiguk.covidsituation.network.response.ResponseBoard;
 import com.cosiguk.covidsituation.network.response.ResponseBoardDetail;
 import com.cosiguk.covidsituation.network.response.ResponseChat;
+import com.cosiguk.covidsituation.network.response.ResponseCityWeeks;
 import com.cosiguk.covidsituation.network.response.ResponseNotice;
 import com.cosiguk.covidsituation.network.response.ResponseVersion;
 
@@ -94,5 +95,8 @@ public class RetrofitClient {
 
         @GET("api/chat/{chatID}/deprecate")
         Call<Response<Object>> chatDeprecate(@Path("chatID") int chatID);
+
+        @GET("api/data/infectionCity7Day")
+        Call<Response<ResponseCityWeeks>> infectionCityWeeks();
     }
 }

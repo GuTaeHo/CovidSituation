@@ -11,10 +11,11 @@ import com.cosiguk.covidsituation.network.resultInterface.ChatDeprecateListener;
 import com.cosiguk.covidsituation.network.resultInterface.ChatListener;
 import com.cosiguk.covidsituation.network.resultInterface.ChatRecommendListener;
 import com.cosiguk.covidsituation.network.resultInterface.DeleteBoardListener;
-import com.cosiguk.covidsituation.network.resultInterface.SituationBoardListener;
 import com.cosiguk.covidsituation.network.resultInterface.HospitalListener;
+import com.cosiguk.covidsituation.network.resultInterface.InfectionCityWeeks;
 import com.cosiguk.covidsituation.network.resultInterface.NewsListener;
 import com.cosiguk.covidsituation.network.resultInterface.NoticeListener;
+import com.cosiguk.covidsituation.network.resultInterface.SituationBoardListener;
 import com.cosiguk.covidsituation.network.resultInterface.TotalListener;
 import com.cosiguk.covidsituation.network.resultInterface.VaccineListener;
 import com.cosiguk.covidsituation.network.resultInterface.VersionListener;
@@ -52,13 +53,13 @@ public interface NetworkPresenterInterface {
     void boardAdd(HashMap<String, RequestBody> requestBoardAdd, BoardAddListener listener);
 
     // 게시글 상세
-    void boardDetail(int boardID, BoardDetailListener listener);
+    void detailBoard(int boardID, BoardDetailListener listener);
     
     // 게시글 추천
-    void boardRecommend(int boardID, BoardRecommendListener listener);
+    void recommendBoard(int boardID, BoardRecommendListener listener);
 
     // 게시글 비추천
-    void boardDeprecate(int boardID, BoardDeprecateListener listener);
+    void deprecateBoard(int boardID, BoardDeprecateListener listener);
 
     // 게시글 삭제
     void deleteBoard(int boardID, DeleteBoardListener listener);
@@ -74,4 +75,7 @@ public interface NetworkPresenterInterface {
 
     // 댓글 비추천
     void chatDeprecate(int chatID, ChatDeprecateListener listener);
+
+    // 시/도 별 일주일간 확진자
+    void infectionCityWeeks(InfectionCityWeeks listener);
 }

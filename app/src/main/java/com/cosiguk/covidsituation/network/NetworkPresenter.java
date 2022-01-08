@@ -6,6 +6,7 @@ import com.cosiguk.covidsituation.network.response.ResponseBoard;
 import com.cosiguk.covidsituation.network.response.ResponseBoardDetail;
 import com.cosiguk.covidsituation.network.response.ResponseChat;
 import com.cosiguk.covidsituation.network.response.ResponseCity;
+import com.cosiguk.covidsituation.network.response.ResponseCityWeeks;
 import com.cosiguk.covidsituation.network.response.ResponseHospital;
 import com.cosiguk.covidsituation.network.response.ResponseInfection;
 import com.cosiguk.covidsituation.network.response.ResponseNews;
@@ -22,6 +23,7 @@ import com.cosiguk.covidsituation.network.resultInterface.ChatDeprecateListener;
 import com.cosiguk.covidsituation.network.resultInterface.ChatListener;
 import com.cosiguk.covidsituation.network.resultInterface.ChatRecommendListener;
 import com.cosiguk.covidsituation.network.resultInterface.DeleteBoardListener;
+import com.cosiguk.covidsituation.network.resultInterface.InfectionCityWeeks;
 import com.cosiguk.covidsituation.network.resultInterface.SituationBoardListener;
 import com.cosiguk.covidsituation.network.resultInterface.HospitalListener;
 import com.cosiguk.covidsituation.network.resultInterface.NewsListener;
@@ -296,7 +298,7 @@ public class NetworkPresenter implements NetworkPresenterInterface {
     }
 
     @Override
-    public void boardDetail(int boardID, BoardDetailListener listener) {
+    public void detailBoard(int boardID, BoardDetailListener listener) {
         RetrofitClient
                 .getInstance()
                 .getInterface()
@@ -323,7 +325,7 @@ public class NetworkPresenter implements NetworkPresenterInterface {
     }
 
     @Override
-    public void boardRecommend(int boardID, BoardRecommendListener listener) {
+    public void recommendBoard(int boardID, BoardRecommendListener listener) {
         RetrofitClient
                 .getInstance()
                 .getInterface()
@@ -350,7 +352,7 @@ public class NetworkPresenter implements NetworkPresenterInterface {
     }
 
     @Override
-    public void boardDeprecate(int boardID, BoardDeprecateListener listener) {
+    public void deprecateBoard(int boardID, BoardDeprecateListener listener) {
         RetrofitClient
                 .getInstance()
                 .getInterface()
@@ -507,6 +509,33 @@ public class NetworkPresenter implements NetworkPresenterInterface {
 
                     @Override
                     public void onFailure(@NonNull Call<Response<Object>> call, @NonNull Throwable t) {
+                        listener.fail(t.toString());
+                    }
+                });
+    }
+
+    @Override
+    public void infectionCityWeeks(InfectionCityWeeks listener) {
+        RetrofitClient
+                .getInstance()
+                .getInterface()
+                .infectionCityWeeks()
+                .enqueue(new Callback<Response<ResponseCityWeeks>>() {
+                    @Override
+                    public void onResponse(Call<Response<ResponseCityWeeks>> call, retrofit2.Response<Response<ResponseCityWeeks>> response) {
+                        try {
+                            if (response.body() != null && response.isSuccessful()) {
+                                listener.success(response.body().getResultData().getData());
+                            } else if (response.errorBody() != null) {
+                                listener.fail(getError(response.errorBody()).getError());
+                            }
+                        } catch (Exception e) {
+                            listener.fail("infectionCityWeeksDeprecate Exception " + e.toString());
+                        }
+                    }
+
+                    @Override
+                    public void onFailure(Call<Response<ResponseCityWeeks>> call, Throwable t) {
                         listener.fail(t.toString());
                     }
                 });

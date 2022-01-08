@@ -6,11 +6,6 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.provider.Settings;
 
-import androidx.activity.result.ActivityResult;
-import androidx.activity.result.ActivityResultCallback;
-import androidx.activity.result.ActivityResultLauncher;
-import androidx.activity.result.contract.ActivityResultContracts;
-
 import com.cosiguk.covidsituation.R;
 import com.cosiguk.covidsituation.application.MyApplication;
 import com.cosiguk.covidsituation.dialog.NoticeDialog;
@@ -24,10 +19,12 @@ import com.gun0912.tedpermission.TedPermission;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
 
 public class SplashActivity extends BaseActivity {
-    public static HashMap<String, String> map;
+    private static HashMap<String, String> cityMap;
+    private static List<String> cityList;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -193,32 +190,61 @@ public class SplashActivity extends BaseActivity {
     private void startMainActivity() {
         dismissProgressDialog();
         setProvinceMap();
+        setProvinceList();
         ActivityUtil.startNewActivity(SplashActivity.this, MainActivity.class);
     }
 
     private void setProvinceMap() {
-        map = new HashMap<>();
+        cityMap = new HashMap<>();
 
-        map.put("경기도", "경기");
-        map.put("강원도", "강원");
-        map.put("경상북도", "경북");
-        map.put("경상남도", "경남");
-        map.put("전라북도", "전북");
-        map.put("전라남도", "전남");
-        map.put("충청북도", "충북");
-        map.put("충청남도", "충남");
-        map.put("서울특별시", "서울");
-        map.put("부산광역시", "부산");
-        map.put("대구광역시", "대구");
-        map.put("인천광역시", "인천");
-        map.put("대전광역시", "대전");
-        map.put("울산광역시", "울산");
-        map.put("세종특별자치시", "세종");
-        map.put("제주특별자치도", "제주");
+        cityMap.put("경기도", "경기");
+        cityMap.put("강원도", "강원");
+        cityMap.put("경상북도", "경북");
+        cityMap.put("경상남도", "경남");
+        cityMap.put("전라북도", "전북");
+        cityMap.put("전라남도", "전남");
+        cityMap.put("충청북도", "충북");
+        cityMap.put("충청남도", "충남");
+        cityMap.put("서울특별시", "서울");
+        cityMap.put("부산광역시", "부산");
+        cityMap.put("대구광역시", "대구");
+        cityMap.put("인천광역시", "인천");
+        cityMap.put("대전광역시", "대전");
+        cityMap.put("울산광역시", "울산");
+        cityMap.put("세종특별자치시", "세종");
+        cityMap.put("제주특별자치도", "제주");
     }
 
     public static String getProvince(String city) {
-        return map.get(city);
+        return cityMap.get(city);
+    }
+
+    private void setProvinceList() {
+        cityList = new ArrayList<>();
+
+        cityList.add("서울");
+        cityList.add("경기");
+        cityList.add("인천");
+        cityList.add("부산");
+        cityList.add("대구");
+        cityList.add("경남");
+        cityList.add("충남");
+        cityList.add("경북");
+        cityList.add("강원");
+        cityList.add("대전");
+        cityList.add("충북");
+        cityList.add("전북");
+        cityList.add("광주");
+        cityList.add("울산");
+        cityList.add("전남");
+        cityList.add("제주");
+        cityList.add("세종");
+        cityList.add("검역");
+        cityList.add("합계");
+    }
+
+    public static List<String> getCityList() {
+        return cityList;
     }
 
     @Override

@@ -62,6 +62,8 @@ public class ConvertUtil {
         return toDate;
     }
 
+    // 시/도 별 확진자
+
     public static String convertCommaSeparator(int value) {
         DecimalFormat formatter = new DecimalFormat("###,###");
 

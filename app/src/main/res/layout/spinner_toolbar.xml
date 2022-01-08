@@ -24,6 +24,7 @@
             android:fontFamily="@font/nanumsquare_round_bold"
             android:padding="6dp"
             android:textSize="16sp"
+            android:gravity="center"
             android:layout_marginStart="24dp"
             android:textColor="@color/black_light_20"
             tools:text="타이틀"/>

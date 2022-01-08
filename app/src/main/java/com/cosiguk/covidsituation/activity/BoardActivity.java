@@ -168,7 +168,7 @@ public class BoardActivity extends BaseActivity {
     private void requestBoard() {
         showProgressDialog(BoardActivity.this, getResources().getString(R.string.progress_board_detail));
         networkPresenter
-                .boardDetail(userID, new BoardDetailListener() {
+                .detailBoard(userID, new BoardDetailListener() {
                     @Override
                     public void success(Board board) {
                         setBoardItem(board);
@@ -206,7 +206,7 @@ public class BoardActivity extends BaseActivity {
     // 게시글 좋아요
     private void requestBoardRecommend() {
         networkPresenter
-                .boardRecommend(userID, new BoardRecommendListener() {
+                .recommendBoard(userID, new BoardRecommendListener() {
                     @Override
                     public void success(int code) {
                         if (code == SUCCESS) {
@@ -228,7 +228,7 @@ public class BoardActivity extends BaseActivity {
     // 게시글 싫어요
     private void requestBoardDeprecate() {
         networkPresenter
-                .boardDeprecate(userID, new BoardDeprecateListener() {
+                .deprecateBoard(userID, new BoardDeprecateListener() {
                     @Override
                     public void success(int code) {
                         if (code == SUCCESS) {

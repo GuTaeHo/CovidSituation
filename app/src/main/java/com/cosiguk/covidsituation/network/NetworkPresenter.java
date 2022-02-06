@@ -23,11 +23,11 @@ import com.cosiguk.covidsituation.network.resultInterface.ChatDeprecateListener;
 import com.cosiguk.covidsituation.network.resultInterface.ChatListener;
 import com.cosiguk.covidsituation.network.resultInterface.ChatRecommendListener;
 import com.cosiguk.covidsituation.network.resultInterface.DeleteBoardListener;
-import com.cosiguk.covidsituation.network.resultInterface.InfectionCityWeeks;
-import com.cosiguk.covidsituation.network.resultInterface.SituationBoardListener;
 import com.cosiguk.covidsituation.network.resultInterface.HospitalListener;
+import com.cosiguk.covidsituation.network.resultInterface.InfectionCityWeeks;
 import com.cosiguk.covidsituation.network.resultInterface.NewsListener;
 import com.cosiguk.covidsituation.network.resultInterface.NoticeListener;
+import com.cosiguk.covidsituation.network.resultInterface.SituationBoardListener;
 import com.cosiguk.covidsituation.network.resultInterface.TotalListener;
 import com.cosiguk.covidsituation.network.resultInterface.VaccineListener;
 import com.cosiguk.covidsituation.network.resultInterface.VersionListener;
@@ -110,10 +110,10 @@ public class NetworkPresenter implements NetworkPresenterInterface {
                     @Override
                     public void onResponse(@NonNull Call<ResponseInfection> call, @NonNull retrofit2.Response<ResponseInfection> response) {
                         try {
-                            if (response.body().getBody().getTotalCount() <= 1 && response.body() != null && response.isSuccessful()) {
+                            if (response.body() != null && response.isSuccessful() && response.body().getBody().getTotalCount() <= 1) {
                                 listener.request();
                             } else if (response.body() != null && response.isSuccessful()) {
-                                listener.success(response.body().getBody());
+                                listener.success(response.body().getBody().getItems().getItem());
                             } else if (response.errorBody() != null) {
                                 listener.fail(getError(response.errorBody()).getMessage());
                             }

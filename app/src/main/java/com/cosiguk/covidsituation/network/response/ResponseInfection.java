@@ -5,13 +5,26 @@ import com.cosiguk.covidsituation.network.responseinfection.Header;
 import com.tickaroo.tikxml.annotation.Element;
 import com.tickaroo.tikxml.annotation.Xml;
 
-import lombok.Data;
-
 @Xml(name = "response")
-@Data
 public class ResponseInfection {
     @Element
     public Header header;
     @Element
     public Body body;
+
+    public Header getHeader() {
+        return header;
+    }
+
+    public void setHeader(Header header) {
+        this.header = header;
+    }
+
+    public Body getBody() {
+        return body;
+    }
+
+    public void setBody(Body body) {
+        this.body = body;
+    }
 }

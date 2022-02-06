@@ -1,13 +1,7 @@
 package com.cosiguk.covidsituation.model;
 
-import com.cosiguk.covidsituation.util.ConvertUtil;
 import com.google.gson.annotations.SerializedName;
 
-import java.util.Comparator;
-
-import lombok.Data;
-
-@Data
 public class News {
     @SerializedName("title")
     private String title;
@@ -24,4 +18,48 @@ public class News {
     @SerializedName("pubDate")
     private String pubDate;
 
+
+    public String getTitle() {
+        if (title == null) {
+            title = "";
+        }
+
+        return title;
+    }
+
+    public void setTitle(String title) {
+        this.title = title;
+    }
+
+    public String getOriginallink() {
+        return originallink;
+    }
+
+    public void setOriginallink(String originallink) {
+        this.originallink = originallink;
+    }
+
+    public String getLink() {
+        return link;
+    }
+
+    public void setLink(String link) {
+        this.link = link;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    public String getPubDate() {
+        return pubDate;
+    }
+
+    public void setPubDate(String pubDate) {
+        this.pubDate = pubDate;
+    }
 }

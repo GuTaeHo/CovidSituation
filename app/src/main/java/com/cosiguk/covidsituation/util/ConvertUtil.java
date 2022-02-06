@@ -8,6 +8,7 @@ import java.util.Locale;
 
 public class ConvertUtil {
     public static int PREVIOUS_DAY = 86400000;
+    public static int BEFORE_TWO_DAYS = 86400000 * 2;
 
     // 현재 날짜
     public static String getCurrentFormatTime(int initMillisecond) {

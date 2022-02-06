@@ -6,11 +6,16 @@ import com.tickaroo.tikxml.annotation.Xml;
 
 import java.util.List;
 
-import lombok.Data;
-
 @Xml
-@Data
 public class Items {
     @Element(name = "item")
     public List<Infection> item;
+
+    public List<Infection> getItem() {
+        return item;
+    }
+
+    public void setItem(List<Infection> item) {
+        this.item = item;
+    }
 }

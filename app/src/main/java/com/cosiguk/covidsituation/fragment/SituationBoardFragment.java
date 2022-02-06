@@ -21,7 +21,6 @@ import com.cosiguk.covidsituation.databinding.FragmentSituationBoardBinding;
 import com.cosiguk.covidsituation.dialog.NoticeDialog;
 import com.cosiguk.covidsituation.model.City;
 import com.cosiguk.covidsituation.model.Infection;
-import com.cosiguk.covidsituation.network.responseinfection.Body;
 import com.cosiguk.covidsituation.network.resultInterface.SituationBoardListener;
 import com.cosiguk.covidsituation.network.resultInterface.TotalListener;
 import com.cosiguk.covidsituation.util.ActivityUtil;
@@ -45,6 +44,8 @@ public class SituationBoardFragment extends Fragment {
     private List<City> cityArrayList;
     // 현재 도시
     private City city;
+    // 요청 횟수
+    private int requestCount;
     
     public SituationBoardFragment() {}
 
@@ -91,18 +92,23 @@ public class SituationBoardFragment extends Fragment {
         MyApplication.getNetworkPresenterInstance()
                 .total(map, new TotalListener() {
                     @Override
-                    public void success(Body items) {
+                    public void success(List<Infection> items) {
                         // 작일 정보는 리스트의 두 번째에 포함되어 있음
-                        setYesterdayItems(items.getItems().getItem().get(1));
+                        setYesterdayItems(items.get(1));
                         // 금일 정보는 리스트의 첫 번째에 포함되어 있음
-                        setDailyItems(items.getItems().getItem().get(0));
+                        setDailyItems(items.get(0));
                         // 도시 정보 요청
                         requestCity(map.get("endCreateDt"));
                     }
 
                     @Override
                     public void request() {
-                        requestSituation(ConvertUtil.PREVIOUS_DAY);
+                        if (requestCount == 0) {
+                            requestSituation(ConvertUtil.PREVIOUS_DAY);
+                            requestCount += 1;
+                        } else {
+                            requestSituation(ConvertUtil.BEFORE_TWO_DAYS);
+                        }
                     }
 
                     @Override

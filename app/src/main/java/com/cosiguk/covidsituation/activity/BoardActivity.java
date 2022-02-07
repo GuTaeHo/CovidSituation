@@ -1,12 +1,12 @@
 package com.cosiguk.covidsituation.activity;
 
-import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Spinner;
 
@@ -15,7 +15,6 @@ import androidx.databinding.DataBindingUtil;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
 import com.cosiguk.covidsituation.R;
-import com.cosiguk.covidsituation.adapter.BaseRecyclerViewAdapter;
 import com.cosiguk.covidsituation.adapter.ChatAdapter;
 import com.cosiguk.covidsituation.databinding.ActivityBoardBinding;
 import com.cosiguk.covidsituation.databinding.CloseToolbarBinding;
@@ -28,6 +27,7 @@ import com.cosiguk.covidsituation.network.resultInterface.ChatAddListener;
 import com.cosiguk.covidsituation.network.resultInterface.ChatDeprecateListener;
 import com.cosiguk.covidsituation.network.resultInterface.ChatListener;
 import com.cosiguk.covidsituation.network.resultInterface.ChatRecommendListener;
+import com.cosiguk.covidsituation.network.resultInterface.DeleteBoardListener;
 import com.cosiguk.covidsituation.util.ActivityUtil;
 import com.cosiguk.covidsituation.util.PatternUtil;
 import com.cosiguk.covidsituation.util.ToastUtil;
@@ -46,8 +46,15 @@ public class BoardActivity extends BaseActivity {
     private CloseToolbarBinding commonToolbarBinding;
     private ChatAdapter adapter;
     private Board item;
+    // 게시글 작성 유저 ID
     private int userID;
     private Animation shake;
+    // 게시글 스피너 INDEX
+    private static final int REPORT = 0;
+    private static final int UPDATE = 1;
+    private static final int DELETE = 2;
+    // 스피너 최초 실행 시 아이템 클릭 체크
+    private int firstCheck;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -63,6 +70,7 @@ public class BoardActivity extends BaseActivity {
     private void initValue() {
         userID = getIntent().getIntExtra(ActivityUtil.DATA, -1);
         adapter = new ChatAdapter(BoardActivity.this);
+        firstCheck = 0;
         shake = AnimationUtils.loadAnimation(this, R.anim.anim_shake);
     }
 
@@ -183,26 +191,6 @@ public class BoardActivity extends BaseActivity {
                 });
     }
 
-    // 댓글 요청
-    private void requestChat() {
-        networkPresenter
-                .chatList(userID, new ChatListener() {
-                    @Override
-                    public void success(ArrayList<Board> boards) {
-                        adapter.addItems(boards);
-                        // setChatClickEvent();
-                        initLayout();
-                        dismissProgressDialog();
-                    }
-
-                    @Override
-                    public void fail(String msg) {
-                        dismissProgressDialog();
-                        setEmptyLayout();
-                    }
-                });
-    }
-
     // 게시글 좋아요
     private void requestBoardRecommend() {
         networkPresenter
@@ -243,6 +231,42 @@ public class BoardActivity extends BaseActivity {
                                 .setMsg(message)
                                 .setShowNegativeButton(false)
                                 .show();
+                    }
+                });
+    }
+
+    // 게시글 신고
+    private void requestBoardReport(int boardID) {
+        networkPresenter
+                .deleteBoard(boardID, new DeleteBoardListener() {
+                    @Override
+                    public void success(int code) {
+
+                    }
+
+                    @Override
+                    public void fail(String message) {
+
+                    }
+                });
+    }
+
+    // 댓글 요청
+    private void requestChat() {
+        networkPresenter
+                .chatList(userID, new ChatListener() {
+                    @Override
+                    public void success(ArrayList<Board> boards) {
+                        adapter.addItems(boards);
+                        // setChatClickEvent();
+                        initLayout();
+                        dismissProgressDialog();
+                    }
+
+                    @Override
+                    public void fail(String msg) {
+                        dismissProgressDialog();
+                        setEmptyLayout();
                     }
                 });
     }
@@ -326,43 +350,35 @@ public class BoardActivity extends BaseActivity {
     private void initSpinner(Spinner spinner) {
         // 어댑터 초기화 (context, 스트링 아이템, 초기 레이아웃)
         ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this,
-                R.array.planets_array, R.layout.spinner_board);
+                R.array.spinner_chat_array, R.layout.spinner_board);
         // drop down 레이아웃 설정
-        adapter.setDropDownViewResource(R.layout.spinner_dropdown);
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spinner.setAdapter(adapter);
-    }
-
-    // 댓글 클릭 이벤트 정의
-    private void setChatClickEvent() {
-
-        adapter.setOnItemClickListener(new BaseRecyclerViewAdapter.OnItemClickListener() {
-            @SuppressLint("NonConstantResourceId")
+        spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
-            public void onItemClick(View view, int position) {
-                Log.d("adapterClicked", "view : " + view.toString() + ", position : " + position);
-                // 클릭된 아이템의 id 획득
-                int chatID = adapter.getItem(position).getId();
-                switch (view.getId()) {
-                    case R.id.lo_recommend:
-                        requestChatRecommend(chatID);
+            public void onItemSelected(AdapterView<?> adapterView, View view, int position, long id) {
+                if (++firstCheck == 1) {
+                    return;
+                }
+
+                Log.d("환장","하겠네 position -> " + position);
+
+                switch (position) {
+                    case REPORT:
                         break;
-                    case R.id.lo_deprecate:
-                        requestChatDeprecate(chatID);
+                    case UPDATE:
                         break;
-                    case R.id.tv_report:
-                        requestChatReport(chatID);
-                        break;
-                    case R.id.tv_delete:
-                        requestChatDelete(chatID);
-                        break;
-                    case R.id.container:
-                        showToast("컨테이너 클릭됨, ID : " + chatID);
+                    case DELETE:
                         break;
                     default:
-                        showToast("이벤트 설정중 문제가 생겼습니다...");
                         break;
                 }
+
+                spinner.setSelected(false);
             }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> adapterView) { }
         });
     }
 

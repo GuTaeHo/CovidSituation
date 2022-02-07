@@ -39,6 +39,7 @@
     <color name="action_bar">#f8f8f8</color>
     <color name="status_bar">#f8f8f8</color>
     <color name="app_background">#f8f8f8</color>
+    <color name="transparent">#00000000</color>
 
     <!-- 사이드 바 -->
     <color name="side_header_background">@color/app_background</color>

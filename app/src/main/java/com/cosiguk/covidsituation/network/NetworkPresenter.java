@@ -384,7 +384,7 @@ public class NetworkPresenter implements NetworkPresenterInterface {
         RetrofitClient
                 .getInstance()
                 .getInterface()
-                .deleteBoard(boardID)
+                .boardDelete(boardID)
                 .enqueue(new Callback<Response<Object>>() {
                     @Override
                     public void onResponse(@NonNull Call<Response<Object>> call, @NonNull retrofit2.Response<Response<Object>> response) {

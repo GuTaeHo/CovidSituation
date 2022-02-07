@@ -4,7 +4,6 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -158,14 +157,12 @@ public class BoardFragment extends Fragment {
             public void onScrollChange(View v, int scrollX, int scrollY, int oldScrollX, int oldScrollY) {
                 // 스크롤이 끝에 도달 시 호출
                 if (!binding.recyclerview.canScrollVertically(1)) {
-                    Log.d("adapterEnd", adapter.getItemCount() + "");
                     // 마지막 게시글 확인
                     if ((page + 1) * size >= totalCount) {
                         isEndPage = true;
                     } else {
                         page += 1;
                         setRequestParams();
-                        // 어댑터 마지막 부분에 프로그래스 아이템 추가하기!!
                     }
                 }
             }

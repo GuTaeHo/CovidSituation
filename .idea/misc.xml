@@ -8,6 +8,7 @@
         <entry key="..\:/AndroidProject/CovidSituation/app/src/main/res/drawable/view_round_bottom_right.xml" value="0.3676923076923077" />
         <entry key="..\:/AndroidProject/CovidSituation/app/src/main/res/drawable/view_round_gray.xml" value="0.3676923076923077" />
         <entry key="..\:/AndroidProject/CovidSituation/app/src/main/res/drawable/view_round_table.xml" value="0.3676923076923077" />
+        <entry key="..\:/AndroidProject/CovidSituation/app/src/main/res/layout/activity_board.xml" value="0.3515625" />
         <entry key="..\:/AndroidProject/CovidSituation/app/src/main/res/layout/activity_board_add.xml" value="0.3572916666666667" />
         <entry key="..\:/AndroidProject/CovidSituation/app/src/main/res/layout/activity_city_detail.xml" value="0.3572916666666667" />
         <entry key="..\:/AndroidProject/CovidSituation/app/src/main/res/layout/close_toolbar.xml" value="0.3572916666666667" />
@@ -16,6 +17,7 @@
         <entry key="..\:/AndroidProject/CovidSituation/app/src/main/res/layout/item_board.xml" value="0.3572916666666667" />
         <entry key="..\:/AndroidProject/CovidSituation/app/src/main/res/layout/item_city.xml" value="0.3572916666666667" />
         <entry key="..\:/AndroidProject/CovidSituation/app/src/main/res/layout/selector_toolbar.xml" value="0.3572916666666667" />
+        <entry key="..\:/AndroidProject/CovidSituation/app/src/main/res/layout/spinner_board.xml" value="0.3515625" />
         <entry key="..\:/AndroidProject/CovidSituation/app/src/main/res/layout/spinner_dropdown.xml" value="0.38177083333333334" />
         <entry key="..\:/AndroidProject/CovidSituation/app/src/main/res/layout/spinner_toolbar.xml" value="0.2" />
         <entry key="..\:/CovidSituation/app/src/main/res/drawable-v24/ic_launcher_foreground.xml" value="0.31296296296296294" />

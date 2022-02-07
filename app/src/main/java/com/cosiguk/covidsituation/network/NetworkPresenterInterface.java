@@ -6,6 +6,7 @@ import com.cosiguk.covidsituation.network.resultInterface.BoardDeprecateListener
 import com.cosiguk.covidsituation.network.resultInterface.BoardDetailListener;
 import com.cosiguk.covidsituation.network.resultInterface.BoardListener;
 import com.cosiguk.covidsituation.network.resultInterface.BoardRecommendListener;
+import com.cosiguk.covidsituation.network.resultInterface.BoardReportListener;
 import com.cosiguk.covidsituation.network.resultInterface.ChatAddListener;
 import com.cosiguk.covidsituation.network.resultInterface.ChatDeprecateListener;
 import com.cosiguk.covidsituation.network.resultInterface.ChatListener;
@@ -60,6 +61,9 @@ public interface NetworkPresenterInterface {
 
     // 게시글 비추천
     void deprecateBoard(int boardID, BoardDeprecateListener listener);
+
+    // 게시글 신고
+    void reportBoard(int boardID, BoardReportListener listener);
 
     // 게시글 삭제
     void deleteBoard(int boardID, DeleteBoardListener listener);

@@ -18,6 +18,7 @@ import com.cosiguk.covidsituation.network.resultInterface.BoardDeprecateListener
 import com.cosiguk.covidsituation.network.resultInterface.BoardDetailListener;
 import com.cosiguk.covidsituation.network.resultInterface.BoardListener;
 import com.cosiguk.covidsituation.network.resultInterface.BoardRecommendListener;
+import com.cosiguk.covidsituation.network.resultInterface.BoardReportListener;
 import com.cosiguk.covidsituation.network.resultInterface.ChatAddListener;
 import com.cosiguk.covidsituation.network.resultInterface.ChatDeprecateListener;
 import com.cosiguk.covidsituation.network.resultInterface.ChatListener;
@@ -373,6 +374,33 @@ public class NetworkPresenter implements NetworkPresenterInterface {
 
                     @Override
                     public void onFailure(@NonNull Call<Response<Object>> call, @NonNull Throwable t) {
+                        listener.fail(t.toString());
+                    }
+                });
+    }
+
+    @Override
+    public void reportBoard(int boardID, BoardReportListener listener) {
+        RetrofitClient
+                .getInstance()
+                .getInterface()
+                .boardReport(boardID)
+                .enqueue(new Callback<Response<Object>>() {
+                    @Override
+                    public void onResponse(@NonNull Call<Response<Object>> call, @NonNull retrofit2.Response<Response<Object>> response) {
+                        try {
+                            if (response.body() != null && response.isSuccessful()) {
+                                listener.success(response.body());
+                            } else if (response.errorBody() != null)  {
+                                listener.fail(getError(response.errorBody()).getError());
+                            }
+                        } catch (Exception e) {
+                            listener.fail("reportBoard Exception " + e.toString());
+                        }
+                    }
+
+                    @Override
+                    public void onFailure(@NonNull Call<Response<Object>> call, Throwable t) {
                         listener.fail(t.toString());
                     }
                 });

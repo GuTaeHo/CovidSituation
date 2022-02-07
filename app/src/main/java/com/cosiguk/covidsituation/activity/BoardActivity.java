@@ -20,14 +20,15 @@ import com.cosiguk.covidsituation.databinding.ActivityBoardBinding;
 import com.cosiguk.covidsituation.databinding.CloseToolbarBinding;
 import com.cosiguk.covidsituation.dialog.NoticeDialog;
 import com.cosiguk.covidsituation.model.Board;
+import com.cosiguk.covidsituation.network.Response;
 import com.cosiguk.covidsituation.network.resultInterface.BoardDeprecateListener;
 import com.cosiguk.covidsituation.network.resultInterface.BoardDetailListener;
 import com.cosiguk.covidsituation.network.resultInterface.BoardRecommendListener;
+import com.cosiguk.covidsituation.network.resultInterface.BoardReportListener;
 import com.cosiguk.covidsituation.network.resultInterface.ChatAddListener;
 import com.cosiguk.covidsituation.network.resultInterface.ChatDeprecateListener;
 import com.cosiguk.covidsituation.network.resultInterface.ChatListener;
 import com.cosiguk.covidsituation.network.resultInterface.ChatRecommendListener;
-import com.cosiguk.covidsituation.network.resultInterface.DeleteBoardListener;
 import com.cosiguk.covidsituation.util.ActivityUtil;
 import com.cosiguk.covidsituation.util.PatternUtil;
 import com.cosiguk.covidsituation.util.ToastUtil;
@@ -238,15 +239,21 @@ public class BoardActivity extends BaseActivity {
     // 게시글 신고
     private void requestBoardReport(int boardID) {
         networkPresenter
-                .deleteBoard(boardID, new DeleteBoardListener() {
+                .reportBoard(boardID, new BoardReportListener() {
                     @Override
-                    public void success(int code) {
-
+                    public void success(Response<Object> response) {
+                        new NoticeDialog(BoardActivity.this)
+                                .setMsg("신고가 완료되었습니다")
+                                .setShowNegativeButton(false)
+                                .show();
                     }
 
                     @Override
                     public void fail(String message) {
-
+                        new NoticeDialog(BoardActivity.this)
+                                .setMsg(message)
+                                .setShowNegativeButton(false)
+                                .show();
                     }
                 });
     }
@@ -365,6 +372,19 @@ public class BoardActivity extends BaseActivity {
 
                 switch (position) {
                     case REPORT:
+                        new NoticeDialog(BoardActivity.this)
+                                .setMsg("이 게시글을 신고하시겠습니까?")
+                                .setNoticeDialogCallbackListener(new NoticeDialog.NoticeDialogCallbackListener() {
+                                    @Override
+                                    public void positive() {
+                                        requestBoardReport(item.getId());
+                                    }
+
+                                    @Override
+                                    public void negative() {
+
+                                    }
+                                }).show();
                         break;
                     case UPDATE:
                         break;
@@ -373,8 +393,6 @@ public class BoardActivity extends BaseActivity {
                     default:
                         break;
                 }
-
-                spinner.setSelected(false);
             }
 
             @Override

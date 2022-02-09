@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:ignore="HardcodedText" >
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:background="@drawable/view_round_dark_gray">
+
+        <LinearLayout
+            android:id="@+id/lo_text"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:padding="18dp">
+
+            <TextView
+                android:id="@+id/tv_message"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="12dp"
+                android:fontFamily="@font/nanumsquare_round_regular"
+                android:textColor="@color/white_dark_10"
+                android:textSize="14sp"
+                tools:text="게시글 비밀번호를 입력해주세요">
+
+            </TextView>
+
+            <EditText
+                android:id="@+id/et_user_input"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/transparent"
+                android:inputType="textPassword"
+                android:maxLength="20"
+                android:textColor="@color/white_dark_10"
+                android:textColorHint="@color/white_dark_50"
+                android:textSize="14sp"
+                tools:hint="게시글 비밀번호를 입력해주세요" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/lo_text"
+            android:orientation="horizontal">
+
+            <FrameLayout
+                android:id="@+id/lo_negative"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:foreground="?attr/selectableItemBackground"
+                android:padding="16dp">
+
+                <TextView
+                    android:id="@+id/tv_negative"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:gravity="center"
+                    android:text="취소"
+                    android:fontFamily="@font/nanumsquare_round_extra_bold"
+                    android:textColor="@color/white_dark_10"
+                    android:textSize="16sp" />
+            </FrameLayout>
+
+            <FrameLayout
+                android:id="@+id/lo_positive"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:foreground="?attr/selectableItemBackground"
+                android:padding="16dp">
+
+                <TextView
+                    android:id="@+id/tv_positive"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:gravity="center"
+                    android:text="확인"
+                    android:fontFamily="@font/nanumsquare_round_extra_bold"
+                    android:textColor="@color/teal_200"
+                    android:textSize="16sp" />
+            </FrameLayout>
+        </LinearLayout>
+
+    </RelativeLayout>
+</layout>

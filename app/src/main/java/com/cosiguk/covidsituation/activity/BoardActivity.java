@@ -2,13 +2,9 @@ package com.cosiguk.covidsituation.activity;
 
 import android.app.Activity;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
-import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
-import android.widget.Spinner;
 
 import androidx.appcompat.content.res.AppCompatResources;
 import androidx.databinding.DataBindingUtil;
@@ -18,9 +14,11 @@ import com.cosiguk.covidsituation.R;
 import com.cosiguk.covidsituation.adapter.ChatAdapter;
 import com.cosiguk.covidsituation.databinding.ActivityBoardBinding;
 import com.cosiguk.covidsituation.databinding.CloseToolbarBinding;
+import com.cosiguk.covidsituation.dialog.InputDialog;
 import com.cosiguk.covidsituation.dialog.NoticeDialog;
 import com.cosiguk.covidsituation.model.Board;
 import com.cosiguk.covidsituation.network.Response;
+import com.cosiguk.covidsituation.network.resultInterface.BoardDeleteListener;
 import com.cosiguk.covidsituation.network.resultInterface.BoardDeprecateListener;
 import com.cosiguk.covidsituation.network.resultInterface.BoardDetailListener;
 import com.cosiguk.covidsituation.network.resultInterface.BoardRecommendListener;
@@ -30,6 +28,7 @@ import com.cosiguk.covidsituation.network.resultInterface.ChatDeprecateListener;
 import com.cosiguk.covidsituation.network.resultInterface.ChatListener;
 import com.cosiguk.covidsituation.network.resultInterface.ChatRecommendListener;
 import com.cosiguk.covidsituation.util.ActivityUtil;
+import com.cosiguk.covidsituation.util.AnimationUtil;
 import com.cosiguk.covidsituation.util.PatternUtil;
 import com.cosiguk.covidsituation.util.ToastUtil;
 import com.cosiguk.covidsituation.util.ViewUtil;
@@ -50,12 +49,6 @@ public class BoardActivity extends BaseActivity {
     // 게시글 작성 유저 ID
     private int userID;
     private Animation shake;
-    // 게시글 스피너 INDEX
-    private static final int REPORT = 0;
-    private static final int UPDATE = 1;
-    private static final int DELETE = 2;
-    // 스피너 최초 실행 시 아이템 클릭 체크
-    private int firstCheck;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -71,7 +64,6 @@ public class BoardActivity extends BaseActivity {
     private void initValue() {
         userID = getIntent().getIntExtra(ActivityUtil.DATA, -1);
         adapter = new ChatAdapter(BoardActivity.this);
-        firstCheck = 0;
         shake = AnimationUtils.loadAnimation(this, R.anim.anim_shake);
     }
 
@@ -86,7 +78,6 @@ public class BoardActivity extends BaseActivity {
         binding.tvRecommendCount.setText(String.format("%s", item.getRecommend()));
         binding.tvDeprecateCount.setText(String.format("%s", item.getDeprecate()));
         initTextChat();
-        initSpinner(binding.spinner);
         initChat();
     }
 
@@ -100,6 +91,9 @@ public class BoardActivity extends BaseActivity {
         binding.loRecommend.setOnClickListener(v -> requestBoardRecommend());
         binding.loDeprecate.setOnClickListener(v -> requestBoardDeprecate());
         binding.tvSendComment.setOnClickListener(v -> sendComment());
+        binding.tvMenu.setOnClickListener(v -> showMenu());
+        binding.tvBoardReport.setOnClickListener(v -> boardReport());
+        binding.tvBoardDelete.setOnClickListener(v -> boardDelete());
     }
 
     // 인터넷 연결이 끊어졌을 경우 레이아웃 초기화
@@ -173,6 +167,39 @@ public class BoardActivity extends BaseActivity {
         requestChatAdd(requestMap);
     }
 
+    private void boardReport() {
+        new NoticeDialog(this)
+                .setMsg("정말 이 게시글을 신고하시겠습니까?")
+                .setNoticeDialogCallbackListener(new NoticeDialog.NoticeDialogCallbackListener() {
+                    @Override
+                    public void positive() {
+                        requestBoardReport(item.getId());
+                    }
+
+                    @Override
+                    public void negative() {
+                        hideMenu();
+                    }
+                }).show();
+    }
+
+    private void boardDelete() {
+        new InputDialog(this)
+                .setMsg("게시글 비밀번호를 입력해주세요")
+                .setHint("게시글 비밀번호")
+                .setInputDialogCallbackListener(new InputDialog.InputDialogCallbackListener() {
+                    @Override
+                    public void positive(String value) {
+                        requestBoardDelete(item.getId(), value);
+                    }
+
+                    @Override
+                    public void negative() {
+                        hideMenu();
+                    }
+                }).show();
+    }
+
     // 게시글 요청
     private void requestBoard() {
         showProgressDialog(BoardActivity.this, getResources().getString(R.string.progress_board_detail));
@@ -236,7 +263,7 @@ public class BoardActivity extends BaseActivity {
                 });
     }
 
-    // 게시글 신고
+    // 게시글 신고 요청
     private void requestBoardReport(int boardID) {
         networkPresenter
                 .reportBoard(boardID, new BoardReportListener() {
@@ -246,6 +273,7 @@ public class BoardActivity extends BaseActivity {
                                 .setMsg("신고가 완료되었습니다")
                                 .setShowNegativeButton(false)
                                 .show();
+                        hideMenu();
                     }
 
                     @Override
@@ -254,6 +282,31 @@ public class BoardActivity extends BaseActivity {
                                 .setMsg(message)
                                 .setShowNegativeButton(false)
                                 .show();
+                        hideMenu();
+                    }
+                });
+    }
+
+    // 게시글 삭제 요청
+    private void requestBoardDelete(int boardID, String password) {
+        networkPresenter
+                .deleteBoard(boardID, password, new BoardDeleteListener() {
+                    @Override
+                    public void success() {
+                        new NoticeDialog(BoardActivity.this)
+                                .setMsg("게시글 삭제가 완료되었습니다")
+                                .setShowNegativeButton(false)
+                                .show();
+                        hideMenu();
+                    }
+
+                    @Override
+                    public void fail(String message) {
+                        new NoticeDialog(BoardActivity.this)
+                                .setMsg(message)
+                                .setShowNegativeButton(false)
+                                .show();
+                        hideMenu();
                     }
                 });
     }
@@ -354,52 +407,6 @@ public class BoardActivity extends BaseActivity {
         }
     }
 
-    private void initSpinner(Spinner spinner) {
-        // 어댑터 초기화 (context, 스트링 아이템, 초기 레이아웃)
-        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this,
-                R.array.spinner_chat_array, R.layout.spinner_board);
-        // drop down 레이아웃 설정
-        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        spinner.setAdapter(adapter);
-        spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            @Override
-            public void onItemSelected(AdapterView<?> adapterView, View view, int position, long id) {
-                if (++firstCheck == 1) {
-                    return;
-                }
-
-                Log.d("환장","하겠네 position -> " + position);
-
-                switch (position) {
-                    case REPORT:
-                        new NoticeDialog(BoardActivity.this)
-                                .setMsg("이 게시글을 신고하시겠습니까?")
-                                .setNoticeDialogCallbackListener(new NoticeDialog.NoticeDialogCallbackListener() {
-                                    @Override
-                                    public void positive() {
-                                        requestBoardReport(item.getId());
-                                    }
-
-                                    @Override
-                                    public void negative() {
-
-                                    }
-                                }).show();
-                        break;
-                    case UPDATE:
-                        break;
-                    case DELETE:
-                        break;
-                    default:
-                        break;
-                }
-            }
-
-            @Override
-            public void onNothingSelected(AdapterView<?> adapterView) { }
-        });
-    }
-
     private void initChat() {
         binding.recyclerview.setLayoutManager(new LinearLayoutManager(BoardActivity.this));
         binding.recyclerview.setAdapter(adapter);
@@ -410,6 +417,18 @@ public class BoardActivity extends BaseActivity {
         binding.etNickname.setText("");
         binding.etPassword.setText("");
         binding.etContent.setText("");
+    }
+
+    private void showMenu() {
+        if (binding.loMenu.getVisibility() == View.VISIBLE) {
+            hideMenu();
+        } else {
+            AnimationUtil.setAnimationVisible(binding.loMenu, 1, 20);
+        }
+    }
+
+    private void hideMenu() {
+        AnimationUtil.setAnimationInvisible(binding.loMenu, 0, 100);
     }
 
     @Override

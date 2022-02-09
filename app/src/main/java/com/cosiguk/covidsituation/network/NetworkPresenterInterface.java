@@ -11,7 +11,7 @@ import com.cosiguk.covidsituation.network.resultInterface.ChatAddListener;
 import com.cosiguk.covidsituation.network.resultInterface.ChatDeprecateListener;
 import com.cosiguk.covidsituation.network.resultInterface.ChatListener;
 import com.cosiguk.covidsituation.network.resultInterface.ChatRecommendListener;
-import com.cosiguk.covidsituation.network.resultInterface.DeleteBoardListener;
+import com.cosiguk.covidsituation.network.resultInterface.BoardDeleteListener;
 import com.cosiguk.covidsituation.network.resultInterface.HospitalListener;
 import com.cosiguk.covidsituation.network.resultInterface.InfectionCityWeeks;
 import com.cosiguk.covidsituation.network.resultInterface.NewsListener;
@@ -66,7 +66,7 @@ public interface NetworkPresenterInterface {
     void reportBoard(int boardID, BoardReportListener listener);
 
     // 게시글 삭제
-    void deleteBoard(int boardID, DeleteBoardListener listener);
+    void deleteBoard(int boardID, String password, BoardDeleteListener listener);
 
     // 댓글 조회
     void chatList(int boardID, ChatListener listener);

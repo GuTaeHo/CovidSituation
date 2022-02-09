@@ -180,8 +180,8 @@
                             tools:text="19" />
                     </LinearLayout>
 
-                    <Spinner
-                        android:id="@+id/spinner"
+                    <TextView
+                        android:id="@+id/tv_menu"
                         android:layout_width="64dp"
                         android:layout_height="38dp"
                         android:layout_marginTop="12dp"
@@ -189,7 +189,39 @@
                         android:padding="6dp"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintTop_toBottomOf="@id/tv_content" />
+
                 </androidx.constraintlayout.widget.ConstraintLayout>
+
+                <LinearLayout
+                    android:id="@+id/lo_menu"
+                    android:layout_width="88dp"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:padding="12dp"
+                    android:translationZ="999dp"
+                    android:visibility="gone"
+                    app:layout_constraintTop_toBottomOf="@id/lo_board_detail"
+                    app:layout_constraintEnd_toEndOf="@id/lo_board_detail">
+
+                    <TextView
+                        android:id="@+id/tv_board_report"
+                        android:layout_width="match_parent"
+                        android:layout_height="38dp"
+                        android:gravity="center"
+                        android:text="신고"
+                        android:layout_marginBottom="6dp"
+                        android:background="@drawable/view_round_border_light_gray"
+                        android:textColor="@color/black_light_10"/>
+
+                    <TextView
+                        android:id="@+id/tv_board_delete"
+                        android:layout_width="match_parent"
+                        android:layout_height="38dp"
+                        android:gravity="center"
+                        android:text="삭제"
+                        android:background="@drawable/view_round_border_light_gray"
+                        android:textColor="@color/black_light_10"/>
+                </LinearLayout>
 
                 <TextView
                     android:id="@+id/tv_chat_title"

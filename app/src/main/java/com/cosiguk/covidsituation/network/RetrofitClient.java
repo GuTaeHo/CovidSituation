@@ -21,6 +21,7 @@ import retrofit2.http.Multipart;
 import retrofit2.http.POST;
 import retrofit2.http.PartMap;
 import retrofit2.http.Path;
+import retrofit2.http.Query;
 
 public class RetrofitClient {
     public static final String URL = "http://test.byeonggook.shop/";
@@ -84,7 +85,7 @@ public class RetrofitClient {
         Call<Response<Object>> boardReport(@Path("boardID") int boardID);
 
         @POST("api/board/{boardID}/delete")
-        Call<Response<Object>> boardDelete(@Path("boardID") int boardID);
+        Call<Response<Object>> boardDelete(@Path("boardID") int boardID, @Query("password") String password);
 
         @GET("api/chat/{boardID}/chatList")
         Call<Response<ResponseChat>> chatList(@Path("boardID") int boardID);

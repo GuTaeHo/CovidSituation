@@ -23,7 +23,7 @@ import com.cosiguk.covidsituation.network.resultInterface.ChatAddListener;
 import com.cosiguk.covidsituation.network.resultInterface.ChatDeprecateListener;
 import com.cosiguk.covidsituation.network.resultInterface.ChatListener;
 import com.cosiguk.covidsituation.network.resultInterface.ChatRecommendListener;
-import com.cosiguk.covidsituation.network.resultInterface.DeleteBoardListener;
+import com.cosiguk.covidsituation.network.resultInterface.BoardDeleteListener;
 import com.cosiguk.covidsituation.network.resultInterface.HospitalListener;
 import com.cosiguk.covidsituation.network.resultInterface.InfectionCityWeeks;
 import com.cosiguk.covidsituation.network.resultInterface.NewsListener;
@@ -408,17 +408,17 @@ public class NetworkPresenter implements NetworkPresenterInterface {
 
 
     @Override
-    public void deleteBoard(int boardID, DeleteBoardListener listener) {
+    public void deleteBoard(int boardID, String password, BoardDeleteListener listener) {
         RetrofitClient
                 .getInstance()
                 .getInterface()
-                .boardDelete(boardID)
+                .boardDelete(boardID, password)
                 .enqueue(new Callback<Response<Object>>() {
                     @Override
                     public void onResponse(@NonNull Call<Response<Object>> call, @NonNull retrofit2.Response<Response<Object>> response) {
                         try {
                             if (response.body() != null && response.isSuccessful()) {
-                                listener.success(response.body().getCode());
+                                listener.success();
                             } else if (response.errorBody() != null) {
                                 listener.fail(getError(response.errorBody()).getError());
                             }

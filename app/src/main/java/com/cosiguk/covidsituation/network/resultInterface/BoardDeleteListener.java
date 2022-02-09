@@ -1,6 +1,6 @@
 package com.cosiguk.covidsituation.network.resultInterface;
 
-public interface DeleteBoardListener {
-    void success(int code);
+public interface BoardDeleteListener {
+    void success();
     void fail(String message);
 }

@@ -18,6 +18,19 @@ public class AnimationUtil {
                 });
     }
 
+    public static void setAnimationInvisible(View view, float alpha, int duration) {
+        view.animate()
+                .alpha(alpha)
+                .setDuration(duration)
+                .setListener(new AnimatorListenerAdapter() {
+                    @Override
+                    public void onAnimationEnd(Animator animation) {
+                        super.onAnimationEnd(animation);
+                        view.setVisibility(View.INVISIBLE);
+                    }
+                });
+    }
+
     public static void setAnimationVisible(View view, float alpha, int duration) {
         view.animate()
                 .alpha(alpha)

@@ -231,7 +231,7 @@ public class BoardFragment extends Fragment {
                     // ActivityResultLauncher 의 launch() 호출 시, 가장 먼저 호출됨
                     // 인텐트를 초기화한 뒤, 목표 액티비티로 넘김
                     public Intent createIntent(@NonNull Context context, Intent input) {
-                        input.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP |Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                        input.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP | Intent.FLAG_ACTIVITY_CLEAR_TOP);
                         return input;
                     }
 

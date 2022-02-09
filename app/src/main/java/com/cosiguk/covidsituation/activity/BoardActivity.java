@@ -293,11 +293,21 @@ public class BoardActivity extends BaseActivity {
                 .deleteBoard(boardID, password, new BoardDeleteListener() {
                     @Override
                     public void success() {
+                        hideMenu();
                         new NoticeDialog(BoardActivity.this)
                                 .setMsg("게시글 삭제가 완료되었습니다")
+                                .setBackPressButton(false)
                                 .setShowNegativeButton(false)
-                                .show();
-                        hideMenu();
+                                .setNoticeDialogCallbackListener(new NoticeDialog.NoticeDialogCallbackListener() {
+                                    @Override
+                                    public void positive() {
+                                        setResult(Activity.RESULT_OK);
+                                        finish();
+                                    }
+
+                                    @Override
+                                    public void negative() { }
+                                }).show();
                     }
 
                     @Override

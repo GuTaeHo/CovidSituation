@@ -393,7 +393,6 @@ public class BoardActivity extends BaseActivity {
                         ToastUtil.showToastCenter(BoardActivity.this, msg);
                     }
                 });
-
     }
 
     // 댓글 신고

@@ -17,6 +17,14 @@ public class ActivityUtil {
         intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
         context.startActivity(intent);
     }
+
+    public static void startNewActivityExtra(Context context, Class<?> c, int data) {
+        Intent intent = new Intent(context, c);
+        intent.putExtra(DATA, data);
+        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+        context.startActivity(intent);
+    }
+
     // Url 액티비티 실행 (웹브라우저 호출)
     public static void startUrlActivity(Context context, String url) {
         // url을 파싱해 적절한 액티비티 호출

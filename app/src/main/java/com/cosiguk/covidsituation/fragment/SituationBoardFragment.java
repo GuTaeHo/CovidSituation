@@ -194,9 +194,6 @@ public class SituationBoardFragment extends Fragment {
         // 일일 사망자
         binding.tvDailyDeath.setText(String.format("사망자 (%s)",
                 ConvertUtil.convertCommaSeparator(infection.getDeathCnt()- yesterdayInfection.getDeathCnt())));
-        // 일일 검사자
-        binding.tvDailyExamine.setText(String.format("검사수 (%s)",
-                ConvertUtil.convertCommaSeparator(infection.getAccExamCnt() - yesterdayInfection.getAccExamCnt())));
     }
 
     private void initTotalLayout() {
@@ -211,11 +208,7 @@ public class SituationBoardFragment extends Fragment {
         binding.tvTotalDeath.setText(ConvertUtil.convertCommaSeparator(infection.getDeathCnt()));
         binding.tvTotalDeathCompare.setText(String.format("(%s)",
                 ConvertUtil.convertSignCommaSeparator(infection.getDeathCnt() - yesterdayInfection.getDeathCnt())));
-        // 누적 검사 수
-        binding.tvTotalExam.setText(ConvertUtil.convertCommaSeparator(infection.getAccExamCnt()));
-        binding.tvTotalExamCompare.setText(String.format("(%s)",
-                ConvertUtil.convertSignCommaSeparator(infection.getAccExamCnt() - yesterdayInfection.getAccExamCnt())));
-    }
+        }
 
     private void initCityLayout() {
         binding.tvListTitleIntro.setText("현 위치 : " + getCurrentAddressShort());

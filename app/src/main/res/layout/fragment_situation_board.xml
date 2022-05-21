@@ -74,15 +74,6 @@
                         android:gravity="center"
                         android:textSize="12sp"
                         tools:text="사망자 (34,603)" />
-
-                    <TextView
-                        android:id="@+id/tv_daily_examine"
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:gravity="center"
-                        android:textSize="12sp"
-                        tools:text="검사 수 (54,156)" />
                 </LinearLayout>
             </LinearLayout>
             <LinearLayout
@@ -196,39 +187,6 @@
                             android:layout_height="wrap_content"
                             android:gravity="center"
                             tools:text="(+7)" />
-                    </LinearLayout>
-
-                    <LinearLayout
-                        android:id="@+id/lo_total_exam"
-                        android:layout_width="0dp"
-                        android:layout_height="96dp"
-                        android:layout_weight="1"
-                        android:background="@color/pastel_green"
-                        android:gravity="center"
-                        android:orientation="vertical">
-
-                        <TextView
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:fontFamily="@font/nanumsquare_round_bold"
-                            android:gravity="center"
-                            android:text="누적 검사수" />
-
-                        <TextView
-                            android:id="@+id/tv_total_exam"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:fontFamily="@font/nanumsquare_round_extra_bold"
-                            android:gravity="center"
-                            android:textSize="16sp"
-                            tools:text="14,544,258" />
-
-                        <TextView
-                            android:id="@+id/tv_total_exam_compare"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:gravity="center"
-                            tools:text="(+58,998)" />
                     </LinearLayout>
 
                 </LinearLayout>

@@ -3,16 +3,13 @@ package com.cosiguk.covidsituation.activity;
 import android.Manifest;
 import android.content.Intent;
 import android.os.Bundle;
-import android.os.Handler;
 import android.provider.Settings;
 
 import com.cosiguk.covidsituation.R;
-import com.cosiguk.covidsituation.application.MyApplication;
 import com.cosiguk.covidsituation.dialog.NoticeDialog;
-import com.cosiguk.covidsituation.model.Version;
-import com.cosiguk.covidsituation.network.resultInterface.VersionListener;
+import com.cosiguk.covidsituation.model.Notice;
+import com.cosiguk.covidsituation.network.resultInterface.NoticeListener;
 import com.cosiguk.covidsituation.util.ActivityUtil;
-import com.cosiguk.covidsituation.util.BasicUtil;
 import com.cosiguk.covidsituation.util.NetworkUtil;
 import com.gun0912.tedpermission.PermissionListener;
 import com.gun0912.tedpermission.TedPermission;
@@ -21,22 +18,17 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
-
 public class SplashActivity extends BaseActivity {
     private static HashMap<String, String> cityMap;
     private static List<String> cityList;
+    private int noticeCount;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_splash);
 
-        Handler mHandler = new Handler();
-        mHandler.postDelayed(new Runnable() {
-            public void run() {
-                networkCheck();
-            }
-        }, 500);
+        networkCheck();
     }
 
     private void networkCheck() {
@@ -66,6 +58,8 @@ public class SplashActivity extends BaseActivity {
 
     private void versionCheck() {
         showProgressDialog(SplashActivity.this, getResources().getString(R.string.progress_version));
+        permissionCheck();
+        /*
         MyApplication.getNetworkPresenterInstance()
                 .version(new VersionListener() {
                     @Override
@@ -77,7 +71,7 @@ public class SplashActivity extends BaseActivity {
 
                             switch (BasicUtil.isVersionValid(deviceVersion, serverVersion)) {
                                 case BasicUtil.VERSION_LATEST:
-                                    permissionCheck();
+                                    // permissionCheck();
                                     break;
 
                                 case BasicUtil.VERSION_LOW_MAJOR:
@@ -158,6 +152,7 @@ public class SplashActivity extends BaseActivity {
                                 }).show();
                     }
                 });
+         */
     }
 
     // 권한 체크
@@ -170,7 +165,7 @@ public class SplashActivity extends BaseActivity {
                     @Override
                     // 모든 권한이 허용된 경우 호출
                     public void onPermissionGranted() {
-                        startMainActivity();
+                        checkNotice();
                     }
 
                     @Override
@@ -187,11 +182,53 @@ public class SplashActivity extends BaseActivity {
                 .check();
     }
 
+    // 새 공지 확인
+    private void checkNotice() {
+        networkPresenter.notice(new NoticeListener() {
+            @Override
+            public void success(ArrayList<Notice> notices) {
+                noticeCount = 0;
+
+                // 최초 앱 실행의 경우
+                if (preferencesManager.isFirstLaunch()) {
+                    preferencesManager.setNotices(notices);
+                    preferencesManager.setFirstLaunch(false);
+                } else {
+                    // 불러온 공지 사항 개수
+                    int serverNoticeCount = notices.size();
+                    // 저장된 공지 사항 개수
+                    int savedNoticeCount = preferencesManager.getNotices().size();
+                    // 새로운 공지가 있을 경우
+                    if (serverNoticeCount > savedNoticeCount) {
+                        noticeCount = serverNoticeCount - savedNoticeCount;
+                        // 새 공지만 저장
+                        ArrayList<Notice> newNotices = new ArrayList<>();
+
+                        for (int i = 0; i < noticeCount; i++) {
+                            preferencesManager.initNotices();
+                            preferencesManager.addNotice(notices.get(i));
+                        }
+                    }
+                }
+                startMainActivity();
+            }
+
+            @Override
+            public void fail(String message) {
+                noticeCount = 0;
+                new NoticeDialog(SplashActivity.this)
+                        .setMsg(message)
+                        .show();
+                startMainActivity();
+            }
+        });
+    }
+
     private void startMainActivity() {
         dismissProgressDialog();
         setProvinceMap();
         setProvinceList();
-        ActivityUtil.startNewActivity(SplashActivity.this, MainActivity.class);
+        ActivityUtil.startNewActivityExtra(this, MainActivity.class, noticeCount);
     }
 
     private void setProvinceMap() {
@@ -248,6 +285,5 @@ public class SplashActivity extends BaseActivity {
     }
 
     @Override
-    public void onBackPressed() {
-    }
+    public void onBackPressed() { }
 }

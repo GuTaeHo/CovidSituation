@@ -2,6 +2,7 @@ package com.cosiguk.covidsituation.activity;
 
 import android.content.res.Resources;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 
@@ -19,6 +20,7 @@ import com.cosiguk.covidsituation.fragment.BoardFragment;
 import com.cosiguk.covidsituation.fragment.NewsFragment;
 import com.cosiguk.covidsituation.fragment.SituationBoardFragment;
 import com.cosiguk.covidsituation.fragment.VaccineFragment;
+import com.cosiguk.covidsituation.util.ActivityUtil;
 import com.cosiguk.covidsituation.util.HandlerUtil;
 import com.cosiguk.covidsituation.util.PackageUtil;
 
@@ -38,6 +40,7 @@ public class MainActivity extends BaseActivity implements BoardFragment.OnStatus
     }
 
     private void initLayout() {
+        initIntent();
         // 툴바 초기화
         initCommonActionBarLayout(commonToolbarBinding, "코로나 상황판", true);
         // 하단바 초기화
@@ -46,6 +49,12 @@ public class MainActivity extends BaseActivity implements BoardFragment.OnStatus
         initSideBarWidth();
         // 사이드바 버전 초기화
         initDrawerVersion();
+    }
+
+    private void initIntent() {
+        // 새 공지 개수 반환
+        int noticeCount = getIntent().getIntExtra(ActivityUtil.DATA, 0);
+        Log.d("번들 ㅋㅋ", "" + noticeCount);
     }
 
     private void initSideBarWidth() {

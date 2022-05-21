@@ -1,8 +1,11 @@
 package com.cosiguk.covidsituation.model;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
 import com.google.gson.annotations.SerializedName;
 
-public class Notice {
+public class Notice implements Parcelable {
     @SerializedName("id")
     private int id;
 
@@ -67,5 +70,41 @@ public class Notice {
 
     public void setModifiedDate(String modifiedDate) {
         this.modifiedDate = modifiedDate;
+    }
+
+    protected Notice(Parcel in) {
+        id = in.readInt();
+        title = in.readString();
+        content = in.readString();
+        hit = in.readInt();
+        createdDate = in.readString();
+        modifiedDate = in.readString();
+    }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    public static final Creator<Notice> CREATOR = new Creator<Notice>() {
+        @Override
+        public Notice createFromParcel(Parcel in) {
+            return new Notice(in);
+        }
+
+        @Override
+        public Notice[] newArray(int size) {
+            return new Notice[size];
+        }
+    };
+
+    @Override
+    public void writeToParcel(Parcel parcel, int i) {
+        parcel.writeInt(id);
+        parcel.writeString(title);
+        parcel.writeString(content);
+        parcel.writeInt(hit);
+        parcel.writeString(createdDate);
+        parcel.writeString(modifiedDate);
     }
 }

@@ -24,7 +24,7 @@ import retrofit2.http.Path;
 import retrofit2.http.Query;
 
 public class RetrofitClient {
-    public static final String URL = "http://test.byeonggook.shop/";
+    public static final String URL = "https://test.byeonggook.shop/";
 
     private final RetrofitInterface retrofitInterface;
     public static RetrofitClient retrofitClient = new RetrofitClient();
